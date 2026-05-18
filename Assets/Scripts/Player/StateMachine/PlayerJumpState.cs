@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class PlayerJumpState : PlayerAirState
 {
     public PlayerJumpState(PlayerController player, PlayerStateMachine stateMachine)
@@ -8,23 +6,27 @@ public class PlayerJumpState : PlayerAirState
     public override void Enter()
     {
         player.Animator.SetBool("IsGrounded", false);
-        player.Motor.JumpVertical();
-        Debug.Log(player.Motor.JumpCount);
-        if (player.Motor.JumpCount == 1)
+
+        if (pendingWallJump)
         {
-            player.Animator.SetTrigger("Jump");
+            player.Motor.WallJump(pendingWallSide);
+            pendingWallJump = false;
         }
         else
         {
-            player.Animator.SetTrigger("DoubleJump");
+            player.Motor.JumpVertical();
         }
+        jumpsUsed++;
+
+        if (jumpsUsed == 1)
+            player.Animator.SetTrigger("Jump");
+        else
+            player.Animator.SetTrigger("DoubleJump");
     }
 
     public override void PhysicsUpdate()
     {
-        base.PhysicsUpdate();  // 공통 로직 (이동, 착지 감지)
-
-        // 하강 시작하면 FallState로
+        base.PhysicsUpdate();
         if (player.Motor.GetYVelocity() < 0f)
             stateMachine.ChangeState(player.fallState);
     }

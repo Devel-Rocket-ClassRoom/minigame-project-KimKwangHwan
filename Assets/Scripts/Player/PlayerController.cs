@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     }
     public void AllFlip(float x) // 플레이어의 모든 자식들을 Flip해야 함
     {
-        if (Motor.WallClimbing()) return;
+        // if (Motor.WallClimbing()) return;
         if (x != 0f)
         {
             if (moveDirection * x < 0f)

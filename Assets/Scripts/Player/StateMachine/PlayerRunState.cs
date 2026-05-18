@@ -29,13 +29,18 @@ public class PlayerRunState : PlayerState
             stateMachine.ChangeState(player.jumpState);
             return;
         }
+        
         player.AllFlip(player.Input.MoveX);
     }
 
     public override void PhysicsUpdate()
     {
         player.Motor.MoveHorizontal(player.Input.MoveX);
-        player.Animator.SetFloat("yVelocity", player.Motor.GetYVelocity());
+        if (player.Motor.GetYVelocity() < 0 && !player.Motor.IsGrounded())
+        {
+            player.Animator.SetFloat("yVelocity", player.Motor.GetYVelocity());
+            stateMachine.ChangeState(player.fallState);
+        }
     }
 
     public override void Update()
