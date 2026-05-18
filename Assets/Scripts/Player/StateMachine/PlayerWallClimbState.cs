@@ -9,8 +9,15 @@ public class PlayerWallClimbState : PlayerAirState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("WallStateEnter");
         float wallDir = player.Input.MoveX;
         player.WallFlip(wallDir);
+        player.Motor.WallClimb();
+        player.Animator.SetBool("WallClimb", true);
+    }
+
+    public override void Exit()
+    {
+        player.Motor.SeperateToWall();
+        player.Animator.SetBool("WallClimb", false);
     }
 }
