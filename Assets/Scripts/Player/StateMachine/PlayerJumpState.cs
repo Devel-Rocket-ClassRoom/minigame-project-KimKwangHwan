@@ -30,4 +30,12 @@ public class PlayerJumpState : PlayerAirState
         if (player.Motor.GetYVelocity() < 0f)
             stateMachine.ChangeState(player.fallState);
     }
+    public override void Update()
+    {
+        base.Update();
+        //if (player.Motor.ClimbCheck())
+        //{
+        //    stateMachine.ChangeState(player.wallClimbState);
+        //}
+    }
 }
