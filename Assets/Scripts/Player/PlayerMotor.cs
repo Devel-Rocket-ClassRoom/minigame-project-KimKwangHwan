@@ -23,6 +23,11 @@ public class PlayerMotor : MonoBehaviour
     private float wallJumpLockTimer;
     private bool canWallClimbing;
     private bool isTouchingWall;
+    private float moveInput;
+    [SerializeField] float groundAccel = 120f;   // 크게 → 지면은 거의 즉시
+    [SerializeField] float groundDecel = 120f;
+    [SerializeField] float airAccel = 45f;    // 작게 → 공중은 점진적
+    [SerializeField] float airDecel = 30f;
 
     private void Awake()
     {
@@ -34,13 +39,13 @@ public class PlayerMotor : MonoBehaviour
 
     public void MoveHorizontal(float x)
     {
-        if (wallJumpLockTimer > 0f) return;   // 벽 점프 직후 입력으로 X속도 안 덮음
-        rb.linearVelocityX = x * moveSpeed;
+        //if (wallJumpLockTimer > 0f) return;
+        moveInput = x;
     }
     public void MoveStop()
     {
-        if (wallJumpLockTimer > 0f) return;
-        rb.linearVelocityX = 0f;
+        //if (wallJumpLockTimer > 0f) return;
+        moveInput = 0f;
     }
 
     public bool IsGrounded() => isGrounded;
@@ -94,6 +99,18 @@ public class PlayerMotor : MonoBehaviour
         isTouchingWall = left || right;
 
         canWallClimbing = isTouchingWall && InAir();
+
+        if (wallJumpLockTimer <= 0f)
+        {
+            float target = moveInput * moveSpeed;
+            bool accelerating = Mathf.Abs(target) > 0.01f;
+
+            float rate = isGrounded
+                ? (accelerating ? groundAccel : groundDecel)
+                : (accelerating ? airAccel : airDecel);
+
+            rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, target, rate * Time.fixedDeltaTime);
+        }
     }
 
     private void OnDrawGizmos()
