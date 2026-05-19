@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackData
   animState: Attack1
   duration: 0.5
-  activeStart: 0.2
-  activeEnd: 0.5
+  activeStart: 0.15
+  activeEnd: 0.3
   cancelWindowStart: 0.7
   lockHorizontal: 0
   lungeVelocity: {x: 0, y: 0}
@@ -23,5 +23,5 @@ MonoBehaviour:
   gravityScale: 1
   damage: 10
   hitboxOffset: {x: 0.61, y: 0.14}
-  hitboxSize: {x: 1.19, y: -1.29}
+  hitboxSize: {x: 1.19, y: 1.29}
   knockback: 0
