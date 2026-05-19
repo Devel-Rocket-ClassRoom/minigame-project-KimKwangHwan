@@ -23,6 +23,11 @@ public class PlayerAirState : PlayerState
             stateMachine.ChangeState(player.jumpState);
             return;
         }
+        if (player.Combat.AttackBuffered)
+        {
+            stateMachine.ChangeState(player.attackState);
+            return;
+        }
     }
 
     public override void PhysicsUpdate()
