@@ -51,7 +51,6 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.CurrentState.HandleInput();
         stateMachine.CurrentState.Update();
-        Debug.Log(stateMachine.CurrentState);
     }
     private void FixedUpdate()
     {

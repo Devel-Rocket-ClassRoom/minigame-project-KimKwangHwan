@@ -55,7 +55,6 @@ public class PlayerAttackState : PlayerState
         //player.Animator.Play(_data.animState);
 
         var anim = player.Animator;
-        Debug.Log($"AttackType: {(int)_typeAtEntry}");
         anim.SetInteger("AttackType", (int)_typeAtEntry);
         anim.SetInteger("ComboIndex", _comboIndexAtEntry);
         anim.SetBool("IsGrounded", player.Motor.IsGrounded());
@@ -146,6 +145,6 @@ public class PlayerAttackState : PlayerState
     }
     void ExitToLocomotion()
     {
-        stateMachine.ChangeState(player.Motor.IsGrounded() ? player.idleState : player.fallState);
+        stateMachine.ChangeState(player.Motor.IsGrounded() ? player.idleState : player.airState);
     }
 }

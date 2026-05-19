@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 036715f785c62e042becf06b64942287, type: 3}
-  m_Name: GroundMeleeAttack2
+  m_Name: GroundMeleeAttack1
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackData
-  animState: Attack2
-  duration: 0.7
+  animState: Attack1
+  duration: 0.5
   activeStart: 0.2
   activeEnd: 0.5
   cancelWindowStart: 0.7
@@ -22,6 +22,6 @@ MonoBehaviour:
   overrideGravity: 0
   gravityScale: 1
   damage: 10
-  hitboxOffset: {x: 0, y: 0}
-  hitboxSize: {x: 1, y: 1}
+  hitboxOffset: {x: 0.61, y: 0.14}
+  hitboxSize: {x: 1.19, y: -1.29}
   knockback: 0
