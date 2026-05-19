@@ -11,10 +11,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private PlayerMotor playerMotor;
     [SerializeField]
+    private PlayerCombat playerCombat;
+    [SerializeField]
     private Animator animator;
     private PlayerStateMachine stateMachine;
     public PlayerInputReader Input { get { return playerInput; } }
     public PlayerMotor Motor { get { return playerMotor; } }
+    public PlayerCombat Combat { get { return playerCombat; } }
     public PlayerState State { get { return stateMachine.CurrentState; } }
     public Animator Animator { get { return animator; } }
 
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public PlayerJumpState jumpState;
     public PlayerFallState fallState;
     public PlayerWallClimbState wallClimbState;
+    public PlayerAttackState attackState;
     private float moveDirection; // +면 오른쪽, -면 왼쪽
     [SerializeField]
     private List<GameObject> Childrens;
@@ -38,6 +42,8 @@ public class PlayerController : MonoBehaviour
         jumpState = new PlayerJumpState(this, stateMachine);
         fallState = new PlayerFallState(this, stateMachine);
         wallClimbState = new PlayerWallClimbState(this, stateMachine);
+        attackState = new PlayerAttackState(this, stateMachine);
+
         stateMachine.Initialize(idleState);
         moveDirection = 1f;
     }
@@ -45,6 +51,7 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.CurrentState.HandleInput();
         stateMachine.CurrentState.Update();
+        Debug.Log(stateMachine.CurrentState);
     }
     private void FixedUpdate()
     {

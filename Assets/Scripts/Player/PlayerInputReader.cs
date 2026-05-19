@@ -6,6 +6,7 @@ public class PlayerInputReader : MonoBehaviour
     public float MoveX { get; private set; }
     public bool JumpPressed { get; private set; }
     public bool JumpHeld { get; private set; }
+    public bool AttackPressed { get; private set; }
 
     private void Awake()
     {
@@ -22,5 +23,6 @@ public class PlayerInputReader : MonoBehaviour
     void LateUpdate()
     {
         JumpPressed = false;
+        AttackPressed = false;
     }
 }

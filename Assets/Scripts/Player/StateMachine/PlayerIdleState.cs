@@ -8,7 +8,8 @@ public class PlayerIdleState : PlayerGroundState
 
     public override void Enter()
     {
-        
+        player.Animator.SetBool("IsGrounded", true);
+        player.Animator.SetFloat("yVelocity", player.Motor.GetYVelocity());
     }
 
     public override void Exit()
@@ -28,11 +29,16 @@ public class PlayerIdleState : PlayerGroundState
             stateMachine.ChangeState(player.jumpState);
             return;
         }
+        if (player.Combat.AttackBuffered)
+        {
+            stateMachine.ChangeState(player.attackState);
+            return;
+        }
     }
 
     public override void PhysicsUpdate()
     {
-        if (player.Motor.GetYVelocity() < 0 && !player.Motor.IsGrounded())
+        if (player.Motor.GetYVelocity() < 0.0f && !player.Motor.IsGrounded())
         {
             player.Animator.SetFloat("yVelocity", player.Motor.GetYVelocity());
             player.Animator.SetBool("IsGrounded", player.Motor.IsGrounded());

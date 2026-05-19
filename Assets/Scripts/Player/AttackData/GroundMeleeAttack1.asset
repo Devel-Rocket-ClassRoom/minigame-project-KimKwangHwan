@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036715f785c62e042becf06b64942287, type: 3}
+  m_Name: GroundMeleeAttack1
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackData
+  animState: Attack1
+  duration: 0.8
+  activeStart: 0.2
+  activeEnd: 0.5
+  cancelWindowStart: 0.7
+  lockHorizontal: 0
+  lungeVelocity: {x: 0, y: 0}
+  overrideGravity: 0
+  gravityScale: 1
+  damage: 10
+  hitboxOffset: {x: 0.61, y: 0.14}
+  hitboxSize: {x: 1.19, y: -1.29}
+  knockback: 0
