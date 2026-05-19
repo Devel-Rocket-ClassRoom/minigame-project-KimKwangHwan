@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [CreateAssetMenu(menuName = "Combat/Ranged Attack")]
 public sealed class RangedAttackData : AttackData
@@ -18,7 +19,7 @@ public sealed class RangedAttackData : AttackData
         if (projectilePrefab == null) return;
 
         Vector3 origin = rt.MuzzleOrigin.position + new Vector3(muzzleOffset.x * rt.Facing, muzzleOffset.y, 0f);
-
+        Debug.Log(rt.Facing);
         for (int i = 0; i < shotCount; i++)
         {
             float t = shotCount == 1 ? 0f : (i / (float)(shotCount - 1)) - 0.5f;
@@ -27,6 +28,7 @@ public sealed class RangedAttackData : AttackData
             Vector2 dir = Quaternion.Euler(0, 0, angle) * new Vector2(rt.Facing, 0f);
 
             var proj = Object.Instantiate(projectilePrefab, origin, Quaternion.identity);
+            proj.GetComponent<SpriteRenderer>().flipX = rt.Facing < 0f;
             proj.Launch(dir.normalized, projectileSpeed, projectileDamage, rt.Facing);
         }
     }

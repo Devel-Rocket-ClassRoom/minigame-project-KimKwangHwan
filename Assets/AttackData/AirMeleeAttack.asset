@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AirMeleeAttack
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackData
   animState: Air Attack
-  duration: 0.6
+  duration: 0.5
   activeStart: 0.2
   activeEnd: 0.5
   cancelWindowStart: 0.7
