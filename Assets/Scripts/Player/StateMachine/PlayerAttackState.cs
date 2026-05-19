@@ -140,7 +140,8 @@ public class PlayerAttackState : PlayerState
         if (shouldBeOn == _activeOn) return;
 
         _activeOn = shouldBeOn;
-        if (shouldBeOn) _data.OnActiveStart(_rt);
+        if (shouldBeOn)
+            _data.OnActiveStart(_rt);
         else _data.OnActiveEnd(_rt);
     }
     void ExitToLocomotion()

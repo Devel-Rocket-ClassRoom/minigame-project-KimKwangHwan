@@ -169,6 +169,7 @@ MonoBehaviour:
   hitLayer:
     serializedVersion: 2
     m_Bits: 64
+  hitPrefab: {fileID: 1576647585050499331, guid: d8eeb7c270750df40b4663e91b93f827, type: 3}
 --- !u!50 &6469181208047921864
 Rigidbody2D:
   serializedVersion: 5

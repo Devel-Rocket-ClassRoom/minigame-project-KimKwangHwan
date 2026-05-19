@@ -3,12 +3,11 @@
 public sealed class Projectile : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private Animator animator;
     [SerializeField] private LayerMask hitLayer;
+    [SerializeField] private GameObject hitPrefab;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
     }
     private void OnEnable()
     {
@@ -22,8 +21,8 @@ public sealed class Projectile : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!IsInMask(hitLayer, other.gameObject)) return;
-        animator.SetTrigger("Hit");
-        rb.linearVelocity = Vector2.zero;
-        Destroy(gameObject, 1f);
+        // animator.SetTrigger("Hit");
+        var hit = Instantiate(hitPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }

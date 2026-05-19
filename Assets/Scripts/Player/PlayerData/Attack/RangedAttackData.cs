@@ -10,6 +10,7 @@ public sealed class RangedAttackData : AttackData
     public float projectileDamage = 8f;
     public int shotCount = 1;
     public float spreadDegrees = 0f;
+    [SerializeField] private GameObject muzzleEffectPrefab;
     public override void OnActiveEnd(AttackRuntime rt)
     {
     }
@@ -19,7 +20,8 @@ public sealed class RangedAttackData : AttackData
         if (projectilePrefab == null) return;
 
         Vector3 origin = rt.MuzzleOrigin.position + new Vector3(muzzleOffset.x * rt.Facing, muzzleOffset.y, 0f);
-        Debug.Log(rt.Facing);
+        var effect = Object.Instantiate(muzzleEffectPrefab, origin, Quaternion.identity);
+        effect.transform.localScale = new Vector3(rt.Facing > 0f ? 1f : -1f, effect.transform.localScale.y, effect.transform.localScale.z);
         for (int i = 0; i < shotCount; i++)
         {
             float t = shotCount == 1 ? 0f : (i / (float)(shotCount - 1)) - 0.5f;
