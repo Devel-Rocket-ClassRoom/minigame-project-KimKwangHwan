@@ -19,7 +19,8 @@ public class PlayerWallClimbState : PlayerAirState
         }
         wallSide = Mathf.Sign(wallDir);
         player.WallFlip(wallDir);
-        jumpsUsed = 0;
+        jumpUsed = 0;
+        dashUsed = 0;
         pendingWallSide = wallSide;
         player.Animator.SetBool("WallClimb", true);
     }
@@ -32,7 +33,7 @@ public class PlayerWallClimbState : PlayerAirState
 
         if (player.Motor.IsLanded())
         {
-            jumpsUsed = 0;
+            jumpUsed = 0;
             player.Animator.SetBool("IsGrounded", true);
             stateMachine.ChangeState(player.idleState);
             return;
