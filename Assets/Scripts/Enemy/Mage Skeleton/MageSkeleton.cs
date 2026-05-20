@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MageSkeleton : EnemyController
@@ -5,7 +6,10 @@ public class MageSkeleton : EnemyController
     public MageSkeletonIdleState idleState;
     public MageSkeletonMoveState moveState;
     public MageSkeletonAttackState attackState;
-
+    [SerializeField] private EnemyPerception perception;
+    [SerializeField] private float attackDistance;
+    public bool move = true;
+    public Transform Target => perception.Target;
     protected override void Awake()
     {
         base.Awake();

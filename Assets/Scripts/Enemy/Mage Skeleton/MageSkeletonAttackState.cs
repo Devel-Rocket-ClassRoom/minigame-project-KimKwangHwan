@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MageSkeletonAttackState : EnemyState
+public class MageSkeletonAttackState : EnemyState<MageSkeleton>
 {
     public MageSkeletonAttackState(MageSkeleton enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
@@ -11,10 +11,6 @@ public class MageSkeletonAttackState : EnemyState
     }
 
     public override void Exit()
-    {
-    }
-
-    public override void HandleInput()
     {
     }
 

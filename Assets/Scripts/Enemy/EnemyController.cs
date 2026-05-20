@@ -13,8 +13,6 @@ public class EnemyController : MonoBehaviour
     public EnemyCombat Combat { get { return enemyCombat; } }
     protected float moveDirection;
     protected EnemyStateMachine stateMachine;
-    [SerializeField] protected GameObject detectArea;
-    [SerializeField] protected float detectRadius;
     protected virtual void Awake()
     {
         stateMachine = new EnemyStateMachine();
@@ -34,16 +32,10 @@ public class EnemyController : MonoBehaviour
     }
     protected virtual void Update()
     {
-        stateMachine.CurrentState.HandleInput();
         stateMachine.CurrentState.Update();
     }
     protected virtual void FixedUpdate()
     {
         stateMachine.CurrentState.PhysicsUpdate();
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(detectArea.transform.position, detectRadius);
     }
 }
