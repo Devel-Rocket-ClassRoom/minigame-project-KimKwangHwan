@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public sealed class Hitbox : MonoBehaviour
+public class Hitbox : MonoBehaviour
 {
+    [SerializeField] private LayerMask targetLayer;
     private BoxCollider2D _col;
-    private readonly HashSet<int> _hitOnce = new();   // 이번 스윙에 이미 맞은 대상
+    private readonly HashSet<int> _hitOnce = new();
     private float _damage, _knockback, _facing = 1f;
     private bool _active;
 
@@ -42,8 +43,11 @@ public sealed class Hitbox : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!_active) return;
-        if (!_hitOnce.Add(other.GetInstanceID())) return;  // 중복 타격 차단
-        Debug.Log($"[Hitbox] HIT {other.name} dmg={_damage} kb={_knockback} dir={_facing}");
+        if (((1 << other.gameObject.layer) & targetLayer.value) == 0) return;
+        if (!_hitOnce.Add(other.GetInstanceID())) return;
+        if (!other.TryGetComponent<HurtBox>(out var hurtbox)) return;
+        hurtbox.ReceiveHit();
+        // Debug.Log($"[Hitbox] HIT {other.name} dmg={_damage} kb={_knockback} dir={_facing}");
     }
 #if UNITY_EDITOR
     void OnDrawGizmos()

@@ -6,8 +6,9 @@ public class PlayerRunState : PlayerGroundState
     {
     }
 
-    public override void Enter()
+    public override void Enter(PlayerState prevState)
     {
+        this.prevState = prevState;
         player.Animator.SetBool("Run", true);
     }
 
@@ -18,6 +19,7 @@ public class PlayerRunState : PlayerGroundState
 
     public override void HandleInput()
     {
+        base.HandleInput();
         if (Mathf.Abs(player.Input.MoveX) == 0.0f)
         {
             player.Motor.MoveStop();

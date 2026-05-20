@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public PlayerFallState fallState;
     public PlayerWallClimbState wallClimbState;
     public PlayerAttackState attackState;
+    public PlayerDashState dashState;
     private float moveDirection; // +면 오른쪽, -면 왼쪽
     [SerializeField]
     private List<GameObject> Childrens;
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour
         fallState = new PlayerFallState(this, stateMachine);
         wallClimbState = new PlayerWallClimbState(this, stateMachine);
         attackState = new PlayerAttackState(this, stateMachine);
+        dashState = new PlayerDashState(this, stateMachine);
 
         stateMachine.Initialize(idleState);
         moveDirection = 1f;

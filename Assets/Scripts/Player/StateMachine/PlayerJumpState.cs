@@ -3,8 +3,9 @@ public class PlayerJumpState : PlayerAirState
     public PlayerJumpState(PlayerController player, PlayerStateMachine stateMachine)
         : base(player, stateMachine) { }
 
-    public override void Enter()
+    public override void Enter(PlayerState prevState)
     {
+        this.prevState = prevState;
         player.Animator.SetBool("IsGrounded", false);
 
         if (pendingWallJump)

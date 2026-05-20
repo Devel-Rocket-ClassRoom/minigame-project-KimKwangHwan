@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerMotor : MonoBehaviour
 {
@@ -17,6 +18,13 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float wallCheckDistance = 0.5f;
     [SerializeField] private float wallCheckHeight = 0.5f;
     [SerializeField] private float wallStickSpeed = 2f;
+    [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private float dashDuration = 0.18f;
+    [SerializeField] private float dashCooldown = 1f;
+    private Coroutine coDashing;
+    private bool isDashing;
+    private float lastDashTime = -Mathf.Infinity;
+
     private Vector2 origin;
     private bool isGrounded;
     private bool wasGrounded;
@@ -35,6 +43,7 @@ public class PlayerMotor : MonoBehaviour
         isGrounded = true;
         wasGrounded = true;
         canWallClimbing = false;
+        coDashing = null;
     }
 
     public void MoveHorizontal(float x)
@@ -93,9 +102,9 @@ public class PlayerMotor : MonoBehaviour
         isGrounded = ground != null;
         origin = (Vector2)transform.position + Vector2.up * wallCheckHeight;
         bool right = Physics2D.OverlapCircle(origin + Vector2.right * wallCheckDistance,
-                                         wallRadius, wallLayer) != null;
-        bool left = Physics2D.OverlapCircle(origin + Vector2.left * wallCheckDistance,
                                              wallRadius, wallLayer) != null;
+        bool left = Physics2D.OverlapCircle(origin + Vector2.left * wallCheckDistance,
+                                            wallRadius, wallLayer) != null;
         isTouchingWall = left || right;
 
         canWallClimbing = isTouchingWall && InAir();
@@ -111,6 +120,35 @@ public class PlayerMotor : MonoBehaviour
 
             rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, target, rate * Time.fixedDeltaTime);
         }
+    }
+
+    public bool TryDash()
+    {
+        if (isDashing) return false;
+        if (Time.time < lastDashTime + dashCooldown) return false;
+        // if (!isGrounded && airDashLeft <= 0) return;
+        if (coDashing != null)
+        {
+            StopCoroutine(coDashing);
+        }
+        coDashing = StartCoroutine(Dashing());
+        return true;
+    }
+
+    private IEnumerator Dashing()
+    {
+        isDashing = true;
+        lastDashTime = Time.time;
+
+        float dir = Mathf.Sign(transform.parent.localScale.x);
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.linearVelocity = new Vector2(dashSpeed * dir, 0f);
+
+        yield return new WaitForSeconds(dashSpeed);
+
+        rb.gravityScale = originalGravity;
+        isDashing = false;
     }
 
     private void OnDrawGizmos()
