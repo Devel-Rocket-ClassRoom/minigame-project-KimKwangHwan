@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(PlayerInputReader)), RequireComponent(typeof(PlayerMotor))]
 public class PlayerController : MonoBehaviour
@@ -66,9 +63,8 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.CurrentState.PhysicsUpdate();
     }
-    public void AllFlip(float x) // 플레이어의 모든 자식들을 Flip해야 함
+    public void AllFlip(float x)
     {
-        // if (Motor.WallClimbing()) return;
         if (x != 0f)
         {
             if (moveDirection * x < 0f)

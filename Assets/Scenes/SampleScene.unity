@@ -4090,6 +4090,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 454131542156286643, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: m_GravityScale
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2297453124448676403, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
       propertyPath: m_Name
       value: Player
@@ -4097,6 +4101,10 @@ PrefabInstance:
     - target: {fileID: 3425644115523404140, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
       propertyPath: dashCooldown
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425644115523404140, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: wallJumpHorizontalPower
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4082938012988887397, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
       propertyPath: m_ActionEvents.Array.size

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class MageSkeletonIdleState : EnemyState
+public class MageSkeletonAttackState : EnemyState
 {
-    public MageSkeletonIdleState(MageSkeleton enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
+    public MageSkeletonAttackState(MageSkeleton enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
     }
 
