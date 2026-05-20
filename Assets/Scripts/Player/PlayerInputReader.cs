@@ -6,8 +6,7 @@ public class PlayerInputReader : MonoBehaviour
     public float MoveX { get; private set; }
     public bool JumpPressed { get; private set; }
     public bool JumpHeld { get; private set; }
-    public bool AttackPressed { get; private set; }
-
+    public bool DashPressed { get; private set; }
     private void Awake()
     {
 
@@ -19,10 +18,13 @@ public class PlayerInputReader : MonoBehaviour
         if (c.started) JumpPressed = true;
         JumpHeld = c.performed;
     }
-
+    public void OnDash(InputAction.CallbackContext c)
+    {
+        if (c.started) DashPressed = true;
+    }
     void LateUpdate()
     {
         JumpPressed = false;
-        AttackPressed = false;
+        DashPressed = false;
     }
 }

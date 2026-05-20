@@ -22,9 +22,9 @@ public class PlayerAttackState : PlayerState
     {
     }
 
-    public override void Enter()
+    public override void Enter(PlayerState prevState)
     {
-        Debug.Log("Enter AttackState");
+        this.prevState = prevState;
         player.Animator.ResetTrigger("Attack");
         _rt = player.Combat.Runtime;
         _typeAtEntry = player.Combat.BufferedType;

@@ -1,14 +1,15 @@
 using UnityEngine;
 
-public class PlayerGroundState : PlayerState
+public class PlayerDashState : PlayerState
 {
-    public PlayerGroundState(PlayerController player, PlayerStateMachine stateMachine) : base(player, stateMachine)
+    public PlayerDashState(PlayerController player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
     }
 
     public override void Enter(PlayerState prevState)
     {
         this.prevState = prevState;
+        // player.Animator
     }
 
     public override void Exit()
@@ -17,11 +18,6 @@ public class PlayerGroundState : PlayerState
 
     public override void HandleInput()
     {
-        if (player.Input.DashPressed && player.Motor.TryDash())
-        {
-            stateMachine.ChangeState(player.dashState);
-            return;
-        }
     }
 
     public override void PhysicsUpdate()

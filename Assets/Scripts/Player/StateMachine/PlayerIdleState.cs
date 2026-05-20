@@ -6,8 +6,9 @@ public class PlayerIdleState : PlayerGroundState
     {
     }
 
-    public override void Enter()
+    public override void Enter(PlayerState prevState)
     {
+        this.prevState = prevState;
         player.Animator.SetBool("IsGrounded", true);
     }
 
@@ -18,6 +19,7 @@ public class PlayerIdleState : PlayerGroundState
 
     public override void HandleInput()
     {
+        base.HandleInput();
         if (Mathf.Abs(player.Input.MoveX) != 0.0f)
         {
             stateMachine.ChangeState(player.runState);

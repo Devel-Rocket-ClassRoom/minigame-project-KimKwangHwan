@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 [CreateAssetMenu(menuName = "Combat/Melee Attack")]
 public sealed class MeleeAttackData : AttackData
@@ -15,7 +16,6 @@ public sealed class MeleeAttackData : AttackData
     public override void OnActiveStart(AttackRuntime rt)
     {
         var offset = hitboxOffset;
-        offset.x *= rt.Facing;
         rt.Hitbox.Enable(damage, offset, hitboxSize, knockback, rt.Facing);
     }
 

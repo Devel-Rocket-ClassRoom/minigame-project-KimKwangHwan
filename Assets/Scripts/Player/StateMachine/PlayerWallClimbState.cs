@@ -7,8 +7,9 @@ public class PlayerWallClimbState : PlayerAirState
 
     private float wallSide;
 
-    public override void Enter()
+    public override void Enter(PlayerState prevState)
     {
+        this.prevState = prevState;
         player.Animator.SetBool("IsGrounded", false);
         float wallDir = player.Input.MoveX;
         if (wallDir == 0)
