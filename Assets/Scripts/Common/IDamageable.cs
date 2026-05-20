@@ -2,6 +2,8 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void TakeDamage();
-    bool IsDead { get; set; }
+    float MaxHp { get; }
+    float CurrentHp { get; }
+    void TakeDamage(float damage);
+    bool IsDead { get; }
 }

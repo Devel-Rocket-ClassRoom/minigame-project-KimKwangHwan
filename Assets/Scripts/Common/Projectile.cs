@@ -6,6 +6,7 @@ public sealed class Projectile : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private LayerMask hitLayer;
     [SerializeField] private GameObject hitPrefab;
+    private float _damage;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -17,6 +18,7 @@ public sealed class Projectile : MonoBehaviour
     public void Launch(Vector2 dir, float speed, float damage, float facing)
     {
         rb.linearVelocityX = dir.x * speed;
+        _damage = damage;
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -25,7 +27,7 @@ public sealed class Projectile : MonoBehaviour
         {
             if (other.TryGetComponent<HurtBox>(out var hurtbox))
             {
-                hurtbox.ReceiveHit();
+                hurtbox.ReceiveHit(_damage);
             }
         }
         

@@ -143,7 +143,7 @@ public class PlayerAttackState : PlayerState
         if (shouldBeOn) _data.OnActiveStart(_rt);
         else _data.OnActiveEnd(_rt);
     }
-    void ExitToLocomotion()
+    private void ExitToLocomotion()
     {
         stateMachine.ChangeState(player.Motor.IsGrounded() ? player.idleState : player.airState);
     }

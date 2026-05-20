@@ -46,7 +46,7 @@ public class Hitbox : MonoBehaviour
         if (((1 << other.gameObject.layer) & targetLayer.value) == 0) return;
         if (!_hitOnce.Add(other.GetInstanceID())) return;
         if (!other.TryGetComponent<HurtBox>(out var hurtbox)) return;
-        hurtbox.ReceiveHit();
+        hurtbox.ReceiveHit(_damage);
         // Debug.Log($"[Hitbox] HIT {other.name} dmg={_damage} kb={_knockback} dir={_facing}");
     }
 #if UNITY_EDITOR
