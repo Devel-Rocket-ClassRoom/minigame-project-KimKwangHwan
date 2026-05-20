@@ -25,6 +25,10 @@ public class PlayerIdleState : PlayerGroundState
             stateMachine.ChangeState(player.runState);
             return;
         }
+        else
+        {
+            player.Motor.MoveStop();
+        }
         if (player.Input.JumpPressed && player.Motor.IsGrounded())
         {
             stateMachine.ChangeState(player.jumpState);

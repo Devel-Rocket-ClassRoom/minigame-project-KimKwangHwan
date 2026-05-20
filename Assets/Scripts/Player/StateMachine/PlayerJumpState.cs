@@ -17,9 +17,9 @@ public class PlayerJumpState : PlayerAirState
         {
             player.Motor.JumpVertical();
         }
-        jumpsUsed++;
+        jumpUsed++;
 
-        if (jumpsUsed == 1)
+        if (jumpUsed == 1)
             player.Animator.SetTrigger("Jump");
         else
             player.Animator.SetTrigger("DoubleJump");

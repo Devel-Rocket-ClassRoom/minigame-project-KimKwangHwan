@@ -6,14 +6,16 @@ public class PlayerAirState : PlayerState
         : base(player, stateMachine) { }
 
     // 이 공중 체공 동안 쓴 점프 수 — AirState 계열이 단독 소유
-    protected static int jumpsUsed;
+    protected static int jumpUsed;
+    protected static int dashUsed;
     protected const int maxJumps = 2;
-
+    protected const int maxDash = 1;
     // 다음 JumpState가 벽 점프인지 / 어느 쪽 벽인지
     protected static bool pendingWallJump;
     protected static float pendingWallSide;
 
-    protected bool CanJump => jumpsUsed < maxJumps;
+    protected bool CanJump => jumpUsed < maxJumps;
+    protected bool CanDash => dashUsed < maxDash;
 
     public override void HandleInput()
     {
@@ -28,6 +30,11 @@ public class PlayerAirState : PlayerState
             stateMachine.ChangeState(player.attackState);
             return;
         }
+        if (player.Input.DashPressed && player.CanDash() && CanDash)
+        {
+            stateMachine.ChangeState(player.dashState);
+            return;
+        }
     }
 
     public override void PhysicsUpdate()
@@ -37,7 +44,8 @@ public class PlayerAirState : PlayerState
 
         if (player.Motor.IsLanded())
         {
-            jumpsUsed = 0;                 // 착지 → 리셋. Motor 아님, 여기서.
+            jumpUsed = 0;                 // 착지 → 리셋. Motor 아님, 여기서.
+            dashUsed = 0;
             player.Animator.SetBool("IsGrounded", true);
             if (Mathf.Abs(player.Input.MoveX) != 0f)
                 stateMachine.ChangeState(player.runState);

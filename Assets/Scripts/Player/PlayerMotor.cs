@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerMotor : MonoBehaviour
 {
     private Rigidbody2D rb;
+    public Rigidbody2D RB { get { return rb; } }
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpPower;
     [SerializeField] private GameObject groundCheck;
@@ -18,12 +19,6 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float wallCheckDistance = 0.5f;
     [SerializeField] private float wallCheckHeight = 0.5f;
     [SerializeField] private float wallStickSpeed = 2f;
-    [SerializeField] private float dashSpeed = 20f;
-    [SerializeField] private float dashDuration = 0.18f;
-    [SerializeField] private float dashCooldown = 1f;
-    private Coroutine coDashing;
-    private bool isDashing;
-    private float lastDashTime = -Mathf.Infinity;
 
     private Vector2 origin;
     private bool isGrounded;
@@ -36,6 +31,7 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] float groundDecel = 120f;
     [SerializeField] float airAccel = 45f;    // 작게 → 공중은 점진적
     [SerializeField] float airDecel = 30f;
+    public bool SuppressHorizontalControl { get; set; }
 
     private void Awake()
     {
@@ -43,7 +39,6 @@ public class PlayerMotor : MonoBehaviour
         isGrounded = true;
         wasGrounded = true;
         canWallClimbing = false;
-        coDashing = null;
     }
 
     public void MoveHorizontal(float x)
@@ -55,6 +50,11 @@ public class PlayerMotor : MonoBehaviour
     {
         //if (wallJumpLockTimer > 0f) return;
         moveInput = 0f;
+    }
+
+    public void SetHorizontalVelocity(float vx)
+    {
+        rb.linearVelocity = new Vector2(vx, rb.linearVelocityY);
     }
 
     public bool IsGrounded() => isGrounded;
@@ -109,7 +109,7 @@ public class PlayerMotor : MonoBehaviour
 
         canWallClimbing = isTouchingWall && InAir();
 
-        if (wallJumpLockTimer <= 0f)
+        if (wallJumpLockTimer <= 0f && !SuppressHorizontalControl)
         {
             float target = moveInput * moveSpeed;
             bool accelerating = Mathf.Abs(target) > 0.01f;
@@ -120,35 +120,6 @@ public class PlayerMotor : MonoBehaviour
 
             rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, target, rate * Time.fixedDeltaTime);
         }
-    }
-
-    public bool TryDash()
-    {
-        if (isDashing) return false;
-        if (Time.time < lastDashTime + dashCooldown) return false;
-        // if (!isGrounded && airDashLeft <= 0) return;
-        if (coDashing != null)
-        {
-            StopCoroutine(coDashing);
-        }
-        coDashing = StartCoroutine(Dashing());
-        return true;
-    }
-
-    private IEnumerator Dashing()
-    {
-        isDashing = true;
-        lastDashTime = Time.time;
-
-        float dir = Mathf.Sign(transform.parent.localScale.x);
-        float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0f;
-        rb.linearVelocity = new Vector2(dashSpeed * dir, 0f);
-
-        yield return new WaitForSeconds(dashSpeed);
-
-        rb.gravityScale = originalGravity;
-        isDashing = false;
     }
 
     private void OnDrawGizmos()

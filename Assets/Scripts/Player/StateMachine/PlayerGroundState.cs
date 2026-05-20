@@ -17,7 +17,7 @@ public class PlayerGroundState : PlayerState
 
     public override void HandleInput()
     {
-        if (player.Input.DashPressed && player.Motor.TryDash())
+        if (player.Input.DashPressed && player.CanDash())
         {
             stateMachine.ChangeState(player.dashState);
             return;

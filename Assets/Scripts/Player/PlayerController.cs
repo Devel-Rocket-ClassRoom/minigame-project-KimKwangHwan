@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public PlayerCombat Combat { get { return playerCombat; } }
     public PlayerState State { get { return stateMachine.CurrentState; } }
     public Animator Animator { get { return animator; } }
+    public float Facing { get { return Mathf.Sign(transform.localScale.x); } } 
 
     public PlayerIdleState idleState;
     public PlayerRunState runState;
@@ -30,10 +31,17 @@ public class PlayerController : MonoBehaviour
     public PlayerAttackState attackState;
     public PlayerDashState dashState;
     private float moveDirection; // +면 오른쪽, -면 왼쪽
-    [SerializeField]
-    private List<GameObject> Childrens;
-    [SerializeField]
-    private float flipOffset;
+    public float dashSpeed = 20f;
+    public float dashDuration = 0.7f;
+    public float dashCooldown = 0.5f;
+
+    [HideInInspector] public float lastDashTime = -Mathf.Infinity;
+    [HideInInspector] public int airDashLeft;
+    public GameObject afterImagePrefab;
+    public SpriteRenderer spriteRenderer; 
+    public float afterImageInterval = 0.04f;
+    public float afterImageLifetime = 0.3f;
+    public Color afterImageColor = new Color(0.5f, 0.8f, 1f, 0.6f);
     private void Awake()
     {
         stateMachine = new PlayerStateMachine();
@@ -74,5 +82,10 @@ public class PlayerController : MonoBehaviour
     {
         AllFlip(-wallDirection); // 벽 반대 방향을 바라봄
     }
-
+    public bool CanDash()
+    {
+        if (stateMachine.CurrentState is PlayerDashState) return false;
+        if (Time.time < lastDashTime + dashCooldown) return false;
+        return true;
+    }
 }
