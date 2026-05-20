@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MageSkeletonEnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
     protected Animator animator;
     public Animator Animator { get { return animator; } }
