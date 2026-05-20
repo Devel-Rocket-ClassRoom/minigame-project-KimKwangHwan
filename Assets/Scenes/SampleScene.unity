@@ -119,6 +119,28 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &191976220 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6006479865128490648, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
+  m_PrefabInstance: {fileID: 5063676538772395524}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04e25a04d36e6c249b04f3bcbe16fa8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMotor
+--- !u!114 &191976222 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8477001273902887733, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
+  m_PrefabInstance: {fileID: 5063676538772395524}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd787a2bd2f531b41b68629380d49c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
 --- !u!1 &242130769
 GameObject:
   m_ObjectHideFlags: 0
@@ -4099,12 +4121,16 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3425644115523404140, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: jumpPower
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425644115523404140, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
       propertyPath: dashCooldown
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3425644115523404140, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
       propertyPath: wallJumpHorizontalPower
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4082938012988887397, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
       propertyPath: m_ActionEvents.Array.size
@@ -4258,6 +4284,26 @@ PrefabInstance:
     - target: {fileID: 3252229704795008057, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8075986323365516169, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.102
+      objectReference: {fileID: 0}
+    - target: {fileID: 8075986323365516169, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.515
+      objectReference: {fileID: 0}
+    - target: {fileID: 8548239427310889015, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
+      propertyPath: enemyMotor
+      value: 
+      objectReference: {fileID: 191976220}
+    - target: {fileID: 8548239427310889015, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
+      propertyPath: enemyCombat
+      value: 
+      objectReference: {fileID: 191976222}
+    - target: {fileID: 8548239427310889015, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
+      propertyPath: detectRadius
+      value: 5.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -11,6 +11,10 @@ GameObject:
   - component: {fileID: 3252229704795008057}
   - component: {fileID: 3891392956177984806}
   - component: {fileID: 1009282964642656799}
+  - component: {fileID: 8548239427310889015}
+  - component: {fileID: 8477001273902887733}
+  - component: {fileID: 2795628128250466054}
+  - component: {fileID: 6006479865128490648}
   m_Layer: 8
   m_Name: Mage Skeleton
   m_TagString: Untagged
@@ -34,6 +38,7 @@ Transform:
   - {fileID: 6297139743257595842}
   - {fileID: 1372594930457609303}
   - {fileID: 238204806930695180}
+  - {fileID: 8075986323365516169}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &3891392956177984806
@@ -100,6 +105,58 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &8548239427310889015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876541029626684909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 576418d7d7a764f498651ffdd3a4033a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MageSkeleton
+  enemyMotor: {fileID: 0}
+  enemyCombat: {fileID: 0}
+  detectArea: {fileID: 5839074426107013080}
+--- !u!114 &8477001273902887733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876541029626684909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd787a2bd2f531b41b68629380d49c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
+--- !u!114 &2795628128250466054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876541029626684909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c892b811c1f6fc54d8b180c8895336af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHp: 100
+--- !u!114 &6006479865128490648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876541029626684909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04e25a04d36e6c249b04f3bcbe16fa8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMotor
 --- !u!1 &2187562093935860357
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73e5290fcf3b60449931e9e8c1090985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+  ownerObject: {fileID: 1876541029626684909}
+  defense: 0
+  resistance: 0
 --- !u!61 &989977014114723337
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -191,6 +251,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.0603411, y: 1.1206822}
   m_EdgeRadius: 0
+--- !u!1 &5839074426107013080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8075986323365516169}
+  m_Layer: 8
+  m_Name: DetectArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8075986323365516169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5839074426107013080}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3252229704795008057}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8304876046616949697
 GameObject:
   m_ObjectHideFlags: 0

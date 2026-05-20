@@ -12,5 +12,6 @@ public class MageSkeleton : EnemyController
         idleState = new MageSkeletonIdleState(this, stateMachine);
         moveState = new MageSkeletonMoveState(this, stateMachine);
         attackState = new MageSkeletonAttackState(this, stateMachine);
+        stateMachine.Initialize(idleState);
     }
 }
