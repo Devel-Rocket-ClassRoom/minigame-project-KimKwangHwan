@@ -6,6 +6,10 @@ public abstract class AttackData : ScriptableObject
     public string animState;
     [Min(0.01f)] public float duration = 0.4f;
 
+    [Header("Telegraph (normalized 0~1) — 전조")]
+    [Range(0f, 1f)] public float telegraphStart = 0f;
+    [Range(0f, 1f)] public float telegraphEnd = 0f;  // start==end면 전조 없음
+
     [Header("Active Window (normalized 0~1)")]
     [Range(0f, 1f)] public float activeStart = 0.2f;
     [Range(0f, 1f)] public float activeEnd = 0.5f;
@@ -21,6 +25,8 @@ public abstract class AttackData : ScriptableObject
 
     // ── 실행 훅. 기본은 no-op, 필요한 것만 override ──
     public abstract void OnEnter(AttackRuntime rt);
+    public virtual void OnTelegraphStart(AttackRuntime rt) { }
+    public virtual void OnTelegraphEnd(AttackRuntime rt) { }
     public abstract void OnActiveStart(AttackRuntime rt);
     public abstract void OnActiveEnd(AttackRuntime rt);
     public abstract void OnExit(AttackRuntime rt);

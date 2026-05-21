@@ -11,8 +11,7 @@ public class EnemyController : MonoBehaviour
     protected EnemyCombat enemyCombat;
     [SerializeField]
     protected EnemyHealth enemyHealth;
-    public EnemyMotor Motor { get { return enemyMotor; } }
-    public EnemyCombat Combat { get { return enemyCombat; } }
+    
     protected float moveDirection;
     protected EnemyStateMachine stateMachine;
     protected virtual void Awake()
@@ -43,7 +42,6 @@ public class EnemyController : MonoBehaviour
     }
     protected virtual void GetHurt(float damage)
     {
-        Debug.Log("GetHurt");
         animator.ResetTrigger("Hurt");
         animator.SetTrigger("Hurt");
     }

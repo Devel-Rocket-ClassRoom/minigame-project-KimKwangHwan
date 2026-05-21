@@ -13,7 +13,7 @@ public class EnemyPerception : MonoBehaviour
 
     [Header("Memory")]
     [SerializeField] private float loseSightDuration = 2f;  // 시야에서 사라진 뒤 추적 유지 시간
-
+    [SerializeField] private Transform forceTarget;
     public Transform Target { get; private set; }
     public bool HasTarget => Target != null && _lostTimer < loseSightDuration;
 
@@ -75,7 +75,11 @@ public class EnemyPerception : MonoBehaviour
         player = hit.transform;
         return tooNear || (near && dot > 0f) || inViewAngle;
     }
-
+    public void SetTarget()
+    {
+        Target = forceTarget;
+        Debug.Log(Target.name);
+    }
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {

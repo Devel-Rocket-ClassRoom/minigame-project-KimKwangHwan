@@ -32,10 +32,18 @@ public class MageSkeletonMoveState : EnemyState<MageSkeleton>
         moveTimer += Time.deltaTime;
         if (enemy.Target != null)
         {
+            if (Vector2.Distance(enemy.Target.position, enemy.transform.position) < enemy.Combat.attackDistance)
+            {
+                moveDir = enemy.Target.position.x - enemy.transform.position.x;
+                if (Mathf.Abs(moveDir) > 0.05f)
+                    moveDir = Mathf.Sign(moveDir);
+                enemy.AllFlip(moveDir);
+                stateMachine.ChangeState(enemy.attackState);
+                return;
+            }
             if (moveTimer >= attackMoveInterval)
             {
                 moveDir = enemy.Target.position.x - enemy.transform.position.x;
-
                 if (Mathf.Abs(moveDir) > 0.05f)
                     moveDir = Mathf.Sign(moveDir);
                 moveTimer = 0f;

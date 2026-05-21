@@ -13,7 +13,7 @@ public sealed class Projectile : MonoBehaviour
     }
     private void OnEnable()
     {
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 1.3f);
     }
     public void Launch(Vector2 dir, float speed, float damage, float facing)
     {
@@ -22,7 +22,8 @@ public sealed class Projectile : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        var hit = Instantiate(hitPrefab, transform.position, Quaternion.identity);
+        if (hitPrefab != null)
+            Instantiate(hitPrefab, transform.position, Quaternion.identity);
         if (((1 << other.gameObject.layer) & hitLayer.value) != 0)
         {
             if (other.TryGetComponent<HurtBox>(out var hurtbox))

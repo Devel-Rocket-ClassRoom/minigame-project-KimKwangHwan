@@ -8,6 +8,9 @@ public class MageSkeleton : EnemyController
     public MageSkeletonAttackState attackState;
     [SerializeField] private EnemyPerception perception;
     [SerializeField] private float attackDistance;
+    public EnemyMotor Motor { get { return enemyMotor; } }
+    public MageSkeletonCombat Combat { get { return (MageSkeletonCombat)enemyCombat; } }
+    public EnemyHealth Health { get { return enemyHealth; } }
     public bool move = true;
     public Transform Target => perception.Target;
     protected override void Awake()
@@ -17,5 +20,10 @@ public class MageSkeleton : EnemyController
         moveState = new MageSkeletonMoveState(this, stateMachine);
         attackState = new MageSkeletonAttackState(this, stateMachine);
         stateMachine.Initialize(idleState);
+    }
+    protected override void GetHurt(float damage)
+    {
+        base.GetHurt(damage);
+        perception.SetTarget();
     }
 }

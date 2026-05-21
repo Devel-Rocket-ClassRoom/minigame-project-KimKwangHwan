@@ -10,18 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa2d17c0e30f3064990d04a2087eaf46, type: 3}
-  m_Name: MeleeMoveSet
+  m_Name: MageSkeletonMoveSet
   m_EditorClassIdentifier: Assembly-CSharp::MoveSet
   melee:
-    grounded:
-    - {fileID: 11400000, guid: 5cdaf2dcabcebd9429fd0a3ff1039e80, type: 2}
-    - {fileID: 11400000, guid: 88f9cedbfc6af8545a4e318b58a7bd8a, type: 2}
-    airborne:
-    - {fileID: 11400000, guid: 5d9967d3c19c0c5449da7c9500b18829, type: 2}
+    grounded: []
+    airborne: []
     running: []
   ranged:
     grounded:
-    - {fileID: 11400000, guid: 181cf496ceab3bb46bd8ffd30b469783, type: 2}
-    airborne:
-    - {fileID: 11400000, guid: 09bad9ca132f61e459d74546e1504769, type: 2}
+    - {fileID: 11400000, guid: 3d5447e245e2a284eb56db0892ff6587, type: 2}
+    airborne: []
     running: []

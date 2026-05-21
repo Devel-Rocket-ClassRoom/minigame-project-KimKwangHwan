@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3891392956177984806}
   - component: {fileID: 1009282964642656799}
   - component: {fileID: 8548239427310889015}
-  - component: {fileID: 8477001273902887733}
   - component: {fileID: 2795628128250466054}
   - component: {fileID: 6006479865128490648}
+  - component: {fileID: 7369518586376292876}
   m_Layer: 8
   m_Name: Mage Skeleton
   m_TagString: Untagged
@@ -118,23 +118,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 576418d7d7a764f498651ffdd3a4033a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MageSkeleton
+  animator: {fileID: 3608166668188017384}
   enemyMotor: {fileID: 6006479865128490648}
-  enemyCombat: {fileID: 8477001273902887733}
+  enemyCombat: {fileID: 0}
+  enemyHealth: {fileID: 2795628128250466054}
   perception: {fileID: 7384691796443347626}
   attackDistance: 6
   move: 1
---- !u!114 &8477001273902887733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1876541029626684909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd787a2bd2f531b41b68629380d49c41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
 --- !u!114 &2795628128250466054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,6 +150,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e25a04d36e6c249b04f3bcbe16fa8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMotor
+--- !u!114 &7369518586376292876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876541029626684909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d306eb6fd21690743b7e4b73ee07ffff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MageSkeletonCombat
+  startingMoveSet: {fileID: 0}
+  animator: {fileID: 0}
+  bufferDuration: 0.15
 --- !u!1 &2187562093935860357
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73e5290fcf3b60449931e9e8c1090985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HurtBox
-  ownerObject: {fileID: 1876541029626684909}
   defense: 0
   resistance: 0
 --- !u!61 &989977014114723337
@@ -308,6 +312,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   loseSightDuration: 2
+  forceTarget: {fileID: 0}
 --- !u!1 &5839074426107013080
 GameObject:
   m_ObjectHideFlags: 0
