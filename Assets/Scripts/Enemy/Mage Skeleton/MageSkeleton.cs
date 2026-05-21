@@ -13,6 +13,7 @@ public class MageSkeleton : EnemyController
     public EnemyHealth Health { get { return enemyHealth; } }
     public bool move = true;
     public Transform Target => perception.Target;
+    public float AttackDistance => attackDistance;
     protected override void Awake()
     {
         base.Awake();
