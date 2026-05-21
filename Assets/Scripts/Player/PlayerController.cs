@@ -10,11 +10,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private PlayerCombat playerCombat;
     [SerializeField]
+    private PlayerHealth playerHealth;
+    [SerializeField]
     private Animator animator;
     private PlayerStateMachine stateMachine;
     public PlayerInputReader Input { get { return playerInput; } }
     public PlayerMotor Motor { get { return playerMotor; } }
     public PlayerCombat Combat { get { return playerCombat; } }
+    public PlayerHealth Health { get { return playerHealth; } }
     public PlayerState State { get { return stateMachine.CurrentState; } }
     public Animator Animator { get { return animator; } }
     public float Facing { get { return Mathf.Sign(transform.localScale.x); } } 
@@ -53,6 +56,7 @@ public class PlayerController : MonoBehaviour
 
         stateMachine.Initialize(idleState);
         moveDirection = 1f;
+        playerHealth.OnDamaged += GetHurt;
     }
     private void Update()
     {
@@ -83,5 +87,10 @@ public class PlayerController : MonoBehaviour
         if (stateMachine.CurrentState is PlayerDashState) return false;
         if (Time.time < lastDashTime + dashCooldown) return false;
         return true;
+    }
+    protected virtual void GetHurt(float damage)
+    {
+        animator.ResetTrigger("Hurt");
+        animator.SetTrigger("Hurt");
     }
 }

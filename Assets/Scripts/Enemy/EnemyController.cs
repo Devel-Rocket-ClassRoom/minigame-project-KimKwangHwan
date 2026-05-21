@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    protected Animator animator;
+    [SerializeField] protected Animator animator;
     public Animator Animator { get { return animator; } }
     public float Facing { get { return Mathf.Sign(transform.localScale.x); } }
     [SerializeField]
     protected EnemyMotor enemyMotor;
     [SerializeField]
     protected EnemyCombat enemyCombat;
+    [SerializeField]
+    protected EnemyHealth enemyHealth;
     public EnemyMotor Motor { get { return enemyMotor; } }
     public EnemyCombat Combat { get { return enemyCombat; } }
     protected float moveDirection;
@@ -17,6 +19,7 @@ public class EnemyController : MonoBehaviour
     {
         stateMachine = new EnemyStateMachine();
         moveDirection = 1f;
+        enemyHealth.OnDamaged += GetHurt;
     }
 
     public virtual void AllFlip(float x)
@@ -37,5 +40,11 @@ public class EnemyController : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         stateMachine.CurrentState.PhysicsUpdate();
+    }
+    protected virtual void GetHurt(float damage)
+    {
+        Debug.Log("GetHurt");
+        animator.ResetTrigger("Hurt");
+        animator.SetTrigger("Hurt");
     }
 }

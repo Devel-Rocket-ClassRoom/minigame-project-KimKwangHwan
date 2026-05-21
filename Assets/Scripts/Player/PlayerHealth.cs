@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
@@ -6,9 +7,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private float currentHp;
     public float MaxHp => maxHp;
     public float CurrentHp => currentHp;
-
     public bool IsDead => currentHp <= 0;
-
+    public event Action<float> OnDamaged;
     private void Awake()
     {
         currentHp = maxHp;
@@ -17,5 +17,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         currentHp -= damage;
+        OnDamaged?.Invoke(damage);
     }
 }

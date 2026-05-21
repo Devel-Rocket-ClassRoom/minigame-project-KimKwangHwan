@@ -8,6 +8,7 @@ public class MageSkeletonAttackState : EnemyState<MageSkeleton>
 
     public override void Enter(EnemyState prevState)
     {
+        enemy.Motor.MoveStop();
     }
 
     public override void Exit()

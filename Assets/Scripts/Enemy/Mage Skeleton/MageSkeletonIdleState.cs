@@ -13,6 +13,7 @@ public class MageSkeletonIdleState : EnemyState<MageSkeleton>
     public override void Enter(EnemyState prevState)
     {
         idleTime = Random.Range(startIdleTime, endIdleTime);
+        enemy.Motor.MoveStop();
     }
 
     public override void Exit()

@@ -21,7 +21,11 @@ public class EnemyPerception : MonoBehaviour
 
     private Vector2 Origin => eyePoint != null ? (Vector2)eyePoint.position : (Vector2)transform.position;
     // 적이 바라보는 방향. 스프라이트 flipX 또는 transform.localScale.x로 판정.
-    private Vector2 Facing => new Vector2(Mathf.Sign(transform.localScale.x), 0f);
+    //private Vector2 Facing => new Vector2(Mathf.Sign(transform.localScale.x), 0f);
+    public float Facing
+    {
+        get { return transform.parent.transform.localScale.x > 0f ? 1f : -1f; }
+    }
 
     private void Update()
     {
@@ -41,23 +45,27 @@ public class EnemyPerception : MonoBehaviour
     private bool TryPerceivePlayer(out Transform player)
     {
         player = null;
-
+        bool inViewAngle = false;
+        bool near = false;
+        bool tooNear = false;
         // 1) 범위 내 플레이어 후보 검색
         Collider2D hit = Physics2D.OverlapCircle(Origin, detectionRange, targetMask);
         if (hit == null) return false;
 
         Vector2 toTarget = (Vector2)hit.transform.position - Origin;
         float dist = toTarget.magnitude;
-        if (dist < 0.0001f) { player = hit.transform; return true; }
-
+        if (dist < 2f) { player = hit.transform; near = true; }
+        if (dist < 0.7f) tooNear = true;
         Vector2 dir = toTarget / dist;
 
         // 2) 시야각 체크 (viewAngle <= 0 이면 전방향 감지)
+        float dot = 0f;
         if (viewAngle > 0f)
         {
-            float dot = Vector2.Dot(Facing, dir);
+            dot = Vector2.Dot(new Vector2(Facing, 0f), dir);
             float cosHalf = Mathf.Cos(viewAngle * 0.5f * Mathf.Deg2Rad);
-            if (dot < cosHalf) return false;
+            if (dot >= cosHalf)
+                inViewAngle = true;
         }
 
         // 3) 벽 차단 검사: 플레이어까지 광선을 쐈을 때 장애물(벽)에 먼저 맞으면 실패
@@ -65,7 +73,7 @@ public class EnemyPerception : MonoBehaviour
         if (wall.collider != null) return false;
 
         player = hit.transform;
-        return true;
+        return tooNear || (near && dot > 0f) || inViewAngle;
     }
 
 #if UNITY_EDITOR
@@ -78,7 +86,7 @@ public class EnemyPerception : MonoBehaviour
 
         if (viewAngle > 0f)
         {
-            Vector2 f = Application.isPlaying ? Facing : new Vector2(Mathf.Sign(transform.localScale.x), 0f);
+            Vector2 f = new Vector2(Facing, 0f);
             Quaternion left = Quaternion.Euler(0, 0, viewAngle * 0.5f);
             Quaternion right = Quaternion.Euler(0, 0, -viewAngle * 0.5f);
             Gizmos.DrawLine(origin, origin + (Vector2)(left * f) * detectionRange);

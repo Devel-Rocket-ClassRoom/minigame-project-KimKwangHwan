@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private float maxHp = 100;
@@ -6,7 +7,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public float MaxHp => maxHp;
     public float CurrentHp => currentHp;
     public bool IsDead => currentHp <= 0;
-
+    public event Action<float> OnDamaged;
     private void Awake()
     {
         currentHp = maxHp;
@@ -15,5 +16,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         currentHp -= damage;
+        OnDamaged?.Invoke(damage);
     }
 }
