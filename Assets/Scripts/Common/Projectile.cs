@@ -17,7 +17,7 @@ public sealed class Projectile : MonoBehaviour
     }
     public void Launch(Vector2 dir, float speed, float damage, float facing)
     {
-        rb.linearVelocityX = dir.x * speed;
+        rb.linearVelocity = dir * speed;
         _damage = damage;
     }
     private void OnTriggerEnter2D(Collider2D other)

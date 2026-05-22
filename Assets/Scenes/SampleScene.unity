@@ -5196,10 +5196,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5232199694050371701, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5839074426107013080, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7369518586376292876, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
       propertyPath: muzzle
       value: 
       objectReference: {fileID: 1581863839}
+    - target: {fileID: 7369518586376292876, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 2105449413}
     - target: {fileID: 7369518586376292876, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
       propertyPath: patterns.Array.size
       value: 1

@@ -38,10 +38,10 @@ public class ProjectileAttack : EnemyAttackPattern
 
         for (int i = 0; i < projectileCount; i++)
         {
-            float ang = (projectileCount == 1 ? baseAngle : startAngle + step * i) * Mathf.Deg2Rad;
+            //float ang = (projectileCount == 1 ? baseAngle : startAngle + step * i) * Mathf.Deg2Rad;
+            float ang = Random.Range(-baseAngle, baseAngle) * Mathf.Deg2Rad;
             Vector2 dir = new(Mathf.Cos(ang), Mathf.Sin(ang));
-
-            var proj = Object.Instantiate(projectilePrefab, ctx.self.position, Quaternion.identity);
+            var proj = Object.Instantiate(projectilePrefab, ctx.muzzle.position, Quaternion.identity);
             proj.Launch(dir, speed, damage, facing);
 
             // 마지막 발 아니면 대기
