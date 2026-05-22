@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyMotor : MonoBehaviour, IMotor
+public class EnemyMotor : MonoBehaviour
 {
     private Rigidbody2D rb;
     public Rigidbody2D RB => rb;

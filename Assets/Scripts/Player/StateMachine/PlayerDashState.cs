@@ -14,6 +14,7 @@ public class PlayerDashState : PlayerState
     public override void Enter(PlayerState prevState)
     {
         this.prevState = prevState;
+        player.HurtBox.DoInvincible();
         elapsed = 0f;
         dashDir = player.Facing;
         player.Motor.SuppressHorizontalControl = true;
@@ -38,6 +39,7 @@ public class PlayerDashState : PlayerState
             player.StopCoroutine(afterImageRoutine);
             afterImageRoutine = null;
         }
+        player.HurtBox.CancelInvincible();
     }
 
     public override void HandleInput()
@@ -51,6 +53,7 @@ public class PlayerDashState : PlayerState
     public override void Update()
     {
         elapsed += Time.deltaTime;
+
         if (elapsed >= player.dashDuration)
         {
             if (player.Motor.IsGrounded())
@@ -74,7 +77,6 @@ public class PlayerDashState : PlayerState
     {
         var go = Object.Instantiate(player.afterImagePrefab);
         var img = go.GetComponent<AfterImage>();
-
         img.Init(
             sprite: player.spriteRenderer.sprite,
             position: player.transform.position,

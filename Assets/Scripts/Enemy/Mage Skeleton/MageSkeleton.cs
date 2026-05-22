@@ -6,13 +6,18 @@ public class MageSkeleton : EnemyController
     public MageSkeletonIdleState idleState;
     public MageSkeletonMoveState moveState;
     public MageSkeletonAttackState attackState;
+    public MageSkeletonHurtState hurtState;
+    public MageSkeletonDeathState deathState;
     [SerializeField] private EnemyPerception perception;
     [SerializeField] private float attackDistance;
+    [SerializeField] private float hurtDuration;
+    
     public EnemyMotor Motor { get { return enemyMotor; } }
     public MageSkeletonCombat Combat { get { return (MageSkeletonCombat)enemyCombat; } }
     public EnemyHealth Health { get { return enemyHealth; } }
     public bool move = true;
     public Transform Target => perception.Target;
+    public float HurtDuration => hurtDuration;
     public float AttackDistance => attackDistance;
     protected override void Awake()
     {
@@ -20,11 +25,26 @@ public class MageSkeleton : EnemyController
         idleState = new MageSkeletonIdleState(this, stateMachine);
         moveState = new MageSkeletonMoveState(this, stateMachine);
         attackState = new MageSkeletonAttackState(this, stateMachine);
+        hurtState = new MageSkeletonHurtState(this, stateMachine);
+        deathState = new MageSkeletonDeathState(this, stateMachine);
+        Health.OnDead += Dead;
         stateMachine.Initialize(idleState);
     }
     protected override void GetHurt(float damage)
     {
         base.GetHurt(damage);
         perception.SetTarget();
+        if (stateMachine.CurrentState is MageSkeletonAttackState _attackState)
+        {
+            if (damage >= 20f)
+                stateMachine.ChangeState(hurtState);
+            return;
+        }
+        stateMachine.ChangeState(hurtState);
+    }
+
+    private void Dead()
+    {
+        stateMachine.ChangeState(deathState);
     }
 }
