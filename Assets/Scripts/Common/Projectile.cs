@@ -7,6 +7,8 @@ public sealed class Projectile : MonoBehaviour
     [SerializeField] private LayerMask hitLayer;
     [SerializeField] private GameObject hitPrefab;
     private float _damage;
+    //private int _attackInstanceId;
+    //private float _hitInterval;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

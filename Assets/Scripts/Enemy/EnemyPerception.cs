@@ -78,7 +78,7 @@ public class EnemyPerception : MonoBehaviour
     public void SetTarget()
     {
         Target = forceTarget;
-        Debug.Log(Target.name);
+        _lostTimer = 0f;
     }
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()

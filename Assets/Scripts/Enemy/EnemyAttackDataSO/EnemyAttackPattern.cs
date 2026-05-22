@@ -8,6 +8,12 @@ public abstract class EnemyAttackPattern : ScriptableObject
     public float range = 3f;
     public int priority = 0;
 
+    //public float hitInterval = 0f;
+    //private static int attackInstanceId = 0;
+    //public static int NextAttackInstanceId()
+    //{
+    //    return ++attackInstanceId;
+    //}
     public virtual bool CanExecute(EnemyContext ctx)
     {
         float dist = Vector2.Distance(ctx.self.position, ctx.target.position);

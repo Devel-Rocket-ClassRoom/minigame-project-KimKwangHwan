@@ -8,6 +8,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public float CurrentHp => currentHp;
     public bool IsDead => currentHp <= 0;
     public event Action<float> OnDamaged;
+    public event Action OnDead;
     private void Awake()
     {
         currentHp = maxHp;
@@ -15,7 +16,12 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
+        if (IsDead) return;
         currentHp -= damage;
         OnDamaged?.Invoke(damage);
+        if (currentHp <= 0f)
+        {
+            OnDead?.Invoke();
+        }
     }
 }

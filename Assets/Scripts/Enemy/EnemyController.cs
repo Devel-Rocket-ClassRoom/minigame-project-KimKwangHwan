@@ -42,7 +42,6 @@ public class EnemyController : MonoBehaviour
     }
     protected virtual void GetHurt(float damage)
     {
-        animator.ResetTrigger("Hurt");
-        animator.SetTrigger("Hurt");
+        
     }
 }

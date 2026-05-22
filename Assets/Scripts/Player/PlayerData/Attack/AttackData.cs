@@ -25,8 +25,6 @@ public abstract class AttackData : ScriptableObject
 
     // ── 실행 훅. 기본은 no-op, 필요한 것만 override ──
     public abstract void OnEnter(AttackRuntime rt);
-    public virtual void OnTelegraphStart(AttackRuntime rt) { }
-    public virtual void OnTelegraphEnd(AttackRuntime rt) { }
     public abstract void OnActiveStart(AttackRuntime rt);
     public abstract void OnActiveEnd(AttackRuntime rt);
     public abstract void OnExit(AttackRuntime rt);

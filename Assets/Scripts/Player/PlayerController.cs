@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputReader)), RequireComponent(typeof(PlayerMotor))]
@@ -14,10 +15,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Animator animator;
     private PlayerStateMachine stateMachine;
+    [SerializeField] private HurtBox hurtBox;
     public PlayerInputReader Input { get { return playerInput; } }
     public PlayerMotor Motor { get { return playerMotor; } }
     public PlayerCombat Combat { get { return playerCombat; } }
     public PlayerHealth Health { get { return playerHealth; } }
+    public HurtBox HurtBox { get { return hurtBox; } }
     public PlayerState State { get { return stateMachine.CurrentState; } }
     public Animator Animator { get { return animator; } }
     public float Facing { get { return Mathf.Sign(transform.localScale.x); } } 
@@ -30,11 +33,13 @@ public class PlayerController : MonoBehaviour
     public PlayerWallClimbState wallClimbState;
     public PlayerAttackState attackState;
     public PlayerDashState dashState;
+    public PlayerHurtState hurtState;
+    public PlayerDeathState deathState;
+
     private float moveDirection; // +면 오른쪽, -면 왼쪽
     public float dashSpeed = 20f;
     public float dashDuration = 0.7f;
     public float dashCooldown = 0.5f;
-
     [HideInInspector] public float lastDashTime = -Mathf.Infinity;
     [HideInInspector] public int airDashLeft;
     public GameObject afterImagePrefab;
@@ -42,6 +47,11 @@ public class PlayerController : MonoBehaviour
     public float afterImageInterval = 0.04f;
     public float afterImageLifetime = 0.3f;
     public Color afterImageColor = new Color(0.5f, 0.8f, 1f, 0.6f);
+
+    public float hurtDuration = 0.8f;
+    public float hurtEscapeTime = 0.4f;
+
+
     private void Awake()
     {
         stateMachine = new PlayerStateMachine();
@@ -53,10 +63,13 @@ public class PlayerController : MonoBehaviour
         wallClimbState = new PlayerWallClimbState(this, stateMachine);
         attackState = new PlayerAttackState(this, stateMachine);
         dashState = new PlayerDashState(this, stateMachine);
+        hurtState = new PlayerHurtState(this, stateMachine);
+        deathState = new PlayerDeathState(this, stateMachine);
 
         stateMachine.Initialize(idleState);
         moveDirection = 1f;
         playerHealth.OnDamaged += GetHurt;
+        playerHealth.OnDead += Dead;
     }
     private void Update()
     {
@@ -90,7 +103,10 @@ public class PlayerController : MonoBehaviour
     }
     protected virtual void GetHurt(float damage)
     {
-        animator.ResetTrigger("Hurt");
-        animator.SetTrigger("Hurt");
+        stateMachine.ChangeState(hurtState);
+    }
+    private void Dead()
+    {
+        stateMachine.ChangeState(deathState);
     }
 }

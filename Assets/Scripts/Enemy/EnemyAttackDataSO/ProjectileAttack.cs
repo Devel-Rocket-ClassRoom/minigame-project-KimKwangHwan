@@ -21,9 +21,10 @@ public class ProjectileAttack : EnemyAttackPattern
 
     [Header("애니메이션")]
     public string animTrigger = "Shoot";
-
+    public string animOutTrigger = "ShootStop";
     public override IEnumerator Execute(EnemyContext ctx)
     {
+        ctx.anim.ResetTrigger(animTrigger);
         ctx.anim.SetTrigger(animTrigger);
         yield return new WaitForSeconds(windupTime);
 
@@ -35,11 +36,11 @@ public class ProjectileAttack : EnemyAttackPattern
         float baseAngle = Mathf.Atan2(center.y, center.x) * Mathf.Rad2Deg;
         float step = projectileCount > 1 ? spreadAngle / (projectileCount - 1) : 0f;
         float startAngle = baseAngle - spreadAngle * 0.5f;
-
+        // int instanceId = NextAttackInstanceId();
         for (int i = 0; i < projectileCount; i++)
         {
             //float ang = (projectileCount == 1 ? baseAngle : startAngle + step * i) * Mathf.Deg2Rad;
-            float ang = Random.Range(-baseAngle, baseAngle) * Mathf.Deg2Rad;
+            float ang = (baseAngle + Random.Range(-spreadAngle * 0.5f, spreadAngle * 0.5f)) * Mathf.Deg2Rad;
             Vector2 dir = new(Mathf.Cos(ang), Mathf.Sin(ang));
             var proj = Object.Instantiate(projectilePrefab, ctx.muzzle.position, Quaternion.identity);
             proj.Launch(dir, speed, damage, facing);
@@ -48,7 +49,8 @@ public class ProjectileAttack : EnemyAttackPattern
             if (intervalBetweenShots > 0f && i < projectileCount - 1)
                 yield return new WaitForSeconds(intervalBetweenShots);
         }
-
+        ctx.anim.ResetTrigger(animOutTrigger);
+        ctx.anim.SetTrigger(animOutTrigger);
         yield return new WaitForSeconds(recoveryTime);
     }
 }

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be61e152c961fa643918aad1c4120624, type: 3}
   m_Name: MageSkeletonProjectileAttack
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileAttack
-  cooldown: 1
-  range: 5
+  cooldown: 3
+  range: 6
   priority: 0
-  windupTime: 0.3
-  recoveryTime: 0.3
+  windupTime: 0.5
+  recoveryTime: 0.5
   intervalBetweenShots: 0.1
   projectilePrefab: {fileID: -2478943390007823144, guid: 70808610f1ca7a44fbd79057bafd7859, type: 3}
   speed: 3
@@ -25,3 +25,4 @@ MonoBehaviour:
   spreadAngle: 20
   aimAtTarget: 1
   animTrigger: Attack1
+  animOutTrigger: Attack1Stop
