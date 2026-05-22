@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa2d17c0e30f3064990d04a2087eaf46, type: 3}
-  m_Name: MeleeMoveSet
+  m_Name: PlayerMoveSet
   m_EditorClassIdentifier: Assembly-CSharp::MoveSet
   melee:
     grounded:

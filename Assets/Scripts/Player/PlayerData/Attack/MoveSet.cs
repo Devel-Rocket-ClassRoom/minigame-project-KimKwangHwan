@@ -41,7 +41,6 @@ public sealed class MoveSet : ScriptableObject
 
     public AttackData Resolve(AttackType type, AttackContext ctx, int comboIndex)
         => Branch(type).Resolve(ctx, comboIndex);
-
     public bool HasComboAt(AttackType type, AttackContext ctx, int index)
         => Branch(type).HasComboAt(ctx, index);
 }

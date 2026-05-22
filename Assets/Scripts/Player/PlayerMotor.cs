@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PlayerMotor : MonoBehaviour
+public class PlayerMotor : MonoBehaviour, IMotor
 {
     private Rigidbody2D rb;
     public Rigidbody2D RB { get { return rb; } }

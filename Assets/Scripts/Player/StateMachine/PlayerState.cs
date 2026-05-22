@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-public abstract class PlayerState
+﻿public abstract class PlayerState
 {
     protected PlayerController player;
     protected PlayerStateMachine stateMachine;

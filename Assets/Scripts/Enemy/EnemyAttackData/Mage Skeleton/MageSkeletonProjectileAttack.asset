@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be61e152c961fa643918aad1c4120624, type: 3}
+  m_Name: MageSkeletonProjectileAttack
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileAttack
+  cooldown: 1
+  range: 5
+  priority: 0
+  windupTime: 0.3
+  recoveryTime: 0.3
+  intervalBetweenShots: 0.1
+  projectilePrefab: {fileID: -2478943390007823144, guid: 70808610f1ca7a44fbd79057bafd7859, type: 3}
+  speed: 3
+  damage: 8
+  projectileCount: 10
+  spreadAngle: 20
+  aimAtTarget: 1
+  animTrigger: Attack1

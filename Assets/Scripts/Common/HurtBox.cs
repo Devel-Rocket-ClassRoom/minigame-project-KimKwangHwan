@@ -2,11 +2,17 @@ using UnityEngine;
 
 public class HurtBox : MonoBehaviour
 {
-    [SerializeField] private IDamageable owner;
-
-    public void ReceiveHit()
+    // [SerializeField] private Object ownerObject;
+    private IDamageable owner;
+    [SerializeField] private float defense;
+    [SerializeField] private float resistance;
+    private void Awake()
     {
-        Debug.Log("Hit!!");
-        //owner.TakeDamage();
+        owner = transform.parent.GetComponent<IDamageable>();
+    }
+    public void ReceiveHit(float damage)
+    {
+        float finalDamage = Mathf.Max(damage - defense, 1f);
+        owner.TakeDamage(finalDamage);
     }
 }
