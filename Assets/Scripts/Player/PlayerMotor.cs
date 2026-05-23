@@ -130,6 +130,41 @@ public class PlayerMotor : MonoBehaviour
             rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, target, rate * Time.fixedDeltaTime);
         }
     }
+    public void DropThroughOneWay()
+    {
+        if (!isOnOneWayPlatform) return;
+        if (CoDropThrough != null) StopCoroutine(CoDropThrough);
+        rb.linearVelocityY = -1f;   // 시작 nudge
+        CoDropThrough = StartCoroutine(DropThroughRoutine());
+    }
+
+    private IEnumerator DropThroughRoutine()
+    {
+        // 발 밑에 있는 OneWay 플랫폼 콜라이더들을 모두 수집
+        var hits = Physics2D.OverlapBoxAll(
+            groundCheck.transform.position,
+            new Vector2(groundWidth, groundHeight),
+            0f, oneWayPlatformLayer);
+
+        var playerCols = GetComponentsInChildren<Collider2D>();
+
+        foreach (var p in hits)
+            foreach (var pc in playerCols)
+                Physics2D.IgnoreCollision(pc, p, true);
+
+        yield return new WaitForSeconds(dropThroughDuration);
+
+        foreach (var p in hits)
+        {
+            if (p == null) continue;
+            foreach (var pc in playerCols)
+            {
+                if (pc == null) continue;
+                Physics2D.IgnoreCollision(pc, p, false);
+            }
+        }
+        CoDropThrough = null;
+    }
 
     private void OnDrawGizmos()
     {

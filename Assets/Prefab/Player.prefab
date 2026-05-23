@@ -107,8 +107,9 @@ GameObject:
   - component: {fileID: 3425644115523404140}
   - component: {fileID: 6561089411599535322}
   - component: {fileID: 4082938012988887397}
-  - component: {fileID: 2774202749847809018}
   - component: {fileID: 3159803039905493880}
+  - component: {fileID: 638990314342315114}
+  - component: {fileID: 1878018382927978898}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -153,7 +154,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1.2
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -190,11 +191,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMotor
   moveSpeed: 4.5
-  jumpPower: 6
+  jumpPower: 8
   groundCheck: {fileID: 50364244640452389}
-  jumpLayer:
+  groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  oneWayPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 4096
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -202,7 +206,7 @@ MonoBehaviour:
   groundHeight: 0.15
   wallRadius: 0.08
   wallSlideSpeed: 1.5
-  wallJumpHorizontalPower: 4
+  wallJumpHorizontalPower: 5
   wallJumpLockTime: 0.6
   wallCheckDistance: 0.26
   wallCheckHeight: 0.5
@@ -211,6 +215,7 @@ MonoBehaviour:
   groundDecel: 120
   airAccel: 45
   airDecel: 30
+  dropThroughDuration: 0.3
 --- !u!114 &6561089411599535322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,13 +231,21 @@ MonoBehaviour:
   playerInput: {fileID: 2293333252361658362}
   playerMotor: {fileID: 3425644115523404140}
   playerCombat: {fileID: 3159803039905493880}
+  playerHealth: {fileID: 638990314342315114}
   animator: {fileID: 508341801885782112}
-  Childrens:
-  - {fileID: 4645358122445671318}
-  - {fileID: 50364244640452389}
-  - {fileID: 1952680604555665675}
-  - {fileID: 3984444603363980570}
-  flipOffset: 0.8
+  hurtBox: {fileID: 2091577916273887846}
+  dashSpeed: 17
+  dashDuration: 0.25
+  dashCooldown: 0.5
+  lastDashTime: -Infinity
+  airDashLeft: 0
+  afterImagePrefab: {fileID: 8120169376574003883, guid: ecbc1f1e5944d7c4d88027de918522ea, type: 3}
+  spriteRenderer: {fileID: 978501132125372837}
+  afterImageInterval: 0.04
+  afterImageLifetime: 0.3
+  afterImageColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
+  hurtDuration: 0.3
+  hurtEscapeTime: 0.1
 --- !u!114 &4082938012988887397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,13 +335,62 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: bd4a00fa-8922-4101-862f-a2a028c64edf
     m_ActionName: 'Player/Shoot[/Keyboard/k]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2293333252361658362}
+        m_TargetAssemblyTypeName: PlayerInputReader, Assembly-CSharp
+        m_MethodName: OnDash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 12e3ddea-786f-4ee3-adc0-52e93de56e1a
+    m_ActionName: 'Player/Dash[/Keyboard/leftShift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!70 &2774202749847809018
-CapsuleCollider2D:
+--- !u!114 &3159803039905493880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297453124448676403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612e1e5b343cdba46ad26732e67caceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
+  startingMoveSet: {fileID: 11400000, guid: 6880e10b20030e94a8ae6a09b6eb3cf9, type: 2}
+  hitbox: {fileID: 1167733042631579449}
+  muzzleOrigin: {fileID: 3315224906973036097}
+  animator: {fileID: 508341801885782112}
+  hitboxOffset: {x: 0.34, y: 0.14}
+  hitboxSize: {x: 1.69, y: 0.48}
+  bufferDuration: 0.15
+  comboResetTime: 0.6
+--- !u!114 &638990314342315114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297453124448676403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d658e768dce63ae44b36068fbb3d2c73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHp: 100
+--- !u!61 &1878018382927978898
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -361,29 +423,18 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.01300621, y: 0.52654237}
-  m_Size: {x: 0.48178148, y: 1.0684448}
-  m_Direction: 0
---- !u!114 &3159803039905493880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2297453124448676403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 612e1e5b343cdba46ad26732e67caceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
-  startingMoveSet: {fileID: 11400000, guid: 6880e10b20030e94a8ae6a09b6eb3cf9, type: 2}
-  hitbox: {fileID: 1167733042631579449}
-  muzzleOrigin: {fileID: 3315224906973036097}
-  animator: {fileID: 508341801885782112}
-  hitboxOffset: {x: 0.34, y: 0.14}
-  hitboxSize: {x: 1.69, y: 0.48}
-  bufferDuration: 0.15
-  comboResetTime: 0.6
+  m_Offset: {x: -0.0136966705, y: 0.4470674}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.48795414, y: 0.90768}
+  m_EdgeRadius: 0
 --- !u!1 &3984444603363980570
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +477,7 @@ GameObject:
   - component: {fileID: 4820081177308428957}
   - component: {fileID: 508341801885782112}
   - component: {fileID: 978501132125372837}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -539,7 +590,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4144728569090434042}
   - component: {fileID: 1480433483645855443}
-  m_Layer: 11
+  - component: {fileID: 2091577916273887846}
+  m_Layer: 9
   m_Name: Hurtbox
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -607,6 +659,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5315294, y: 1.054821}
   m_EdgeRadius: 0
+--- !u!114 &2091577916273887846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6028654527706382983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73e5290fcf3b60449931e9e8c1090985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+  defense: 0
+  resistance: 0
+  hitInterval: 1
 --- !u!1 &8330283042904585350
 GameObject:
   m_ObjectHideFlags: 0

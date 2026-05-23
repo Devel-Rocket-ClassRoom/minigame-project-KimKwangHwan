@@ -31,7 +31,16 @@ public class PlayerIdleState : PlayerGroundState
         }
         if (player.Input.JumpPressed && player.Motor.IsGrounded())
         {
-            stateMachine.ChangeState(player.jumpState);
+            //stateMachine.ChangeState(player.jumpState);
+            if (player.Input.MoveY < -0.5f && player.Motor.IsOnOneWayPlatform())
+            {
+                player.Motor.DropThroughOneWay();
+                stateMachine.ChangeState(player.fallState);
+            }
+            else
+            {
+                stateMachine.ChangeState(player.jumpState);
+            }
             return;
         }
         if (player.Combat.AttackBuffered)
