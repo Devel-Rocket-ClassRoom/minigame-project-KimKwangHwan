@@ -8,7 +8,8 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpPower;
     [SerializeField] private GameObject groundCheck;
-    [SerializeField] private LayerMask jumpLayer;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask oneWayPlatformLayer;
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private float groundWidth;
     [SerializeField] private float groundHeight;
@@ -32,6 +33,10 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] float airAccel = 45f;    // 작게 → 공중은 점진적
     [SerializeField] float airDecel = 30f;
     public bool SuppressHorizontalControl { get; set; }
+    private bool isOnOneWayPlatform;
+    public bool IsOnOneWayPlatform() => isOnOneWayPlatform;
+    [SerializeField] private float dropThroughDuration = 0.3f;
+    private Coroutine CoDropThrough;
 
     private void Awake()
     {
@@ -98,8 +103,12 @@ public class PlayerMotor : MonoBehaviour
         wasGrounded = isGrounded;
         var ground = Physics2D.OverlapBox(groundCheck.transform.position,
                                           new Vector2(groundWidth, groundHeight),
-                                          0f, jumpLayer);
+                                          0f, groundLayer);
         isGrounded = ground != null;
+        var onOneWayPlatform = Physics2D.OverlapBox(groundCheck.transform.position,
+                                          new Vector2(groundWidth, groundHeight),
+                                          0f, oneWayPlatformLayer);
+        isOnOneWayPlatform = onOneWayPlatform != null;
         origin = (Vector2)transform.position + Vector2.up * wallCheckHeight;
         bool right = Physics2D.OverlapCircle(origin + Vector2.right * wallCheckDistance,
                                              wallRadius, wallLayer) != null;
@@ -120,6 +129,41 @@ public class PlayerMotor : MonoBehaviour
 
             rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, target, rate * Time.fixedDeltaTime);
         }
+    }
+    public void DropThroughOneWay()
+    {
+        if (!isOnOneWayPlatform) return;
+        if (CoDropThrough != null) StopCoroutine(CoDropThrough);
+        rb.linearVelocityY = -1f;   // 시작 nudge
+        CoDropThrough = StartCoroutine(DropThroughRoutine());
+    }
+
+    private IEnumerator DropThroughRoutine()
+    {
+        // 발 밑에 있는 OneWay 플랫폼 콜라이더들을 모두 수집
+        var hits = Physics2D.OverlapBoxAll(
+            groundCheck.transform.position,
+            new Vector2(groundWidth, groundHeight),
+            0f, oneWayPlatformLayer);
+
+        var playerCols = GetComponentsInChildren<Collider2D>();
+
+        foreach (var p in hits)
+            foreach (var pc in playerCols)
+                Physics2D.IgnoreCollision(pc, p, true);
+
+        yield return new WaitForSeconds(dropThroughDuration);
+
+        foreach (var p in hits)
+        {
+            if (p == null) continue;
+            foreach (var pc in playerCols)
+            {
+                if (pc == null) continue;
+                Physics2D.IgnoreCollision(pc, p, false);
+            }
+        }
+        CoDropThrough = null;
     }
 
     private void OnDrawGizmos()

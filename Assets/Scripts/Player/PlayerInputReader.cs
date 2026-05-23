@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputReader : MonoBehaviour
 {
     public float MoveX { get; private set; }
+    public float MoveY { get; private set; }
     public bool JumpPressed { get; private set; }
     public bool JumpHeld { get; private set; }
     public bool DashPressed { get; private set; }
@@ -12,7 +13,12 @@ public class PlayerInputReader : MonoBehaviour
 
     }
 
-    public void OnMove(InputAction.CallbackContext c) => MoveX = c.ReadValue<Vector2>().x;
+    public void OnMove(InputAction.CallbackContext c)
+    {
+        var v = c.ReadValue<Vector2>();
+        MoveX = v.x;
+        MoveY = v.y;
+    }
     public void OnJump(InputAction.CallbackContext c)
     {
         if (c.started) JumpPressed = true;
