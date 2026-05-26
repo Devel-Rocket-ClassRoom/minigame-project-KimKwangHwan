@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8a50fec412218d4baf8a61d32726f83, type: 3}
+  m_Name: ThunderTwinPattern
+  m_EditorClassIdentifier: Assembly-CSharp::ThunderTwinPattern
+  patternName: ThunderTwin
+  unlockPhase: 1
+  cooldown: 3
+  weight: 1
+  minDistance: 0
+  maxDistance: 999
+  animStateName: ThunderTwin
+  telegraphTime: 0.5
+  recoveryTime: 0.8
+  projectilePrefab: {fileID: 1282778297895925535, guid: 15144906c9604f14e8fea3074052e921, type: 3}
+  projectileSpeed: 10
+  projectileDamage: 30
+  projectileLifetime: 3
+  muzzleOffset: {x: 0, y: 0}
+  animStates:
+  - ThunderTwinStart
+  - ThunderTwinCharging
+  - ThunderTwinCast

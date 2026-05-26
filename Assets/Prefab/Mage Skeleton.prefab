@@ -120,10 +120,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MageSkeleton
   animator: {fileID: 3608166668188017384}
   enemyMotor: {fileID: 6006479865128490648}
-  enemyCombat: {fileID: 0}
+  enemyCombat: {fileID: 7369518586376292876}
   enemyHealth: {fileID: 2795628128250466054}
   perception: {fileID: 7384691796443347626}
-  attackDistance: 6
+  attackDistance: 5
+  hurtDuration: 0.3
   move: 1
 --- !u!114 &2795628128250466054
 MonoBehaviour:
@@ -162,9 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d306eb6fd21690743b7e4b73ee07ffff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MageSkeletonCombat
-  startingMoveSet: {fileID: 0}
-  animator: {fileID: 0}
-  bufferDuration: 0.15
+  patterns:
+  - {fileID: 11400000, guid: b22998ad66302a244b1b239a210a327e, type: 2}
+  hitbox: {fileID: 0}
+  muzzle: {fileID: 238204806930695180}
+  animator: {fileID: 3608166668188017384}
 --- !u!1 &2187562093935860357
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HurtBox
   defense: 0
   resistance: 0
+  hitInterval: 0
 --- !u!61 &989977014114723337
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -268,7 +272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2036752621339183375}
   - component: {fileID: 7384691796443347626}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Perception
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8075986323365516169}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: DetectArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}

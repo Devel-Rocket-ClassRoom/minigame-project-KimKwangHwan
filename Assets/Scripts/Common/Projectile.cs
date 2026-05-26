@@ -7,6 +7,8 @@ public sealed class Projectile : MonoBehaviour
     [SerializeField] private LayerMask hitLayer;
     [SerializeField] private GameObject hitPrefab;
     private float _damage;
+    [SerializeField] private float duration = 1.3f;
+    [SerializeField] private bool isBreakable = true;
     //private int _attackInstanceId;
     //private float _hitInterval;
     private void Awake()
@@ -15,7 +17,7 @@ public sealed class Projectile : MonoBehaviour
     }
     private void OnEnable()
     {
-        Destroy(gameObject, 1.3f);
+        Destroy(gameObject, duration);
     }
     public void Launch(Vector2 dir, float speed, float damage, float facing)
     {
@@ -33,7 +35,7 @@ public sealed class Projectile : MonoBehaviour
                 hurtbox.ReceiveHit(_damage);
             }
         }
-        
-        Destroy(gameObject);
+        if (isBreakable)
+            Destroy(gameObject);
     }
 }
