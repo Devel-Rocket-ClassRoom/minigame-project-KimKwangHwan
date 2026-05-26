@@ -14,22 +14,13 @@ public class DashPattern : BossPattern
     [SerializeField] private float damage = 10f;
     public override IEnumerator Execute(BossContext ctx)
     {
-        Vector2 dir;
-        if (ctx.PlayerIsRight)
-        {
-            dir = Vector2.right;
-            ctx.bossTransform.localScale = new Vector3(1f, ctx.bossTransform.localScale.y, ctx.bossTransform.localScale.z);
-        }
-        else
-        {
-            dir = Vector2.left;
-            ctx.bossTransform.localScale = new Vector3(-1f, ctx.bossTransform.localScale.y, ctx.bossTransform.localScale.z);
-        }
+        Vector2 dir = ctx.AllFlip();
         var rb = ctx.bossTransform.GetComponent<Rigidbody2D>();
         ctx.animator.Play(animStates[0]);
-        //ctx.hitbox.Enable
+
         yield return ctx.WaitForAnimEvent("HitboxOn");
-        ctx.hitbox.Enable(damage, hitboxSize, hitboxOffset, 0f, 1f);
+
+        ctx.hitbox.Enable(damage, hitboxOffset, hitboxSize, 0f, 1f);
         ctx.animator.Play(animStates[1]);
         rb.linearVelocity = dir * dashSpeed;
         yield return new WaitForSeconds(dashDuration);

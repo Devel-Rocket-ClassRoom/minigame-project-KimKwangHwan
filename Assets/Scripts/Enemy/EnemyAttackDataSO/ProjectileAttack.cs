@@ -42,8 +42,8 @@ public class ProjectileAttack : EnemyAttackPattern
             //float ang = (projectileCount == 1 ? baseAngle : startAngle + step * i) * Mathf.Deg2Rad;
             float ang = (baseAngle + Random.Range(-spreadAngle * 0.5f, spreadAngle * 0.5f)) * Mathf.Deg2Rad;
             Vector2 dir = new(Mathf.Cos(ang), Mathf.Sin(ang));
-            var proj = Object.Instantiate(projectilePrefab, ctx.muzzle.position, Quaternion.identity);
-            proj.Launch(dir, speed, damage, facing);
+            var proj = PoolManager.Instance.Spawn(projectilePrefab.gameObject, ctx.muzzle.position, Quaternion.identity);
+            proj.GetComponent<Projectile>().Launch(dir, speed, damage, facing);
 
             // 마지막 발 아니면 대기
             if (intervalBetweenShots > 0f && i < projectileCount - 1)

@@ -195,7 +195,7 @@ MonoBehaviour:
   groundCheck: {fileID: 50364244640452389}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4160
   oneWayPlatformLayer:
     serializedVersion: 2
     m_Bits: 4096

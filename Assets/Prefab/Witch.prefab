@@ -94,6 +94,37 @@ MonoBehaviour:
   defense: 0
   resistance: 0
   hitInterval: 1
+--- !u!1 &1632080587117307146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7207469406712084074}
+  m_Layer: 0
+  m_Name: WallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7207469406712084074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632080587117307146}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.486, y: 0.646, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8277334754207940610}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2482352189230895625
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,6 +318,7 @@ Transform:
   - {fileID: 9066320007142234847}
   - {fileID: 3614087267112828672}
   - {fileID: 713339460549578112}
+  - {fileID: 7207469406712084074}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &2322655423662866314
@@ -375,6 +407,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Witch
   patterns:
+  - {fileID: 11400000, guid: cee1988a74056cf42ac3b5e0ecb66068, type: 2}
+  - {fileID: 11400000, guid: 0999c160717327443bf3142a8ee27a14, type: 2}
   - {fileID: 11400000, guid: 93e50850a588fe84d9a3221e44fcc664, type: 2}
   - {fileID: 11400000, guid: 7081b46c6e9678c4d885e4ccf7d4f0b2, type: 2}
   - {fileID: 11400000, guid: 47d49aa3ce4cd574e952245e85b9c682, type: 2}
@@ -382,6 +416,8 @@ MonoBehaviour:
   animator: {fileID: 2221122863175806718}
   animEvents: {fileID: 2895899125271983951}
   hitbox: {fileID: 9080730234998480760}
+  hitboxOffset: {x: 0.24, y: 0.03}
+  hitboxSize: {x: 2.96, y: 1.28}
   muzzle: {fileID: 3614087267112828672}
   player: {fileID: 0}
   groundCheck: {fileID: 713339460549578112}

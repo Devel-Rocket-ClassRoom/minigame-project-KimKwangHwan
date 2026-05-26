@@ -15,6 +15,23 @@ public class BossContext
     public Vector2 DirToPlayer => (PlayerPos - BossPos).normalized;
     public float DistToPlayer => Vector2.Distance(BossPos, PlayerPos);
     public bool PlayerIsRight => PlayerPos.x > BossPos.x;
+    
+    public Vector2 AllFlip()
+    {
+        Vector2 dir;
+        if (PlayerIsRight)
+        {
+            dir = Vector2.right;
+            bossTransform.localScale = new Vector3(1f, bossTransform.localScale.y, bossTransform.localScale.z);
+        }
+        else
+        {
+            dir = Vector2.left;
+            bossTransform.localScale = new Vector3(-1f, bossTransform.localScale.y, bossTransform.localScale.z);
+        }
+
+        return dir;
+    }
 
     public IEnumerator WaitForAnimEvent(string eventName)
     {

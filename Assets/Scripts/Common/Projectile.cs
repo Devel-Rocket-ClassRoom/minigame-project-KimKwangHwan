@@ -9,15 +9,25 @@ public sealed class Projectile : MonoBehaviour
     private float _damage;
     [SerializeField] private float duration = 1.3f;
     [SerializeField] private bool isBreakable = true;
-    //private int _attackInstanceId;
-    //private float _hitInterval;
+    private PooledObject pooled;
+    private PooledObject Pooled => pooled != null ? pooled : (pooled = GetComponent<PooledObject>());
+    private float timer;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
     private void OnEnable()
     {
-        Destroy(gameObject, duration);
+        timer = 0f;
+    }
+    private void Update()
+    {
+        timer += Time.deltaTime;
+        if (timer > duration)
+        {
+            Pooled.Despawn();
+        }
     }
     public void Launch(Vector2 dir, float speed, float damage, float facing)
     {
@@ -36,6 +46,6 @@ public sealed class Projectile : MonoBehaviour
             }
         }
         if (isBreakable)
-            Destroy(gameObject);
+            Pooled.Despawn();
     }
 }

@@ -34,23 +34,6 @@ public sealed class RangedAttackData : AttackData
             case FireMode.Straight: FireStraight(rt, origin); break;
             case FireMode.RandomSpread: FireRandomSpread(rt, origin); break;
         }
-
-
-
-
-        //var effect = Object.Instantiate(muzzleEffectPrefab, origin, Quaternion.identity);
-        //effect.transform.localScale = new Vector3(rt.Facing > 0f ? 1f : -1f, effect.transform.localScale.y, effect.transform.localScale.z);
-        //for (int i = 0; i < shotCount; i++)
-        //{
-        //    float t = shotCount == 1 ? 0f : (i / (float)(shotCount - 1)) - 0.5f;
-        //    float angle = t * spreadDegrees;
-
-        //    Vector2 dir = Quaternion.Euler(0, 0, angle) * new Vector2(rt.Facing, 0f);
-
-        //    var proj = Object.Instantiate(projectilePrefab, origin, Quaternion.identity);
-        //    proj.GetComponent<SpriteRenderer>().flipX = rt.Facing < 0f;
-        //    proj.Launch(dir.normalized, projectileSpeed, projectileDamage, rt.Facing);
-        //}
     }
 
     private void FireStraight(AttackRuntime rt, Vector3 origin)
@@ -76,10 +59,11 @@ public sealed class RangedAttackData : AttackData
     {
         Vector2 dir = Quaternion.Euler(0, 0, angleOffsetDeg) * new Vector2(rt.Facing, 0f);
 
-        var proj = Object.Instantiate(projectilePrefab, origin, Quaternion.identity);
+        // var proj = Object.Instantiate(projectilePrefab, origin, Quaternion.identity);
+        var proj = PoolManager.Instance.Spawn(projectilePrefab.gameObject, origin, Quaternion.identity);
         if (proj.TryGetComponent<SpriteRenderer>(out var sr))
             sr.flipX = rt.Facing < 0f;
-        proj.Launch(dir.normalized, projectileSpeed, projectileDamage, rt.Facing);
+        proj.GetComponent<Projectile>().Launch(dir.normalized, projectileSpeed, projectileDamage, rt.Facing);
     }
     private void SpawnMuzzleEffect(Vector3 origin, float facing)
     {

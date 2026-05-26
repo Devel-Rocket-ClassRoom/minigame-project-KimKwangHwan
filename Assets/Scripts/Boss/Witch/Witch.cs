@@ -11,6 +11,8 @@ public class Witch : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private BossAnimEvents animEvents;
     [SerializeField] private Hitbox hitbox;
+    [SerializeField] private Vector2 hitboxOffset;
+    [SerializeField] private Vector2 hitboxSize;
     [SerializeField] private Transform muzzle;
     [SerializeField] private Transform player;
     [SerializeField] private Transform groundCheck;
@@ -20,6 +22,7 @@ public class Witch : MonoBehaviour
     public bool IsGrounded => Physics2D.OverlapBox(
         groundCheck.position, new Vector2(groundWidth, groundHeight), 0f, groundLayer);
 
+    public float Facing => transform.localScale.x;
     private void Awake()
     {
         ctx = new BossContext
@@ -41,8 +44,8 @@ public class Witch : MonoBehaviour
     {
         while (true)
         {
-            var pattern = patterns[Random.Range(0, patterns.Count)];
-            //var pattern = patterns[0];
+            //var pattern = patterns[Random.Range(0, patterns.Count)];
+            var pattern = patterns[0];
             yield return StartCoroutine(ExecutePattern(pattern));
         }
 
@@ -59,5 +62,8 @@ public class Witch : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(groundCheck.transform.position, new Vector3(groundWidth, groundHeight, 1f));
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube((Vector2)hitbox.transform.position + hitboxOffset, hitboxSize);
     }
 }

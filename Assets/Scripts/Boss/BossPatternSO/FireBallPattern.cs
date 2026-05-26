@@ -15,14 +15,18 @@ public class FireBallPattern : BossPattern
 
     public override IEnumerator Execute(BossContext ctx)
     {
+        bool playerIsRight = ctx.PlayerIsRight;
         ctx.animator.Play(fireAnimState);
         yield return ctx.WaitForAnimEvent("ProjectileFire");
-        Vector2 dir = new Vector2(1f, 0f);
+        Vector2 dir = ctx.AllFlip();
+        // Vector2 dir = new Vector2(playerIsRight ? 1f : -1f, 0f);
         Vector2 origin = (Vector2)ctx.muzzle.position + muzzleOffset;
-        var proj = Object.Instantiate(projectilePrefab, origin, Quaternion.identity);
+        var proj = PoolManager.Instance.Spawn(projectilePrefab.gameObject, origin, Quaternion.identity);
         if (proj.TryGetComponent<SpriteRenderer>(out var sr))
-            sr.flipX = 1f < 0f;
-        proj.Launch(dir.normalized, projectileSpeed, projectileDamage, 1f);
+        {
+            sr.flipX = !playerIsRight;
+        }
+        proj.GetComponent<Projectile>().Launch(dir.normalized, projectileSpeed, projectileDamage, dir.x);
         yield return new WaitForSeconds(recoveryTime);
     }
 }

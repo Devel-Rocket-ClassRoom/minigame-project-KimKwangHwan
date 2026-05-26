@@ -29,7 +29,7 @@ public class CometDivePattern : BossPattern
             rb.gravityScale = 1f;
             rb.linearVelocity = Vector2.down * diveSpeed;
             yield return ctx.WaitForAnimEvent("HitboxOn");
-            ctx.hitbox.Enable(damage, hitboxSizes[0], hitboxOffsets[0], 0f, 1f);
+            ctx.hitbox.Enable(damage, hitboxOffsets[0], hitboxSizes[0], 0f, 1f);
             yield return new WaitUntil(() => ctx.bossTransform.GetComponent<Witch>().IsGrounded);
             yield return ctx.WaitForAnimEvent("HitboxOff");
             ctx.hitbox.Disable();
@@ -37,7 +37,7 @@ public class CometDivePattern : BossPattern
             ctx.animator.Play(sequenceAnimStates[2]);
             rb.linearVelocity = Vector2.zero;
             yield return ctx.WaitForAnimEvent("HitboxOn");
-            ctx.hitbox.Enable(damage, hitboxSizes[1], hitboxOffsets[1], 0f, 1f);
+            ctx.hitbox.Enable(damage, hitboxOffsets[1], hitboxSizes[1], 0f, 1f);
             yield return ctx.WaitForAnimEvent("HitboxOff");
             ctx.hitbox.Disable();
             yield return ctx.WaitForAnimEvent("RecoveryEnd");
