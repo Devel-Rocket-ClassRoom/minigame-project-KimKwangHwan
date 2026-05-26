@@ -17,6 +17,13 @@ public class PlayerAirState : PlayerState
     protected bool CanJump => jumpUsed < maxJumps;
     protected bool CanDash => dashUsed < maxDash;
 
+    // 지상 상태 진입 시 호출 — 공중 공격 중 착지처럼 AirState의 landing 체크를 우회하는 경로 대응
+    public static void ResetAirCounters()
+    {
+        jumpUsed = 0;
+        dashUsed = 0;
+    }
+
     public override void HandleInput()
     {
         player.AllFlip(player.Input.MoveX);

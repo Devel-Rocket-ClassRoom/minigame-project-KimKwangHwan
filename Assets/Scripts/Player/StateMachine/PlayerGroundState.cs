@@ -9,6 +9,7 @@ public class PlayerGroundState : PlayerState
     public override void Enter(PlayerState prevState)
     {
         this.prevState = prevState;
+        PlayerAirState.ResetAirCounters();
     }
 
     public override void Exit()

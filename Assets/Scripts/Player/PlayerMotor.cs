@@ -16,7 +16,10 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float wallRadius;
     [SerializeField] private float wallSlideSpeed;
     [SerializeField] private float wallJumpHorizontalPower;
+    [SerializeField] private float wallJumpVerticalPower = 14f;
     [SerializeField] private float wallJumpLockTime = 0.2f;
+    [SerializeField] private float wallDetachPushSpeed = 9f;
+    [SerializeField] private float wallDetachLockTime = 0.15f;
     [SerializeField] private float wallCheckDistance = 0.5f;
     [SerializeField] private float wallCheckHeight = 0.5f;
     [SerializeField] private float wallStickSpeed = 2f;
@@ -25,6 +28,7 @@ public class PlayerMotor : MonoBehaviour
     private bool isGrounded;
     private bool wasGrounded;
     private float wallJumpLockTimer;
+    private float wallDetachLockTimer;
     private bool canWallClimbing;
     private bool isTouchingWall;
     private float moveInput;
@@ -81,10 +85,17 @@ public class PlayerMotor : MonoBehaviour
     public void WallJump(float wallSide)
     {
         rb.linearVelocity = Vector2.zero;
-        rb.AddForce(new Vector2(-wallSide * wallJumpHorizontalPower, jumpPower),
+        rb.AddForce(new Vector2(-wallSide * wallJumpHorizontalPower, wallJumpVerticalPower),
                     ForceMode2D.Impulse);
         wallJumpLockTimer = wallJumpLockTime;
     }
+    // 방향키로 벽에서 떼어낼 때 호출 — 벽 반대로 한 번 밀어주고, 짧게 재부착을 막음
+    public void WallDetach(float wallSide)
+    {
+        rb.linearVelocityX = -wallSide * wallDetachPushSpeed;
+        wallDetachLockTimer = wallDetachLockTime;
+    }
+
     public void WallStick(float wallSide)
     {
         // 벽 쪽으로 약하게 눌러 양방향 감지가 안 풀리게
@@ -99,6 +110,8 @@ public class PlayerMotor : MonoBehaviour
     {
         if (wallJumpLockTimer > 0f)
             wallJumpLockTimer -= Time.fixedDeltaTime;
+        if (wallDetachLockTimer > 0f)
+            wallDetachLockTimer -= Time.fixedDeltaTime;
 
         wasGrounded = isGrounded;
         var ground = Physics2D.OverlapBox(groundCheck.transform.position,
@@ -116,9 +129,9 @@ public class PlayerMotor : MonoBehaviour
                                             wallRadius, wallLayer) != null;
         isTouchingWall = left || right;
 
-        canWallClimbing = isTouchingWall && InAir();
+        canWallClimbing = isTouchingWall && InAir() && wallDetachLockTimer <= 0f;
 
-        if (wallJumpLockTimer <= 0f && !SuppressHorizontalControl)
+        if (wallJumpLockTimer <= 0f && wallDetachLockTimer <= 0f && !SuppressHorizontalControl)
         {
             float target = moveInput * moveSpeed;
             bool accelerating = Mathf.Abs(target) > 0.01f;
