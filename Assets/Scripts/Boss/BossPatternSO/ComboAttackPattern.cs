@@ -18,20 +18,19 @@ public class ComboAttackPattern : BossPattern
     public override IEnumerator Execute(BossContext ctx)
     {
         int hitCount = ctx.currentPhase == 1 ? phase1HitCount : phase2HitCount;
-
-        // 플레이어 방향으로 회전
+        Rigidbody2D rb = ctx.bossTransform.GetComponent<Rigidbody2D>();
         for (int i = 0; i < hitCount; i++)
         {
             int index = Mathf.Min(i, hitAnimStates.Length - 1);
             string clip = hitAnimStates[index];
             ctx.animator.Play(clip);
             yield return ctx.WaitForAnimEvent("HitboxOn");
-
-            ctx.hitbox.Enable(damage, hitboxSizes[index], hitboxOffsets[index], 0f, 1f);
-
+            Vector2 dir = ctx.AllFlip();
+            ctx.hitbox.Enable(damage, hitboxOffsets[index], hitboxSizes[index], 0f, 1f);
+            rb.linearVelocityX = dir.x * 5f;
             yield return ctx.WaitForAnimEvent("HitboxOff");
             ctx.hitbox.Disable();
-
+            rb.linearVelocityX = 0f;
             if (i < hitCount - 1)
                 yield return new WaitForSeconds(interHitDelay);
         }

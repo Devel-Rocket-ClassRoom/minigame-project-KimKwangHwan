@@ -8,8 +8,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] Transform muzzleOrigin;
     private PlayerMotor motor;
     [SerializeField] private Animator animator;
-    [SerializeField] private Vector2 hitboxOffset;
     [SerializeField] private Vector2 hitboxSize;
+    [SerializeField] private Vector2 hitboxOffset;
     public MoveSet MoveSet { get; private set; }
     public int ComboIndex { get; private set; }
     public float Facing => transform.localScale.x >= 0f ? 1f : -1f;

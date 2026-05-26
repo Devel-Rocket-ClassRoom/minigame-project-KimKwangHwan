@@ -28,11 +28,11 @@ MonoBehaviour:
   - Diving
   - Impact
   hitboxSizes:
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
+  - {x: 0.79, y: 2.22}
+  - {x: 3, y: 1.13}
   hitboxOffsets:
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
+  - {x: -0.106, y: 0.38}
+  - {x: -0.076, y: -0.31}
   damage: 10
   hitCount: 3
   interHitDelay: 0.2

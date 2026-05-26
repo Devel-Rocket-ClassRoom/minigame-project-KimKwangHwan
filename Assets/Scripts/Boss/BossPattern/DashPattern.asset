@@ -27,6 +27,6 @@ MonoBehaviour:
   - DashStart
   - Dash
   - DashStop
-  hitboxSize: {x: 0, y: 0}
-  hitboxOffset: {x: 0, y: 0}
+  hitboxSize: {x: 1.85, y: 0.9}
+  hitboxOffset: {x: -0.106, y: 0.06}
   damage: 10
