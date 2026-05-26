@@ -44,8 +44,8 @@ public class Witch : MonoBehaviour
     {
         while (true)
         {
-            //var pattern = patterns[Random.Range(0, patterns.Count)];
-            var pattern = patterns[0];
+            var pattern = patterns[Random.Range(0, patterns.Count)];
+            //var pattern = patterns[0];
             yield return StartCoroutine(ExecutePattern(pattern));
         }
 
