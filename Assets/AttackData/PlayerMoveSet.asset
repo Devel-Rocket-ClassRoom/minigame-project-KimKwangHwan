@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MoveSet
   melee:
     grounded:
+    - {fileID: 11400000, guid: d5767c4f5ac97db4d818cd5aeb8329f6, type: 2}
+    - {fileID: 11400000, guid: eff45166d7bcef74c8a2ecebfd7eef1b, type: 2}
     - {fileID: 11400000, guid: 5cdaf2dcabcebd9429fd0a3ff1039e80, type: 2}
     - {fileID: 11400000, guid: 88f9cedbfc6af8545a4e318b58a7bd8a, type: 2}
     airborne:

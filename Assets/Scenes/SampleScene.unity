@@ -852,7 +852,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.75, y: -0.33, z: -10}
+  m_LocalPosition: {x: 1.75, y: -0.926, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -960,7 +960,7 @@ Transform:
   m_GameObject: {fileID: 551403287}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.75, y: -0.33, z: -10}
+  m_LocalPosition: {x: 1.75, y: -0.926, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6816,13 +6816,45 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3159803039905493880, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: hitboxSize.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159803039905493880, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: hitboxSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159803039905493880, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: comboResetTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159803039905493880, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: hitboxOffset.x
+      value: 0.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159803039905493880, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: hitboxOffset.y
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425644115523404140, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: groundWidth
+      value: 0.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425644115523404140, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: wallJumpVerticalPower
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425644115523404140, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: wallJumpHorizontalPower
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6476366649466988518, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 6476366649466988518, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.33
+      value: -0.926
       objectReference: {fileID: 0}
     - target: {fileID: 6476366649466988518, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
       propertyPath: m_LocalPosition.z

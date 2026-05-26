@@ -20,6 +20,7 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float wallJumpLockTime = 0.2f;
     [SerializeField] private float wallDetachPushSpeed = 9f;
     [SerializeField] private float wallDetachLockTime = 0.15f;
+    [SerializeField] private float oneWayGroundMaxUpVelocity = 0.5f;
     [SerializeField] private float wallCheckDistance = 0.5f;
     [SerializeField] private float wallCheckHeight = 0.5f;
     [SerializeField] private float wallStickSpeed = 2f;
@@ -114,14 +115,18 @@ public class PlayerMotor : MonoBehaviour
             wallDetachLockTimer -= Time.fixedDeltaTime;
 
         wasGrounded = isGrounded;
-        var ground = Physics2D.OverlapBox(groundCheck.transform.position,
+        int hardGroundMask = groundLayer.value & ~oneWayPlatformLayer.value;
+        var hardGround = Physics2D.OverlapBox(groundCheck.transform.position,
                                           new Vector2(groundWidth, groundHeight),
-                                          0f, groundLayer);
-        isGrounded = ground != null;
+                                          0f, hardGroundMask);
         var onOneWayPlatform = Physics2D.OverlapBox(groundCheck.transform.position,
                                           new Vector2(groundWidth, groundHeight),
                                           0f, oneWayPlatformLayer);
         isOnOneWayPlatform = onOneWayPlatform != null;
+        // OneWayPlatform은 위로 올라갈 땐 통과 — 하강/정지 + 미세 지터 허용
+        // (러닝 중 물리 잔차로 velocityY가 잠깐 +가 돼도 ground 유지)
+        bool oneWayAsGround = isOnOneWayPlatform && rb.linearVelocityY <= oneWayGroundMaxUpVelocity;
+        isGrounded = hardGround != null || oneWayAsGround;
         origin = (Vector2)transform.position + Vector2.up * wallCheckHeight;
         bool right = Physics2D.OverlapCircle(origin + Vector2.right * wallCheckDistance,
                                              wallRadius, wallLayer) != null;

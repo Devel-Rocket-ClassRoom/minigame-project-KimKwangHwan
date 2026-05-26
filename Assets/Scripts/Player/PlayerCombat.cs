@@ -80,10 +80,16 @@ public class PlayerCombat : MonoBehaviour
     }
 
     public void AdvanceCombo() => ComboIndex++;
+    // 콤보 마지막 또는 다른 타입 공격으로 끊을 때 — 즉시 0으로 리셋
     public void NotifyAttackEnded()
     {
         _lastAttackEndTime = Time.time;
         ComboIndex = 0;
+    }
+    // 콤보가 남아있는데 자연 종료된 경우 — ComboIndex 보존, comboResetTime 타이머만 시작
+    public void NotifyAttackPaused()
+    {
+        _lastAttackEndTime = Time.time;
     }
 
     public void RequestEquip(MoveSet next)
