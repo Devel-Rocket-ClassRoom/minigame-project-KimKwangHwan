@@ -23,15 +23,14 @@ public class MageSkeletonAttackState : EnemyState<MageSkeleton>
 
         // 공격 중엔 제자리. 타겟 방향으로 한 번 정렬.
         enemy.Motor.MoveHorizontal(0f);
-        float dir = Mathf.Sign(enemy.Target.position.x - enemy.transform.position.x);
-        enemy.AllFlip(dir);
-
         enemy.Combat.MarkPatternUsed(pattern);
         routine = enemy.StartCoroutine(RunPattern(pattern));
     }
 
     private IEnumerator RunPattern(EnemyAttackPattern pattern)
     {
+        float dir = Mathf.Sign(enemy.Target.position.x - enemy.transform.position.x);
+        enemy.AllFlip(dir);
         yield return pattern.Execute(enemy.Combat.Context);
         finished = true;
     }

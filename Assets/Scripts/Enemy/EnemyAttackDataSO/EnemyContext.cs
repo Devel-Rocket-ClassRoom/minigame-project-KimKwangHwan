@@ -9,5 +9,5 @@ public class EnemyContext
     public MonoBehaviour runner;
     public Hitbox hitbox;
     public Transform muzzle;
-    public float Facing => Mathf.Sign(target.position.x - self.position.x);
+    public float Facing => self.localScale.x;
 }

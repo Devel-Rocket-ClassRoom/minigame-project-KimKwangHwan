@@ -23,6 +23,6 @@ MonoBehaviour:
   damage: 8
   projectileCount: 10
   spreadAngle: 20
-  aimAtTarget: 1
+  aimAtTarget: 0
   animTrigger: Attack1
   animOutTrigger: Attack1Stop
