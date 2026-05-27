@@ -16,7 +16,7 @@ MonoBehaviour:
   unlockPhase: 1
   cooldown: 3
   weight: 1
-  minDistance: 0
+  minDistance: 10
   maxDistance: 999
   animStateName: Dash
   telegraphTime: 0.5

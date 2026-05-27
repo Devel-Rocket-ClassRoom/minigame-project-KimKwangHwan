@@ -44,5 +44,6 @@ public class ThunderStrikePattern : BossPattern
         
         ctx.animator.Play(animStates[4]);
         yield return ctx.WaitForAnimEvent("RecoveryEnd");
+        yield return new WaitForSeconds(recoveryTime);
     }
 }

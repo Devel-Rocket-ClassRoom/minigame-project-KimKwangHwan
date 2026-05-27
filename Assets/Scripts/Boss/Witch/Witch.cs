@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-public class Witch : MonoBehaviour
+public class Witch : EnemyController
 {
-    [SerializeField] List<BossPattern> patterns;
+    [SerializeField] private List<BossPattern> patterns;
     private BossContext ctx;
     private BossPattern lastPattern;
     private int currentPhase = 2;
-    [SerializeField] private Animator animator;
     [SerializeField] private BossAnimEvents animEvents;
     [SerializeField] private Hitbox hitbox;
     [SerializeField] private Vector2 hitboxOffset;
@@ -19,12 +18,16 @@ public class Witch : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundWidth;
     [SerializeField] private float groundHeight;
+    private PatternSelector selector;
     public bool IsGrounded => Physics2D.OverlapBox(
         groundCheck.position, new Vector2(groundWidth, groundHeight), 0f, groundLayer);
-
-    public float Facing => transform.localScale.x;
-    private void Awake()
+    public List<BossPattern> Patterns => patterns;
+    public PatternSelector Selector => selector;
+    public WitchAttackState attackState;
+    public BossContext Ctx => ctx;
+    protected override void Awake()
     {
+        base.Awake();
         ctx = new BossContext
         {
             bossTransform = transform,
@@ -35,28 +38,30 @@ public class Witch : MonoBehaviour
             muzzle = muzzle,
             currentPhase = currentPhase
         };
+        selector = new PatternSelector(patterns);
+        attackState = new WitchAttackState(this, stateMachine);
+        stateMachine.Initialize(attackState);
     }
-    private void Start()
-    {
-        StartCoroutine(BehaviorLoop());
-    }
-    private IEnumerator BehaviorLoop()
-    {
-        while (true)
-        {
-            var pattern = patterns[Random.Range(0, patterns.Count)];
-            //var pattern = patterns[0];
-            yield return StartCoroutine(ExecutePattern(pattern));
-        }
+    //private void Start()
+    //{
+    //    StartCoroutine(BehaviorLoop());
+    //}
+    //private IEnumerator BehaviorLoop()
+    //{
+    //    while (true)
+    //    {
+    //        var pattern = Selector.SelectNext(ctx);
+    //        yield return StartCoroutine(ExecutePattern(pattern));
+    //    }
 
-    }
-    private IEnumerator ExecutePattern(BossPattern pattern)
-    {
-        lastPattern = pattern;
-        pattern.lastUsedTime = Time.time;
+    //}
+    //private IEnumerator ExecutePattern(BossPattern pattern)
+    //{
+    //    lastPattern = pattern;
+    //    pattern.lastUsedTime = Time.time;
 
-        yield return StartCoroutine(pattern.Execute(ctx));
-    }
+    //    yield return StartCoroutine(pattern.Execute(ctx));
+    //}
 
     public void OnDrawGizmos()
     {
