@@ -772,26 +772,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4637338021899856419, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
-      propertyPath: m_SortingLayer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4637338021899856419, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1913220881
-      objectReference: {fileID: 0}
-    - target: {fileID: 7384691796443347626, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
-      propertyPath: viewAngle
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 7384691796443347626, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
       propertyPath: forceTarget
       value: 
       objectReference: {fileID: 454772646}
-    - target: {fileID: 7384691796443347626, guid: 7cd147299562c7a4e8cfdbeebe224b72, type: 3}
-      propertyPath: detectionRange
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
