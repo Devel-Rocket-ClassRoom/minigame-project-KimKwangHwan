@@ -15,7 +15,6 @@ public class ThunderTwinPattern : BossPattern
 
     public override IEnumerator Execute(BossContext ctx)
     {
-        bool playerIsRight = ctx.PlayerIsRight;
         ctx.AllFlip();
         ctx.animator.Play(animStates[0]);
         yield return ctx.WaitForAnimEvent("TelegraphEnd");
@@ -26,6 +25,7 @@ public class ThunderTwinPattern : BossPattern
         Vector2 dir = ctx.AllFlip();
         //Vector2 dir = new Vector2(playerIsRight ? 1f : -1f, 0f);
         Vector2 origin = (Vector2)ctx.muzzle.position + muzzleOffset;
+        bool playerIsRight = ctx.PlayerIsRight;
         var proj = PoolManager.Instance.Spawn(projectilePrefab.gameObject, origin, Quaternion.identity);
         if (proj.TryGetComponent<SpriteRenderer>(out var sr))
         {

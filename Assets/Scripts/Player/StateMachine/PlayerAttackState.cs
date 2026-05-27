@@ -104,8 +104,17 @@ public class PlayerAttackState : PlayerState
             player.Combat.ConsumeBuffer();
             stateMachine.ChangeState(player.attackState);
         }
+        else if (HasNextCombo())
+        {
+            // 큐잉은 안 됐지만 다음 콤보가 남아있음 → 인덱스만 올리고 잠시 대기.
+            // comboResetTime 안에 다시 공격하면 그 자리에서 이어짐.
+            player.Combat.AdvanceCombo();
+            player.Combat.NotifyAttackPaused();
+            ExitToLocomotion();
+        }
         else
         {
+            // 콤보 끝 → 다음 공격은 0부터
             player.Combat.NotifyAttackEnded();
             ExitToLocomotion();
         }

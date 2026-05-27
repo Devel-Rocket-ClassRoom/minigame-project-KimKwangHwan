@@ -8,7 +8,7 @@ public class PlayerIdleState : PlayerGroundState
 
     public override void Enter(PlayerState prevState)
     {
-        this.prevState = prevState;
+        base.Enter(prevState);
         player.Animator.SetBool("IsGrounded", true);
     }
 

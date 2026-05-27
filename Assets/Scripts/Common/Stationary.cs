@@ -1,38 +1,38 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine;
 
-public sealed class Projectile : MonoBehaviour
+public class Stationary : MonoBehaviour
 {
-    private Rigidbody2D rb;
     [SerializeField] private LayerMask hitLayer;
     [SerializeField] private GameObject hitPrefab;
-    private float damage;
-    [SerializeField] private float duration = 1.3f;
-    [SerializeField] private bool isBreakable = true;
+    [SerializeField] private string animStateName;
+    private float damage = 20f;
     private PooledObject pooled;
     private PooledObject Pooled => pooled != null ? pooled : (pooled = GetComponent<PooledObject>());
-    private float timer;
+    private BoxCollider2D hitbox;
+    private Animator animator;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        hitbox = GetComponent<BoxCollider2D>();
+        animator = GetComponent<Animator>();
     }
     private void OnEnable()
     {
-        timer = 0f;
+        animator.Play(animStateName, 0, 0f);
+        animator.Update(0f);
+        hitbox.enabled = false;
     }
-    private void Update()
+    public void HitboxEnable()
     {
-        timer += Time.deltaTime;
-        if (timer > duration)
-        {
-            Pooled.Despawn();
-        }
+        hitbox.enabled = true;
     }
-    public void Launch(Vector2 dir, float speed, float damage, float facing)
+    public void HitboxDisable()
     {
-        rb.linearVelocity = dir * speed;
-        this.damage = damage;
+        hitbox.enabled = false;
+    }
+    public void Recovery()
+    {
+        Pooled.Despawn();
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -45,7 +45,5 @@ public sealed class Projectile : MonoBehaviour
                 hurtbox.ReceiveHit(this.damage);
             }
         }
-        if (isBreakable)
-            Pooled.Despawn();
     }
 }

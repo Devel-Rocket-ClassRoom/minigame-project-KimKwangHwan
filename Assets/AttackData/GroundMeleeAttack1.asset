@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackData
   animState: Attack1
   duration: 0.5
-  activeStart: 0.15
-  activeEnd: 0.3
+  activeStart: 0.221
+  activeEnd: 0.413
   cancelWindowStart: 0.7
   lockHorizontal: 0
   lungeVelocity: {x: 0, y: 0}

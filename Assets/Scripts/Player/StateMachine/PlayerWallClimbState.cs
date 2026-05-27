@@ -56,6 +56,7 @@ public class PlayerWallClimbState : PlayerAirState
         float input = player.Input.MoveX;
         if (input != 0f && Mathf.Sign(input) == -wallSide)
         {
+            player.Motor.WallDetach(wallSide);
             stateMachine.ChangeState(player.fallState);
             return;
         }

@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 6086648107295150843}
   - component: {fileID: 4528683921786275520}
   - component: {fileID: 9080730234998480760}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ Transform:
   m_GameObject: {fileID: 2482352189230895625}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.554, y: 0.632, z: 0}
+  m_LocalPosition: {x: 0, y: 0.632, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -275,7 +275,7 @@ Transform:
   m_GameObject: {fileID: 4282322864596920205}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.065, z: 0}
+  m_LocalPosition: {x: -0.079, y: -0.088, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -382,7 +382,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.08248925, y: 0.62554246}
+  m_Offset: {x: -0.08248925, y: 0.6531313}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -392,7 +392,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.9083457, y: 1.6003374}
+  m_Size: {x: 0.9083457, y: 1.5451597}
   m_EdgeRadius: 0
 --- !u!114 &5021731577655022096
 MonoBehaviour:
@@ -407,24 +407,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Witch
   patterns:
-  - {fileID: 11400000, guid: cee1988a74056cf42ac3b5e0ecb66068, type: 2}
-  - {fileID: 11400000, guid: 0999c160717327443bf3142a8ee27a14, type: 2}
+  - {fileID: 11400000, guid: f7759ba015b73e44ea1ed8ee258c73b0, type: 2}
   - {fileID: 11400000, guid: 93e50850a588fe84d9a3221e44fcc664, type: 2}
+  - {fileID: 11400000, guid: 455a83d9a4d856b408e5b07ca27a7a86, type: 2}
+  - {fileID: 11400000, guid: f25d0d672e0564546b2becb9a84c33fa, type: 2}
+  - {fileID: 11400000, guid: cee1988a74056cf42ac3b5e0ecb66068, type: 2}
   - {fileID: 11400000, guid: 7081b46c6e9678c4d885e4ccf7d4f0b2, type: 2}
   - {fileID: 11400000, guid: 47d49aa3ce4cd574e952245e85b9c682, type: 2}
-  - {fileID: 11400000, guid: 455a83d9a4d856b408e5b07ca27a7a86, type: 2}
   animator: {fileID: 2221122863175806718}
   animEvents: {fileID: 2895899125271983951}
   hitbox: {fileID: 9080730234998480760}
-  hitboxOffset: {x: 0.24, y: 0.03}
-  hitboxSize: {x: 2.96, y: 1.28}
+  hitboxOffset: {x: 0, y: 0}
+  hitboxSize: {x: 0, y: 0}
   muzzle: {fileID: 3614087267112828672}
   player: {fileID: 0}
   groundCheck: {fileID: 713339460549578112}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  groundWidth: 0.57
+  groundWidth: 0.93
   groundHeight: 0.18
 --- !u!1 &7493553198004900599
 GameObject:

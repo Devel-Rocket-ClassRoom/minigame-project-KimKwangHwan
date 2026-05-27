@@ -21,6 +21,10 @@ MonoBehaviour:
   animStateName: CometDive
   telegraphTime: 0.5
   recoveryTime: 0.8
+  stationaryPrefab: {fileID: 3782029981103506096, guid: 049455c3efe88e64192c47eefdab7768, type: 3}
+  infernoCount: 5
+  infernoInterval: 1
+  infernoTime: 0.3
   diveSpeed: 20
   diveHeight: 5
   sequenceAnimStates:
