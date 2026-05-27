@@ -50,7 +50,5 @@ public class MageSkeletonAttackState : EnemyState<MageSkeleton>
             enemy.StopCoroutine(routine);
             routine = null;
         }
-        // 패턴이 중간에 끊겼을 때 Hitbox가 켜진 채로 남는 사고 방지
-        enemy.Combat.Hitbox?.Disable();
     }
 }
