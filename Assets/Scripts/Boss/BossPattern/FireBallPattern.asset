@@ -15,12 +15,13 @@ MonoBehaviour:
   patternName: FireBall
   unlockPhase: 1
   cooldown: 3
-  weight: 1
-  minDistance: 0
-  maxDistance: 999
+  weight: 5
+  minDistance: 3
+  maxDistance: 20
   animStateName: FastCast
   telegraphTime: 0.5
   recoveryTime: 0.8
+  patternType: 2
   projectilePrefab: {fileID: 6951413642641787134, guid: 174be852575a97543b3b9ee4009387ff, type: 3}
   projectileSpeed: 10
   projectileDamage: 8

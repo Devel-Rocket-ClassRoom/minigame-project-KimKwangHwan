@@ -12,9 +12,9 @@ public class MageSkeleton : EnemyController
     [SerializeField] private float attackDistance;
     [SerializeField] private float hurtDuration;
     
-    public EnemyMotor Motor { get { return enemyMotor; } }
+    
     public MageSkeletonCombat Combat { get { return (MageSkeletonCombat)enemyCombat; } }
-    public EnemyHealth Health { get { return enemyHealth; } }
+    
     public bool move = true;
     public Transform Target => perception.Target;
     public float HurtDuration => hurtDuration;

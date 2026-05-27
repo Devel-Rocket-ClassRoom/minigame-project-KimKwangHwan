@@ -293,6 +293,7 @@ GameObject:
   - component: {fileID: 2322655423662866314}
   - component: {fileID: 5609858553081818696}
   - component: {fileID: 5021731577655022096}
+  - component: {fileID: 1548484314044596736}
   m_Layer: 0
   m_Name: Witch
   m_TagString: Untagged
@@ -336,7 +337,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -406,15 +407,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4dcc4928d654084c91595a7d7176234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Witch
+  animator: {fileID: 2221122863175806718}
+  enemyMotor: {fileID: 0}
+  enemyCombat: {fileID: 0}
+  enemyHealth: {fileID: 1548484314044596736}
   patterns:
-  - {fileID: 11400000, guid: f7759ba015b73e44ea1ed8ee258c73b0, type: 2}
-  - {fileID: 11400000, guid: 93e50850a588fe84d9a3221e44fcc664, type: 2}
-  - {fileID: 11400000, guid: 455a83d9a4d856b408e5b07ca27a7a86, type: 2}
-  - {fileID: 11400000, guid: f25d0d672e0564546b2becb9a84c33fa, type: 2}
   - {fileID: 11400000, guid: cee1988a74056cf42ac3b5e0ecb66068, type: 2}
   - {fileID: 11400000, guid: 7081b46c6e9678c4d885e4ccf7d4f0b2, type: 2}
+  - {fileID: 11400000, guid: 455a83d9a4d856b408e5b07ca27a7a86, type: 2}
   - {fileID: 11400000, guid: 47d49aa3ce4cd574e952245e85b9c682, type: 2}
-  animator: {fileID: 2221122863175806718}
+  - {fileID: 11400000, guid: f7759ba015b73e44ea1ed8ee258c73b0, type: 2}
+  - {fileID: 11400000, guid: f25d0d672e0564546b2becb9a84c33fa, type: 2}
+  - {fileID: 11400000, guid: 93e50850a588fe84d9a3221e44fcc664, type: 2}
   animEvents: {fileID: 2895899125271983951}
   hitbox: {fileID: 9080730234998480760}
   hitboxOffset: {x: 0, y: 0}
@@ -427,6 +431,20 @@ MonoBehaviour:
     m_Bits: 64
   groundWidth: 0.93
   groundHeight: 0.18
+  bossRoom: {fileID: 0}
+--- !u!114 &1548484314044596736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4836163198682350226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c892b811c1f6fc54d8b180c8895336af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHp: 100
 --- !u!1 &7493553198004900599
 GameObject:
   m_ObjectHideFlags: 0

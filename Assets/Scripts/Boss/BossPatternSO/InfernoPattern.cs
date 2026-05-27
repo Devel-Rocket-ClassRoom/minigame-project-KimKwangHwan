@@ -25,7 +25,7 @@ public class InfernoPattern : BossPattern
         for (int j = 0; j < infernoCount; j++)
         {
             RaycastHit2D hit = Physics2D.Raycast(
-                ctx.playerTransform.position,
+                ctx.bossRoom.RandomPoint(),
                 Vector2.down,
                 100f,
                 groundLayer

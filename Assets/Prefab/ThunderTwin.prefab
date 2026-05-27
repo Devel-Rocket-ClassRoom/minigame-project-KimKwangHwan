@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5529603530503166470}
   - component: {fileID: 4246763094618028286}
   - component: {fileID: 7431964595324989860}
-  - component: {fileID: 1282778297895925535}
+  - component: {fileID: 2541541883833720141}
   m_Layer: 10
   m_Name: ThunderTwin
   m_TagString: Untagged
@@ -115,7 +115,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -181,7 +181,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1282778297895925535
+--- !u!114 &2541541883833720141
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,12 +190,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8321853116240519755}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc35b07d3b957b64f9097fa8a0f21eac, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d3cfcdf7adadfc4fa8d0db95c648bf8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Projectile
+  m_EditorClassIdentifier: Assembly-CSharp::HomingProjectile
   hitLayer:
     serializedVersion: 2
     m_Bits: 512
   hitPrefab: {fileID: 1467479070405679019, guid: 1c9402c1cb90f81478e976babd85c31f, type: 3}
-  duration: 3
+  duration: 5
   isBreakable: 0
+  turnRateDeg: 90

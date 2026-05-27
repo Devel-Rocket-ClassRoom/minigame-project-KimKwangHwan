@@ -11,7 +11,8 @@ public class EnemyController : MonoBehaviour
     protected EnemyCombat enemyCombat;
     [SerializeField]
     protected EnemyHealth enemyHealth;
-    
+    public EnemyHealth Health { get { return enemyHealth; } }
+    public EnemyMotor Motor { get { return enemyMotor; } }
     protected float moveDirection;
     protected EnemyStateMachine stateMachine;
     protected virtual void Awake()

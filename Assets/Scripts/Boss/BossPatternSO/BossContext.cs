@@ -8,6 +8,7 @@ public class BossContext
     public BossAnimEvents animEvents;
     public Hitbox hitbox;
     public Transform muzzle;
+    public BossRoom bossRoom;
     public int currentPhase;
 
     public Vector2 PlayerPos => playerTransform.position;

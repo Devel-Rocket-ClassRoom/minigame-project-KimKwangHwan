@@ -30,5 +30,6 @@ public class DashPattern : BossPattern
         ctx.hitbox.Disable();
 
         yield return ctx.WaitForAnimEvent("RecoveryEnd");
+        yield return new WaitForSeconds(recoveryTime);
     }
 }

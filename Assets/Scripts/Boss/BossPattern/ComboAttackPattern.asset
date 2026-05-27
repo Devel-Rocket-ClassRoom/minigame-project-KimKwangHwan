@@ -15,12 +15,13 @@ MonoBehaviour:
   patternName: ComboAttack
   unlockPhase: 1
   cooldown: 3
-  weight: 1
-  minDistance: 2
+  weight: 10
+  minDistance: 0
   maxDistance: 3
   animStateName: ComboAttack
   telegraphTime: 0.5
   recoveryTime: 0.8
+  patternType: 3
   phase1HitCount: 2
   phase2HitCount: 3
   interHitDelay: 0.2
