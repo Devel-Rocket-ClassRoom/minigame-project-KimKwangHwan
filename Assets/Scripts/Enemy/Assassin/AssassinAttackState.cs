@@ -1,46 +1,35 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
-public class MageSkeletonAttackState : EnemyState<MageSkeleton>
+public class AssassinAttackState : EnemyState<Assassin>
 {
     private Coroutine routine;
     private bool finished;
-
-    public MageSkeletonAttackState(MageSkeleton enemy, EnemyStateMachine stateMachine)
-        : base(enemy, stateMachine) { }
+    public AssassinAttackState(Assassin enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
+    {
+    }
 
     public override void Enter(EnemyState prevState)
     {
         finished = false;
-        enemy.Motor.MoveHorizontal(0f);
         var pattern = enemy.Combat.SelectPattern();
         if (pattern == null)
         {
             stateMachine.ChangeState(enemy.moveState);
             return;
         }
-        
+
         enemy.Combat.MarkPatternUsed(pattern);
         routine = enemy.StartCoroutine(RunPattern(pattern));
+        enemy.Motor.MoveStop();
     }
-
     private IEnumerator RunPattern(EnemyAttackPattern pattern)
     {
         float dir = Mathf.Sign(enemy.Target.position.x - enemy.transform.position.x);
-        
         enemy.AllFlip(dir);
         yield return pattern.Execute(enemy.Combat.Context);
         finished = true;
     }
-
-    public override void Update()
-    {
-        if (finished)
-            stateMachine.ChangeState(enemy.moveState);
-    }
-
-    public override void PhysicsUpdate() { }
-
     public override void Exit()
     {
         if (routine != null)
@@ -48,5 +37,15 @@ public class MageSkeletonAttackState : EnemyState<MageSkeleton>
             enemy.StopCoroutine(routine);
             routine = null;
         }
+    }
+
+    public override void PhysicsUpdate()
+    {
+    }
+
+    public override void Update()
+    {
+        if (finished)
+            stateMachine.ChangeState(enemy.moveState);
     }
 }
