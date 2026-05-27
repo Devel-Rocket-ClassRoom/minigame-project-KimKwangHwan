@@ -22,9 +22,9 @@ public class CometDivePattern : BossPattern
     [SerializeField] private float interHitDelay = 0.2f;
     public override IEnumerator Execute(BossContext ctx)
     {
+        var rb = ctx.bossTransform.GetComponent<Rigidbody2D>();
         for (int i = 0; i < hitCount; i++)
         {
-            var rb = ctx.bossTransform.GetComponent<Rigidbody2D>();
             ctx.bossTransform.position = new Vector2(ctx.PlayerPos.x, diveHeight);
             ctx.animator.Play(sequenceAnimStates[0]);
             rb.gravityScale = 0f;
@@ -49,6 +49,7 @@ public class CometDivePattern : BossPattern
             yield return ctx.WaitForAnimEvent("RecoveryEnd");
             yield return new WaitForSeconds(interHitDelay);
         }
+        rb.gravityScale = 0f;
         yield return new WaitForSeconds(recoveryTime);
     }
     public IEnumerator CoInferno(Vector2 pos)

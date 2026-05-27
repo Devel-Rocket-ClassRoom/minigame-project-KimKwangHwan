@@ -20,10 +20,20 @@ public abstract class BossPattern : ScriptableObject
     public float telegraphTime = 0.5f;
     public float recoveryTime = 0.8f;
 
+    public PatternType patternType;
+
     // 런타임 상태
     [System.NonSerialized] public float lastUsedTime = -999f;
 
     public bool IsReady(float now) => now - lastUsedTime >= cooldown;
 
     public abstract IEnumerator Execute(BossContext ctx);
+}
+public enum PatternType
+{
+    None,
+    Random,
+    Ranged,
+    Melee,
+    Dash,
 }

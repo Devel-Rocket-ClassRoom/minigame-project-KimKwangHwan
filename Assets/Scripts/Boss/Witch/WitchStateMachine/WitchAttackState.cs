@@ -3,21 +3,19 @@ using System.Collections;
 
 public class WitchAttackState : EnemyState<Witch>
 {
-    private Coroutine loopRoutine;
-    private Coroutine currentPatternRoutine;
+    private Coroutine routine;
     public WitchAttackState(Witch enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
     }
 
     public override void Enter(EnemyState prevState)
     {
-        loopRoutine = enemy.StartCoroutine(BehaviorLoop());
+        routine = enemy.StartCoroutine(AttackRoutine());
     }
 
     public override void Exit()
     {
-        if (currentPatternRoutine != null) enemy.StopCoroutine(currentPatternRoutine);
-        if (loopRoutine != null) enemy.StopCoroutine(loopRoutine);
+        if (routine != null) enemy.StopCoroutine(routine);
     }
 
     public override void PhysicsUpdate()
@@ -27,19 +25,18 @@ public class WitchAttackState : EnemyState<Witch>
     public override void Update()
     {
     }
-
-    private IEnumerator BehaviorLoop()
+    private IEnumerator AttackRoutine()
     {
-        while (true)
+        var pattern = enemy.PendingPattern;
+
+        if (pattern != null)
         {
-            var pattern = enemy.Selector.SelectNext(enemy.Ctx);
             pattern.lastUsedTime = Time.time;
-
-            currentPatternRoutine = enemy.StartCoroutine(pattern.Execute(enemy.Ctx));
-            yield return currentPatternRoutine;
-
-            // 패턴 사이에 살짝 쉬고 싶으면
-            // yield return new WaitForSeconds(enemy.AttackInterval);
+            yield return pattern.Execute(enemy.Ctx);
         }
+
+        // 다 끝났으니 슬롯 비우고 Idle로
+        enemy.PendingPattern = null;
+        stateMachine.ChangeState(enemy.idleState);
     }
 }

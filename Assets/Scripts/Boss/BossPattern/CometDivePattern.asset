@@ -15,12 +15,13 @@ MonoBehaviour:
   patternName: CometDive
   unlockPhase: 1
   cooldown: 3
-  weight: 1
-  minDistance: 3
-  maxDistance: 999
+  weight: 2
+  minDistance: 0
+  maxDistance: 20
   animStateName: CometDive
   telegraphTime: 0.5
   recoveryTime: 0.8
+  patternType: 0
   stationaryPrefab: {fileID: 3782029981103506096, guid: 049455c3efe88e64192c47eefdab7768, type: 3}
   infernoCount: 5
   infernoInterval: 1

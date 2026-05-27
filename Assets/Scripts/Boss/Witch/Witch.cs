@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using Random = UnityEngine.Random;
 public class Witch : EnemyController
@@ -18,13 +19,19 @@ public class Witch : EnemyController
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundWidth;
     [SerializeField] private float groundHeight;
+    [SerializeField] private BossRoom bossRoom;
     private PatternSelector selector;
+
     public bool IsGrounded => Physics2D.OverlapBox(
         groundCheck.position, new Vector2(groundWidth, groundHeight), 0f, groundLayer);
     public List<BossPattern> Patterns => patterns;
     public PatternSelector Selector => selector;
     public WitchAttackState attackState;
+    public WitchIdleState idleState;
+    public WitchMoveState moveState;
+    public BossPattern PendingPattern { get; set; }
     public BossContext Ctx => ctx;
+    public BossMoveBehavior teleportMove;
     protected override void Awake()
     {
         base.Awake();
@@ -36,11 +43,15 @@ public class Witch : EnemyController
             animEvents = animEvents,
             hitbox = hitbox,
             muzzle = muzzle,
-            currentPhase = currentPhase
+            bossRoom = bossRoom,
+            currentPhase = currentPhase,
         };
         selector = new PatternSelector(patterns);
+        idleState = new WitchIdleState(this, stateMachine);
         attackState = new WitchAttackState(this, stateMachine);
-        stateMachine.Initialize(attackState);
+        moveState = new WitchMoveState(this, stateMachine);
+        stateMachine.Initialize(idleState);
+        teleportMove = new TeleportMove(groundLayer);
     }
     //private void Start()
     //{
@@ -53,7 +64,6 @@ public class Witch : EnemyController
     //        var pattern = Selector.SelectNext(ctx);
     //        yield return StartCoroutine(ExecutePattern(pattern));
     //    }
-
     //}
     //private IEnumerator ExecutePattern(BossPattern pattern)
     //{

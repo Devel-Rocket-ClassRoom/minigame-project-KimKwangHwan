@@ -1,27 +1,27 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public sealed class Projectile : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    [SerializeField] private LayerMask hitLayer;
-    [SerializeField] private GameObject hitPrefab;
-    private float damage;
-    [SerializeField] private float duration = 1.3f;
-    [SerializeField] private bool isBreakable = true;
-    private PooledObject pooled;
-    private PooledObject Pooled => pooled != null ? pooled : (pooled = GetComponent<PooledObject>());
-    private float timer;
+    protected Rigidbody2D rb;
+    [SerializeField] protected LayerMask hitLayer;
+    [SerializeField] protected GameObject hitPrefab;
+    protected float damage;
+    [SerializeField] protected float duration = 1.3f;
+    [SerializeField] protected bool isBreakable = true;
+    protected PooledObject pooled;
+    protected PooledObject Pooled => pooled != null ? pooled : (pooled = GetComponent<PooledObject>());
+    protected float timer;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         timer = 0f;
     }
-    private void Update()
+    protected virtual void Update()
     {
         timer += Time.deltaTime;
         if (timer > duration)
@@ -29,12 +29,12 @@ public sealed class Projectile : MonoBehaviour
             Pooled.Despawn();
         }
     }
-    public void Launch(Vector2 dir, float speed, float damage, float facing)
+    public virtual void Launch(Vector2 dir, float speed, float damage, float facing)
     {
         rb.linearVelocity = dir * speed;
         this.damage = damage;
     }
-    private void OnTriggerEnter2D(Collider2D other)
+    protected void OnTriggerEnter2D(Collider2D other)
     {
         if (hitPrefab != null)
             Instantiate(hitPrefab, transform.position, Quaternion.identity);

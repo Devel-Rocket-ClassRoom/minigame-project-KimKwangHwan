@@ -15,15 +15,16 @@ MonoBehaviour:
   patternName: Inferno
   unlockPhase: 1
   cooldown: 3
-  weight: 1
+  weight: 5
   minDistance: 0
-  maxDistance: 999
+  maxDistance: 20
   animStateName: Inferno
   telegraphTime: 0.5
-  recoveryTime: 0.8
+  recoveryTime: 1.2
+  patternType: 1
   stationaryPrefab: {fileID: 3782029981103506096, guid: 049455c3efe88e64192c47eefdab7768, type: 3}
   infernoCount: 5
-  infernoTime: 0.5
+  infernoTime: 0.8
   animState: UpCast
   groundLayer:
     serializedVersion: 2

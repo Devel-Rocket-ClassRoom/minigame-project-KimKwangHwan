@@ -9,7 +9,7 @@ public class WitchIdleState : EnemyState<Witch>
     public override void Enter(EnemyState prevState)
     {
         this.prevState = prevState;
-        enemy.Motor.MoveStop();
+        //enemy.Motor.MoveStop();
     }
 
     public override void Exit()
@@ -22,6 +22,7 @@ public class WitchIdleState : EnemyState<Witch>
 
     public override void Update()
     {
-        
+        enemy.PendingPattern = enemy.Selector.SelectNext(enemy.Ctx);
+        stateMachine.ChangeState(enemy.moveState);
     }
 }

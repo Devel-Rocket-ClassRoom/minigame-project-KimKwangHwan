@@ -5,7 +5,7 @@ using UnityEngine;
 public class ThunderTwinPattern : BossPattern
 {
     [Header("Projectile")]
-    [SerializeField] private Projectile projectilePrefab;
+    [SerializeField] private HomingProjectile projectilePrefab;
     [SerializeField] private float projectileSpeed = 10f;
     [SerializeField] private float projectileDamage = 30f;
     [SerializeField] private float projectileLifetime = 2f;
@@ -22,16 +22,17 @@ public class ThunderTwinPattern : BossPattern
         yield return new WaitForSeconds(1f);
         ctx.animator.Play(animStates[2]);
         yield return ctx.WaitForAnimEvent("ProjectileFire");
-        Vector2 dir = ctx.AllFlip();
-        //Vector2 dir = new Vector2(playerIsRight ? 1f : -1f, 0f);
+        ctx.AllFlip();
         Vector2 origin = (Vector2)ctx.muzzle.position + muzzleOffset;
         bool playerIsRight = ctx.PlayerIsRight;
-        var proj = PoolManager.Instance.Spawn(projectilePrefab.gameObject, origin, Quaternion.identity);
-        if (proj.TryGetComponent<SpriteRenderer>(out var sr))
-        {
-            sr.flipX = !playerIsRight;
-        }
-        proj.GetComponent<Projectile>().Launch(dir.normalized, projectileSpeed, projectileDamage, dir.x);
+        Vector2 dir = ctx.DirToPlayer;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        var proj = PoolManager.Instance.Spawn(projectilePrefab.gameObject, origin, Quaternion.Euler(0, 0, angle));
+        //if (proj.TryGetComponent<SpriteRenderer>(out var sr))
+        //{
+        //    sr.flipX = !playerIsRight;
+        //}
+        proj.GetComponent<HomingProjectile>().LaunchHoming(dir.normalized, projectileSpeed, projectileDamage, dir.x, ctx.playerTransform);
         yield return ctx.WaitForAnimEvent("RecoveryEnd");
         yield return new WaitForSeconds(recoveryTime);
     }

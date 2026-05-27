@@ -15,12 +15,13 @@ MonoBehaviour:
   patternName: ThunderBolt
   unlockPhase: 1
   cooldown: 3
-  weight: 1
+  weight: 5
   minDistance: 3
-  maxDistance: 999
+  maxDistance: 20
   animStateName: ThunderBolt
   telegraphTime: 0.5
   recoveryTime: 0.8
+  patternType: 0
   BeamPrefab: {fileID: 3813926814335280433, guid: 59fe034e734af664f811c9dcb16134a3, type: 3}
   muzzleOffset: {x: 0, y: 0}
   animStates:
