@@ -11,6 +11,7 @@ public class EnemyContext
     public Hitbox hitbox;
     public Transform muzzle;
     public EnemyAnimEvent animEvents;
+    public bool SuperArmor;
     public float Facing => self.localScale.x;
 
     public IEnumerator WaitForAnimEvent(string eventName)

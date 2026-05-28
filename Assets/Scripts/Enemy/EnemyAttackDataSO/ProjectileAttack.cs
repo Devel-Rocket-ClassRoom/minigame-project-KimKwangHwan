@@ -25,6 +25,7 @@ public class ProjectileAttack : EnemyAttackPattern
     public string animOutTrigger = "ShootStop";
     public override IEnumerator Execute(EnemyContext ctx)
     {
+        ctx.SuperArmor = true;
         ctx.anim.ResetTrigger(animTrigger);
         ctx.anim.SetTrigger(animTrigger);
         yield return ctx.WaitForAnimEvent("ProjectileFire");
@@ -55,6 +56,7 @@ public class ProjectileAttack : EnemyAttackPattern
         }
         ctx.anim.ResetTrigger(animOutTrigger);
         ctx.anim.SetTrigger(animOutTrigger);
+        ctx.SuperArmor = false;
         yield return ctx.WaitForAnimEvent("RecoveryEnd");
         yield return new WaitForSeconds(recoveryTime);
     }

@@ -25,6 +25,7 @@ public class MeleeAttack : EnemyAttackPattern
 
     public override IEnumerator Execute(EnemyContext ctx)
     {
+        ctx.SuperArmor = true;
         ctx.anim.SetTrigger(animTrigger);
         var motor = ctx.self.GetComponent<EnemyMotor>();
         if (useJump)
@@ -40,11 +41,13 @@ public class MeleeAttack : EnemyAttackPattern
         ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing);
         yield return ctx.WaitForAnimEvent("HitboxOff");
         ctx.hitbox.Disable();
+
         if (useJump)
         {
             motor.ResumeControl();
         }
         motor.MoveStop();
+        ctx.SuperArmor = false;
         yield return ctx.WaitForAnimEvent("RecoveryEnd");
         yield return new WaitForSeconds(recoveryTime);
     }

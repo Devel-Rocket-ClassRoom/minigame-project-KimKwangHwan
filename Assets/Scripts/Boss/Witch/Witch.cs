@@ -20,10 +20,27 @@ public class Witch : EnemyController
     [SerializeField] private float groundWidth;
     [SerializeField] private float groundHeight;
     [SerializeField] private BossRoom bossRoom;
+    [SerializeField] private float groundCheckDist = 0.15f;
+    [SerializeField] private float minNormalY = 0.5f;
+
     private PatternSelector selector;
 
-    public bool IsGrounded => Physics2D.OverlapBox(
-        groundCheck.position, new Vector2(groundWidth, groundHeight), 0f, groundLayer);
+    public bool IsGrounded
+    {
+        get
+        {
+            Vector2 c = groundCheck.position;
+            float half = groundWidth * 0.5f - 0.05f;
+            Vector2[] origins = { c + Vector2.left * half, c, c + Vector2.right * half };
+
+            foreach (var o in origins)
+            {
+                RaycastHit2D hit = Physics2D.Raycast(o, Vector2.down, groundCheckDist, groundLayer);
+                if (hit && hit.normal.y >= minNormalY) return true;
+            }
+            return false;
+        }
+    }
     public List<BossPattern> Patterns => patterns;
     public PatternSelector Selector => selector;
     public WitchAttackState attackState;

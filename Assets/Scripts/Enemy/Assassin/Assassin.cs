@@ -30,7 +30,7 @@ public class Assassin : EnemyController
     {
         base.GetHurt(damage);
         perception.SetTarget();
-        if (stateMachine.CurrentState is AssassinAttackState _attackState)
+        if (Combat.Context.SuperArmor)
         {
             if (damage >= 20f)
                 stateMachine.ChangeState(hurtState);
