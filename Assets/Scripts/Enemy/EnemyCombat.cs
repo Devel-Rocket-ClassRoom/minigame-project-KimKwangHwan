@@ -29,6 +29,20 @@ public class EnemyCombat : MonoBehaviour
         };
         foreach (var p in patterns) lastUsedTime[p] = -999f;
     }
+    public EnemyAttackPattern SelectPattern()
+    {
+        // 쿨다운 + CanExecute 통과한 것 중 priority 높은 거
+        EnemyAttackPattern best = null;
+        int bestPriority = int.MinValue;
+        foreach (var p in patterns)
+        {
+            if (Time.time - lastUsedTime[p] < p.cooldown) continue;
+            if (!p.CanExecute(Context)) continue;
+            if (p.priority > bestPriority) { best = p; bestPriority = p.priority; }
+        }
+        return best;
+    }
+    public void MarkPatternUsed(EnemyAttackPattern p) => lastUsedTime[p] = Time.time;
     private void OnDrawGizmos()
     {
         if (hitbox != null)

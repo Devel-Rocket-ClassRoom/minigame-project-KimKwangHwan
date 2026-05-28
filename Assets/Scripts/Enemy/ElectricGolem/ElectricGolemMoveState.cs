@@ -1,12 +1,12 @@
 using UnityEngine;
-using Random = UnityEngine.Random;
-public class MageSkeletonMoveState : EnemyState<MageSkeleton>
+
+public class ElectricGolemMoveState : EnemyState<ElectricGolem>
 {
     private float moveDir;
     private float moveTimer;
     private float attackMoveInterval = 0.5f;
     private float moveInterval = 2f;
-    public MageSkeletonMoveState(MageSkeleton enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
+    public ElectricGolemMoveState(ElectricGolem enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
     }
 

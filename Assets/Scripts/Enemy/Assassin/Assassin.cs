@@ -9,8 +9,7 @@ public class Assassin : EnemyController
     public AssassinDeathState deathState;
     [SerializeField] private EnemyPerception perception;
     [SerializeField] private float hurtDuration;
-    public AssassinCombat Combat { get { return (AssassinCombat)enemyCombat; } }
-
+    public EnemyCombat Combat { get { return enemyCombat; } }
     public bool move = true;
     public Transform Target => perception.Target;
     public float HurtDuration => hurtDuration;

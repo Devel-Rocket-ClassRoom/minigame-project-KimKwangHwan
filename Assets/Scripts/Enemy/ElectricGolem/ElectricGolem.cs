@@ -1,30 +1,26 @@
-using System;
 using UnityEngine;
 
-public class MageSkeleton : EnemyController
+public class ElectricGolem : EnemyController
 {
-    public MageSkeletonIdleState idleState;
-    public MageSkeletonMoveState moveState;
-    public MageSkeletonAttackState attackState;
-    public MageSkeletonHurtState hurtState;
-    public MageSkeletonDeathState deathState;
+    public ElectricGolemIdleState idleState;
+    public ElectricGolemMoveState moveState;
+    public ElectricGolemAttackState attackState;
+    public ElectricGolemHurtState hurtState;
+    public ElectricGolemDeathState deathState;
     [SerializeField] private EnemyPerception perception;
-    [SerializeField] private float attackDistance;
     [SerializeField] private float hurtDuration;
-
     public EnemyCombat Combat { get { return enemyCombat; } }
     public bool move = true;
     public Transform Target => perception.Target;
     public float HurtDuration => hurtDuration;
-    public float AttackDistance => attackDistance;
     protected override void Awake()
     {
         base.Awake();
-        idleState = new MageSkeletonIdleState(this, stateMachine);
-        moveState = new MageSkeletonMoveState(this, stateMachine);
-        attackState = new MageSkeletonAttackState(this, stateMachine);
-        hurtState = new MageSkeletonHurtState(this, stateMachine);
-        deathState = new MageSkeletonDeathState(this, stateMachine);
+        idleState = new ElectricGolemIdleState(this, stateMachine);
+        moveState = new ElectricGolemMoveState(this, stateMachine);
+        attackState = new ElectricGolemAttackState(this, stateMachine);
+        hurtState = new ElectricGolemHurtState(this, stateMachine);
+        deathState = new ElectricGolemDeathState(this, stateMachine);
         Health.OnDead += Dead;
         stateMachine.Initialize(idleState);
     }
@@ -40,7 +36,6 @@ public class MageSkeleton : EnemyController
         }
         stateMachine.ChangeState(hurtState);
     }
-
     private void Dead()
     {
         stateMachine.ChangeState(deathState);
