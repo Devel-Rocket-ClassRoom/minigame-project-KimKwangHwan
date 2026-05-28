@@ -9,6 +9,8 @@ public class EnemyCombat : MonoBehaviour
     [SerializeField] protected Animator animator;
     protected Dictionary<EnemyAttackPattern, float> lastUsedTime = new();
     protected bool isAttacking;
+    [SerializeField] private Vector2 hitboxSize;
+    [SerializeField] private Vector2 hitboxOffset;
     public EnemyContext Context { get; protected set; }
 
     protected virtual void Awake()
