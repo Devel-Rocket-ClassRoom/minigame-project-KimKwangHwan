@@ -7125,11 +7125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6825601439752542679, guid: 27f596d2d70a0294a866b03c96f11c2d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -751
+      value: -749.4
       objectReference: {fileID: 0}
     - target: {fileID: 6825601439752542679, guid: 27f596d2d70a0294a866b03c96f11c2d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -394
+      value: -373.4
       objectReference: {fileID: 0}
     - target: {fileID: 6825601439752542679, guid: 27f596d2d70a0294a866b03c96f11c2d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7159,6 +7159,10 @@ PrefabInstance:
     - target: {fileID: 2297453124448676403, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3159803039905493880, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+      propertyPath: comboResetTime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6476366649466988518, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7463,11 +7467,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4246443602035940986, guid: 86c095fd072445440b9ed59f7c7260f9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -751
+      value: -749.4
       objectReference: {fileID: 0}
     - target: {fileID: 4246443602035940986, guid: 86c095fd072445440b9ed59f7c7260f9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -438
+      value: -417.4
       objectReference: {fileID: 0}
     - target: {fileID: 4246443602035940986, guid: 86c095fd072445440b9ed59f7c7260f9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
