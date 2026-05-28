@@ -34,9 +34,8 @@ public class MeleeAttack : EnemyAttackPattern
         }
         yield return new WaitForSeconds(windupTime);
 
-        // facing 적용: 왼쪽 보면 offset.x 반전
         float facing = ctx.Facing;
-        Vector2 offset = new(hitboxOffset.x * facing, hitboxOffset.y);
+        Vector2 offset = new(hitboxOffset.x, hitboxOffset.y);
 
         ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing);
         yield return new WaitForSeconds(activeTime);

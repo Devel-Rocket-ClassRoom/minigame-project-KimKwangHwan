@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 3159803039905493880}
   - component: {fileID: 638990314342315114}
   - component: {fileID: 1878018382927978898}
+  - component: {fileID: 6612309190093295851}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -190,8 +191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f34a86fabc1de1498baf714ea4c35b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMotor
-  moveSpeed: 4.5
-  jumpPower: 8
+  moveSpeed: 5
+  jumpPower: 10
   groundCheck: {fileID: 50364244640452389}
   groundLayer:
     serializedVersion: 2
@@ -206,8 +207,8 @@ MonoBehaviour:
   groundHeight: 0.15
   wallRadius: 0.08
   wallSlideSpeed: 1.5
-  wallJumpHorizontalPower: 3
-  wallJumpVerticalPower: 10
+  wallJumpHorizontalPower: 4
+  wallJumpVerticalPower: 8
   wallJumpLockTime: 0.6
   wallDetachPushSpeed: 9
   wallDetachLockTime: 0.15
@@ -439,6 +440,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.48795414, y: 0.90768}
   m_EdgeRadius: 0
+--- !u!114 &6612309190093295851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297453124448676403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d5dd67d0c49e049afb1abae4b7f1f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStamina
+  maxStamina: 50
+  genAmount: 0.2
 --- !u!1 &3984444603363980570
 GameObject:
   m_ObjectHideFlags: 0

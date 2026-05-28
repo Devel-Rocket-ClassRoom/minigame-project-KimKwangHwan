@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private PlayerHealth playerHealth;
     [SerializeField]
+    private PlayerStamina playerStamina;
+    [SerializeField]
     private Animator animator;
     private PlayerStateMachine stateMachine;
     [SerializeField] private HurtBox hurtBox;
@@ -20,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public PlayerMotor Motor { get { return playerMotor; } }
     public PlayerCombat Combat { get { return playerCombat; } }
     public PlayerHealth Health { get { return playerHealth; } }
+    public PlayerStamina Stamina { get { return playerStamina; } }
     public HurtBox HurtBox { get { return hurtBox; } }
     public PlayerState State { get { return stateMachine.CurrentState; } }
     public Animator Animator { get { return animator; } }

@@ -8,6 +8,7 @@ public sealed class MeleeAttackData : AttackData
     public Vector2 hitboxOffset;
     public Vector2 hitboxSize = Vector2.one;
     public float knockback = 4f;
+    public float needStamina = 6f;
     public override void OnActiveEnd(AttackRuntime rt)
     {
         rt.Hitbox.Disable();

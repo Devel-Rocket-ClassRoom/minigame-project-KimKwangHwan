@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 8920707463850845076}
   - component: {fileID: 8269179552435546269}
   - component: {fileID: 3516159785621070076}
-  m_Layer: 0
+  - component: {fileID: 4666866028164914579}
+  - component: {fileID: 5043097513177364041}
+  m_Layer: 8
   m_Name: Assassin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,8 +75,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0075570345, y: 0.67515826}
-  m_Size: {x: 0.7615974, y: 1.2408514}
+  m_Offset: {x: -0.0075570345, y: 0.61460394}
+  m_Size: {x: 0.7615974, y: 1.2484812}
   m_Direction: 0
 --- !u!50 &8920707463850845076
 Rigidbody2D:
@@ -128,6 +130,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e25a04d36e6c249b04f3bcbe16fa8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMotor
+  moveSpeed: 2
+--- !u!114 &4666866028164914579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2311900035782671786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b1a376329cdd54c98e1d2090ec498a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assassin
+  animator: {fileID: 8119277030984990767}
+  enemyMotor: {fileID: 3516159785621070076}
+  enemyCombat: {fileID: 5043097513177364041}
+  enemyHealth: {fileID: 8269179552435546269}
+  perception: {fileID: 8174208044217414394}
+  attackDistance: 4
+  hurtDuration: 0.3
+  move: 1
+--- !u!114 &5043097513177364041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2311900035782671786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a44c4d3cb27dc84083711df56540171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AssassinCombat
+  patterns:
+  - {fileID: 11400000, guid: ad33d66b2728be84191c1ab9aa187351, type: 2}
+  - {fileID: 11400000, guid: 00b13493a8aad8f469148d84ee899fce, type: 2}
+  hitbox: {fileID: 6572877788069157228}
+  muzzle: {fileID: 0}
+  animator: {fileID: 8119277030984990767}
+  hitboxSize: {x: 1.35, y: 0.78}
+  hitboxOffset: {x: 0.32, y: -0.24}
 --- !u!1 &3167759235503949000
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,6 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5467170091013152344}
   - component: {fileID: 6572877788069157228}
+  - component: {fileID: 3735543712832265466}
   m_Layer: 10
   m_Name: Hitbox
   m_TagString: Untagged
@@ -154,7 +198,7 @@ Transform:
   m_GameObject: {fileID: 3167759235503949000}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -175,6 +219,52 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 512
+--- !u!61 &3735543712832265466
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3167759235503949000}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &3424109219514334662
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +389,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7803420027356952279}
   - component: {fileID: 8206184697740487648}
-  m_Layer: 0
+  - component: {fileID: 6952534005715083854}
+  m_Layer: 11
   m_Name: Hurtbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,6 +427,52 @@ MonoBehaviour:
   defense: 0
   resistance: 0
   hitInterval: 0
+--- !u!61 &6952534005715083854
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6110523923822939052}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.029032946, y: 0.60968995}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.9419341, y: 1.313555}
+  m_EdgeRadius: 0
 --- !u!1 &7373832170002746505
 GameObject:
   m_ObjectHideFlags: 0
