@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ThunderTwinPattern
   patternName: ThunderTwin
   unlockPhase: 1
-  cooldown: 3
+  cooldown: 5
   weight: 5
   minDistance: 3
   maxDistance: 20

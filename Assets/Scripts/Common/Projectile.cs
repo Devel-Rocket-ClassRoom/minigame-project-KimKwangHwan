@@ -36,8 +36,6 @@ public class Projectile : MonoBehaviour
     }
     protected void OnTriggerEnter2D(Collider2D other)
     {
-        if (hitPrefab != null)
-            Instantiate(hitPrefab, transform.position, Quaternion.identity);
         if (((1 << other.gameObject.layer) & hitLayer.value) != 0)
         {
             if (other.TryGetComponent<HurtBox>(out var hurtbox))
@@ -45,6 +43,10 @@ public class Projectile : MonoBehaviour
                 hurtbox.ReceiveHit(this.damage);
             }
         }
+        else
+            return;
+        if (hitPrefab != null)
+            Instantiate(hitPrefab, transform.position, Quaternion.identity);
         if (isBreakable)
             Pooled.Despawn();
     }

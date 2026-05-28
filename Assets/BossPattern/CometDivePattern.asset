@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CometDivePattern
   patternName: CometDive
   unlockPhase: 1
-  cooldown: 3
+  cooldown: 10
   weight: 2
   minDistance: 0
   maxDistance: 20
@@ -25,7 +25,7 @@ MonoBehaviour:
   stationaryPrefab: {fileID: 3782029981103506096, guid: 049455c3efe88e64192c47eefdab7768, type: 3}
   infernoCount: 5
   infernoInterval: 1
-  infernoTime: 0.3
+  infernoTime: 0.1
   diveSpeed: 20
   diveHeight: 5
   sequenceAnimStates:

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ComboAttackPattern
   patternName: ComboAttack
   unlockPhase: 1
-  cooldown: 3
+  cooldown: 1
   weight: 10
   minDistance: 0
   maxDistance: 3
