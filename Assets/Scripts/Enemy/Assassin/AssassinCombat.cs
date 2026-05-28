@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MageSkeletonCombat : EnemyCombat
+public class AssassinCombat : EnemyCombat
 {
     public EnemyAttackPattern SelectPattern()
     {

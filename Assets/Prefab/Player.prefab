@@ -202,12 +202,16 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
-  groundWidth: 0.29
+  groundWidth: 0.44
   groundHeight: 0.15
   wallRadius: 0.08
   wallSlideSpeed: 1.5
-  wallJumpHorizontalPower: 5
+  wallJumpHorizontalPower: 3
+  wallJumpVerticalPower: 10
   wallJumpLockTime: 0.6
+  wallDetachPushSpeed: 9
+  wallDetachLockTime: 0.15
+  oneWayGroundMaxUpVelocity: 0.5
   wallCheckDistance: 0.26
   wallCheckHeight: 0.5
   wallStickSpeed: 2
@@ -372,10 +376,10 @@ MonoBehaviour:
   hitbox: {fileID: 1167733042631579449}
   muzzleOrigin: {fileID: 3315224906973036097}
   animator: {fileID: 508341801885782112}
-  hitboxOffset: {x: 0.34, y: 0.14}
-  hitboxSize: {x: 1.69, y: 0.48}
+  hitboxSize: {x: 0.9, y: 1}
+  hitboxOffset: {x: 0.61, y: 0.05}
   bufferDuration: 0.15
-  comboResetTime: 0.6
+  comboResetTime: 1
 --- !u!114 &638990314342315114
 MonoBehaviour:
   m_ObjectHideFlags: 0
