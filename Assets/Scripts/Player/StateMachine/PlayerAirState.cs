@@ -63,5 +63,5 @@ public class PlayerAirState : PlayerState
 
     public override void Enter(PlayerState prevState) { }
     public override void Exit() { }
-    public override void Update() { }
+    public override void Update() {}
 }

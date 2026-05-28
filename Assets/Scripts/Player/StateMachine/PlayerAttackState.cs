@@ -29,7 +29,6 @@ public class PlayerAttackState : PlayerState
         _ctxAtEntry = ResolveContext();
         player.Combat.BeginChain(_typeAtEntry);
         _comboIndexAtEntry = player.Combat.ComboIndex;
-
         _data = player.Combat.MoveSet.Resolve(_typeAtEntry, _ctxAtEntry, _comboIndexAtEntry);
 
         if (_data == null)
@@ -37,6 +36,12 @@ public class PlayerAttackState : PlayerState
             _aborted = true;
             ExitToLocomotion();
             return;
+        }
+
+        if (_data is MeleeAttackData meleeData)
+        {
+            if (!player.Stamina.TryUseStamina(meleeData.needStamina))
+                return;
         }
 
         player.Combat.IsAttacking = true;

@@ -4,7 +4,7 @@ public class EnemyMotor : MonoBehaviour
 {
     private Rigidbody2D rb;
     public Rigidbody2D RB => rb;
-    private float moveSpeed = 0.8f;
+    [SerializeField] private float moveSpeed = 0.8f;
     private float moveInput;
     private bool externalControl;
 

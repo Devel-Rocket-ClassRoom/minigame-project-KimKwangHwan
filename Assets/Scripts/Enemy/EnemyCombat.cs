@@ -27,4 +27,8 @@ public class EnemyCombat : MonoBehaviour
         };
         foreach (var p in patterns) lastUsedTime[p] = -999f;
     }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube((Vector2)hitbox.transform.position + hitboxOffset, hitboxSize);
+    }
 }

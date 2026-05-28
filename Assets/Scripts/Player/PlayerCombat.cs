@@ -3,9 +3,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [SerializeField] MoveSet startingMoveSet;
-    [SerializeField] Hitbox hitbox;
-    [SerializeField] Transform muzzleOrigin;
+    [SerializeField] private MoveSet startingMoveSet;
+    [SerializeField] private Hitbox hitbox;
+    [SerializeField] private Transform muzzleOrigin;
+    private PlayerStamina playerStamina;
     private PlayerMotor motor;
     [SerializeField] private Animator animator;
     [SerializeField] private Vector2 hitboxSize;
@@ -33,6 +34,7 @@ public class PlayerCombat : MonoBehaviour
     {
         MoveSet = startingMoveSet;
         motor = GetComponent<PlayerMotor>();
+        playerStamina = GetComponent<PlayerStamina>();
         Runtime = new AttackRuntime
         {
             Motor = motor,

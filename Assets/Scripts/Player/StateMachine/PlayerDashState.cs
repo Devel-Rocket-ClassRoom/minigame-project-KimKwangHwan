@@ -6,7 +6,8 @@ public class PlayerDashState : PlayerState
     private float originalGravity;
     private float dashDir;
     private Coroutine afterImageRoutine;
-
+    private float needStamina = 10f;
+    private bool isCancel = false;
     public PlayerDashState(PlayerController player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
     }
@@ -14,6 +15,12 @@ public class PlayerDashState : PlayerState
     public override void Enter(PlayerState prevState)
     {
         this.prevState = prevState;
+        if (!player.Stamina.TryUseStamina(needStamina))
+        {
+            isCancel = true;
+            stateMachine.ChangeState(prevState);
+            return;
+        }
         player.HurtBox.DoInvincible();
         elapsed = 0f;
         dashDir = player.Facing;
@@ -28,17 +35,21 @@ public class PlayerDashState : PlayerState
 
     public override void Exit()
     {
+        if (isCancel)
+        {
+            isCancel = false;
+            return;
+        }
         player.Motor.RB.gravityScale = originalGravity;
         player.Motor.SuppressHorizontalControl = false;
-        player.Motor.SetHorizontalVelocity(player.Motor.RB.linearVelocityX * 0.4f);
-        player.lastDashTime = Time.time;
-        player.Animator.SetBool("Dash", false);
-
         if (afterImageRoutine != null)
         {
             player.StopCoroutine(afterImageRoutine);
             afterImageRoutine = null;
         }
+        player.Motor.SetHorizontalVelocity(player.Motor.RB.linearVelocityX * 0.4f);
+        player.lastDashTime = Time.time;
+        player.Animator.SetBool("Dash", false);
         player.HurtBox.CancelInvincible();
     }
 
