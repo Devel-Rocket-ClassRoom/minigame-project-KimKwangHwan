@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FireBallPattern
   patternName: FireBall
   unlockPhase: 1
-  cooldown: 3
+  cooldown: 1
   weight: 5
-  minDistance: 3
+  minDistance: 0
   maxDistance: 20
   animStateName: FastCast
   telegraphTime: 0.5

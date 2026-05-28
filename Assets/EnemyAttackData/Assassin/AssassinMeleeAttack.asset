@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AssassinMeleeAttack
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
   cooldown: 0
-  range: 2
+  range: 1
   priority: 2
   windupTime: 0.3
   activeTime: 0.15

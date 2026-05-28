@@ -15,13 +15,13 @@ public class AssassinAttackState : EnemyState<Assassin>
         var pattern = enemy.Combat.SelectPattern();
         if (pattern == null)
         {
-            stateMachine.ChangeState(enemy.moveState);
+            stateMachine.ChangeState(enemy.idleState);
             return;
         }
 
         enemy.Combat.MarkPatternUsed(pattern);
-        routine = enemy.StartCoroutine(RunPattern(pattern));
         enemy.Motor.MoveStop();
+        routine = enemy.StartCoroutine(RunPattern(pattern));
     }
     private IEnumerator RunPattern(EnemyAttackPattern pattern)
     {
@@ -32,6 +32,7 @@ public class AssassinAttackState : EnemyState<Assassin>
     }
     public override void Exit()
     {
+        enemy.Combat.Context.SuperArmor = false;
         if (routine != null)
         {
             enemy.StopCoroutine(routine);
@@ -46,6 +47,6 @@ public class AssassinAttackState : EnemyState<Assassin>
     public override void Update()
     {
         if (finished)
-            stateMachine.ChangeState(enemy.moveState);
+            stateMachine.ChangeState(enemy.idleState);
     }
 }

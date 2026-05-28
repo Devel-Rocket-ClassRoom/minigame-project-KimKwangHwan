@@ -16,6 +16,7 @@ public class ProjectileAttack : EnemyAttackPattern
 
     [Header("발사 패턴")]
     public int projectileCount = 5;
+    public int shootCount = 3;
     public float spreadAngle = 60f;
     public bool aimAtTarget = true;
 
@@ -24,9 +25,10 @@ public class ProjectileAttack : EnemyAttackPattern
     public string animOutTrigger = "ShootStop";
     public override IEnumerator Execute(EnemyContext ctx)
     {
+        ctx.SuperArmor = true;
         ctx.anim.ResetTrigger(animTrigger);
         ctx.anim.SetTrigger(animTrigger);
-        yield return new WaitForSeconds(windupTime);
+        yield return ctx.WaitForAnimEvent("ProjectileFire");
 
         float facing = ctx.Facing;
         Vector2 center = aimAtTarget
@@ -40,10 +42,13 @@ public class ProjectileAttack : EnemyAttackPattern
         for (int i = 0; i < projectileCount; i++)
         {
             //float ang = (projectileCount == 1 ? baseAngle : startAngle + step * i) * Mathf.Deg2Rad;
-            float ang = (baseAngle + Random.Range(-spreadAngle * 0.5f, spreadAngle * 0.5f)) * Mathf.Deg2Rad;
-            Vector2 dir = new(Mathf.Cos(ang), Mathf.Sin(ang));
-            var proj = PoolManager.Instance.Spawn(projectilePrefab.gameObject, ctx.muzzle.position, Quaternion.identity);
-            proj.GetComponent<Projectile>().Launch(dir, speed, damage, facing);
+            for (int j = 0; j < shootCount; j++)
+            {
+                float ang = (baseAngle + Random.Range(-spreadAngle * 0.5f, spreadAngle * 0.5f)) * Mathf.Deg2Rad;
+                Vector2 dir = new(Mathf.Cos(ang), Mathf.Sin(ang));
+                var proj = PoolManager.Instance.Spawn(projectilePrefab.gameObject, ctx.muzzle.position, Quaternion.identity);
+                proj.GetComponent<Projectile>().Launch(dir, speed, damage, facing);
+            }
 
             // 마지막 발 아니면 대기
             if (intervalBetweenShots > 0f && i < projectileCount - 1)
@@ -51,6 +56,8 @@ public class ProjectileAttack : EnemyAttackPattern
         }
         ctx.anim.ResetTrigger(animOutTrigger);
         ctx.anim.SetTrigger(animOutTrigger);
+        ctx.SuperArmor = false;
+        yield return ctx.WaitForAnimEvent("RecoveryEnd");
         yield return new WaitForSeconds(recoveryTime);
     }
 }

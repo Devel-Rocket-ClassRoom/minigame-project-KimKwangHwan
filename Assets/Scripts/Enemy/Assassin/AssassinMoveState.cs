@@ -32,7 +32,7 @@ public class AssassinMoveState : EnemyState<Assassin>
         moveTimer += Time.deltaTime;
         if (enemy.Target != null)
         {
-            if (Vector2.Distance(enemy.Target.position, enemy.transform.position) <= enemy.AttackDistance)
+            if (enemy.Combat.SelectPattern() != null)
             {
                 moveDir = enemy.Target.position.x - enemy.transform.position.x;
                 if (Mathf.Abs(moveDir) > 0.05f)
@@ -41,6 +41,7 @@ public class AssassinMoveState : EnemyState<Assassin>
                 stateMachine.ChangeState(enemy.attackState);
                 return;
             }
+            enemy.Animator.SetBool("Walk", true);
             if (moveTimer >= attackMoveInterval)
             {
                 moveDir = enemy.Target.position.x - enemy.transform.position.x;

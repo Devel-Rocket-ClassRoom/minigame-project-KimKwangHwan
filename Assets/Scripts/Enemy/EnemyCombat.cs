@@ -7,6 +7,7 @@ public class EnemyCombat : MonoBehaviour
     [SerializeField] protected Hitbox hitbox;
     [SerializeField] protected Transform muzzle;
     [SerializeField] protected Animator animator;
+    [SerializeField] protected EnemyAnimEvent animEvents;
     protected Dictionary<EnemyAttackPattern, float> lastUsedTime = new();
     protected bool isAttacking;
     [SerializeField] private Vector2 hitboxSize;
@@ -24,11 +25,13 @@ public class EnemyCombat : MonoBehaviour
             runner = this,
             hitbox = hitbox,
             muzzle = muzzle,
+            animEvents = animEvents
         };
         foreach (var p in patterns) lastUsedTime[p] = -999f;
     }
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube((Vector2)hitbox.transform.position + hitboxOffset, hitboxSize);
+        if (hitbox != null)
+            Gizmos.DrawWireCube((Vector2)hitbox.transform.position + hitboxOffset, hitboxSize);
     }
 }

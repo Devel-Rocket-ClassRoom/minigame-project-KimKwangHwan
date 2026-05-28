@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ThunderStrikePattern
   patternName: ThunderStrike
   unlockPhase: 1
-  cooldown: 3
+  cooldown: 10
   weight: 5
   minDistance: 0
   maxDistance: 20

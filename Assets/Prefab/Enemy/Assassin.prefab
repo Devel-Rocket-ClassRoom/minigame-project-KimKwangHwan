@@ -169,6 +169,7 @@ MonoBehaviour:
   hitbox: {fileID: 6572877788069157228}
   muzzle: {fileID: 0}
   animator: {fileID: 8119277030984990767}
+  animEvents: {fileID: 8130384882477061579}
   hitboxSize: {x: 1.35, y: 0.78}
   hitboxOffset: {x: 0.32, y: -0.24}
 --- !u!1 &3167759235503949000
@@ -276,6 +277,7 @@ GameObject:
   - component: {fileID: 340831589974449212}
   - component: {fileID: 8119277030984990767}
   - component: {fileID: 8301306614875492676}
+  - component: {fileID: 8130384882477061579}
   m_Layer: 8
   m_Name: Visual
   m_TagString: Untagged
@@ -379,6 +381,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &8130384882477061579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3424109219514334662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a449998fcb6432e46947a6d23c3ecbcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimEvent
 --- !u!1 &6110523923822939052
 GameObject:
   m_ObjectHideFlags: 0

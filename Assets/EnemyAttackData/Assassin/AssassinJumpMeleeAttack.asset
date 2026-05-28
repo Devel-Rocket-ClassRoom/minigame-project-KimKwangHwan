@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf7fca9bb3cf6a4089197996c53c79e, type: 3}
   m_Name: AssassinJumpMeleeAttack
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
-  cooldown: 1
+  cooldown: 3
   range: 5
   priority: 1
   windupTime: 0.3
-  activeTime: 0.15
+  activeTime: 0.5
   recoveryTime: 1
   damage: 10
   hitboxOffset: {x: 0.32, y: -0.24}
@@ -24,5 +24,5 @@ MonoBehaviour:
   knockback: 4
   useJump: 1
   jumpAngle: 30
-  jumpSpeed: 8
+  jumpSpeed: 7
   animTrigger: Attack2

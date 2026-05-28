@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DashPattern
   patternName: Dash
   unlockPhase: 1
-  cooldown: 3
+  cooldown: 1
   weight: 5
-  minDistance: 8
+  minDistance: 5
   maxDistance: 20
   animStateName: Dash
   telegraphTime: 0.5

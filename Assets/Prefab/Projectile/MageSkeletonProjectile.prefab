@@ -133,6 +133,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   hitPrefab: {fileID: 0}
+  duration: 2
+  isBreakable: 1
 --- !u!50 &9139264401532549605
 Rigidbody2D:
   serializedVersion: 5

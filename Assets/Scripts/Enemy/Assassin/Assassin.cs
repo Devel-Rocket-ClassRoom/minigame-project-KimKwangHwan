@@ -8,14 +8,12 @@ public class Assassin : EnemyController
     public AssassinHurtState hurtState;
     public AssassinDeathState deathState;
     [SerializeField] private EnemyPerception perception;
-    [SerializeField] private float attackDistance;
     [SerializeField] private float hurtDuration;
     public AssassinCombat Combat { get { return (AssassinCombat)enemyCombat; } }
 
     public bool move = true;
     public Transform Target => perception.Target;
     public float HurtDuration => hurtDuration;
-    public float AttackDistance => attackDistance;
 
     protected override void Awake()
     {
@@ -32,7 +30,7 @@ public class Assassin : EnemyController
     {
         base.GetHurt(damage);
         perception.SetTarget();
-        if (stateMachine.CurrentState is AssassinAttackState _attackState)
+        if (Combat.Context.SuperArmor)
         {
             if (damage >= 20f)
                 stateMachine.ChangeState(hurtState);
