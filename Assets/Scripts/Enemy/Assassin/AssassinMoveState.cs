@@ -38,9 +38,17 @@ public class AssassinMoveState : EnemyState<Assassin>
                 if (Mathf.Abs(moveDir) > 0.05f)
                     moveDir = Mathf.Sign(moveDir);
                 enemy.AllFlip(moveDir);
-                stateMachine.ChangeState(enemy.attackState);
+                if (enemy.Combat.SelectPattern() != null)
+                {
+                    stateMachine.ChangeState(enemy.attackState);
+                    return;
+                }
+                moveDir = 0f;
+                enemy.Motor.MoveStop();
+                enemy.Animator.SetBool("Walk", false);
                 return;
             }
+            enemy.Animator.SetBool("Walk", true);
             if (moveTimer >= attackMoveInterval)
             {
                 moveDir = enemy.Target.position.x - enemy.transform.position.x;

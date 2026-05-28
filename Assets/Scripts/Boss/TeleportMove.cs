@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
 public class TeleportMove : BossMoveBehavior
 {
@@ -12,7 +11,6 @@ public class TeleportMove : BossMoveBehavior
 
     public override IEnumerator Execute(BossContext ctx, PatternType patternType, float minDistance, float maxDistance)
     {
-        
         ctx.animator.SetTrigger("Spin");
         yield return ctx.WaitForAnimEvent("TelegraphEnd");
         //Debug.Log($"[Teleport] groundLayer = {string.Join(", ", Enumerable.Range(0, 32).Where(i => (groundLayer.value & (1 << i)) != 0).Select(i => LayerMask.LayerToName(i)))}");

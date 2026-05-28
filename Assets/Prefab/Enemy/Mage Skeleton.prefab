@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e25a04d36e6c249b04f3bcbe16fa8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMotor
+  moveSpeed: 0.8
 --- !u!114 &7369518586376292876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +168,9 @@ MonoBehaviour:
   hitbox: {fileID: 0}
   muzzle: {fileID: 238204806930695180}
   animator: {fileID: 3608166668188017384}
+  animEvents: {fileID: 8353835301310608744}
+  hitboxSize: {x: 0, y: 0}
+  hitboxOffset: {x: 0, y: 0}
 --- !u!1 &2187562093935860357
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,7 +318,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
-  loseSightDuration: 2
+  loseSightDuration: 8
   forceTarget: {fileID: 0}
 --- !u!1 &8304876046616949697
 GameObject:
@@ -358,6 +362,7 @@ GameObject:
   - component: {fileID: 6297139743257595842}
   - component: {fileID: 4637338021899856419}
   - component: {fileID: 3608166668188017384}
+  - component: {fileID: 8353835301310608744}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -461,3 +466,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8353835301310608744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8635020361927088517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a449998fcb6432e46947a6d23c3ecbcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimEvent

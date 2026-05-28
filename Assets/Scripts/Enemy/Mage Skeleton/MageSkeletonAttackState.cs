@@ -36,7 +36,7 @@ public class MageSkeletonAttackState : EnemyState<MageSkeleton>
     public override void Update()
     {
         if (finished)
-            stateMachine.ChangeState(enemy.moveState);
+            stateMachine.ChangeState(enemy.idleState);
     }
 
     public override void PhysicsUpdate() { }

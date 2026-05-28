@@ -32,19 +32,20 @@ public class MeleeAttack : EnemyAttackPattern
             motor.SuspendControl();
             DoJump(ctx);
         }
-        yield return new WaitForSeconds(windupTime);
+        yield return ctx.WaitForAnimEvent("HitboxOn");
 
         float facing = ctx.Facing;
         Vector2 offset = new(hitboxOffset.x, hitboxOffset.y);
 
         ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing);
-        yield return new WaitForSeconds(activeTime);
+        yield return ctx.WaitForAnimEvent("HitboxOff");
         ctx.hitbox.Disable();
         if (useJump)
         {
             motor.ResumeControl();
         }
         motor.MoveStop();
+        yield return ctx.WaitForAnimEvent("RecoveryEnd");
         yield return new WaitForSeconds(recoveryTime);
     }
     void DoJump(EnemyContext ctx)
