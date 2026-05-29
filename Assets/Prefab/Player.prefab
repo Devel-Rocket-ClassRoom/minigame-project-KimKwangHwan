@@ -210,8 +210,9 @@ MonoBehaviour:
   wallJumpHorizontalPower: 4
   wallJumpVerticalPower: 8
   wallJumpLockTime: 0.6
-  wallDetachPushSpeed: 9
-  wallDetachLockTime: 0.15
+  wallDetachPushSpeed: 14
+  wallDetachLockTime: 0.25
+  wallDetachUpSpeed: 2
   oneWayGroundMaxUpVelocity: 0.5
   wallCheckDistance: 0.26
   wallCheckHeight: 0.5
@@ -237,6 +238,7 @@ MonoBehaviour:
   playerMotor: {fileID: 3425644115523404140}
   playerCombat: {fileID: 3159803039905493880}
   playerHealth: {fileID: 638990314342315114}
+  playerStamina: {fileID: 6612309190093295851}
   animator: {fileID: 508341801885782112}
   hurtBox: {fileID: 2091577916273887846}
   dashSpeed: 17
@@ -380,7 +382,7 @@ MonoBehaviour:
   hitboxSize: {x: 0.9, y: 1}
   hitboxOffset: {x: 0.61, y: 0.05}
   bufferDuration: 0.15
-  comboResetTime: 1
+  comboResetTime: 0.5
 --- !u!114 &638990314342315114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +455,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStamina
   maxStamina: 50
-  genAmount: 0.2
+  genAmount: 0.3
+  genStartInterval: 1
+  genInterval: 0.01
 --- !u!1 &3984444603363980570
 GameObject:
   m_ObjectHideFlags: 0

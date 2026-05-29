@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cf7fca9bb3cf6a4089197996c53c79e, type: 3}
-  m_Name: AssassinJumpMeleeAttack
+  m_Name: PotCreatureMeleeAttack
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
-  cooldown: 3
-  range: 4
-  priority: 1
+  cooldown: 1
+  range: 2
+  priority: 0
   windupTime: 0.3
-  activeTime: 0.5
-  recoveryTime: 0.2
+  activeTime: 0.15
+  recoveryTime: 0.25
   damage: 10
-  hitboxOffset: {x: 0.32, y: -0.24}
-  hitboxSize: {x: 1.35, y: 0.78}
-  knockback: 4
-  useJump: 1
+  hitboxOffset: {x: 1, y: 0}
+  hitboxSize: {x: 1.5, y: 1.2}
+  knockback: 0
+  useJump: 0
   jumpAngle: 30
-  jumpSpeed: 7
-  animTrigger: Attack2
+  jumpSpeed: 8
+  animTrigger: Attack1
