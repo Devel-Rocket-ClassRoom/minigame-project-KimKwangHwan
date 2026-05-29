@@ -15,6 +15,7 @@ public class MageSkeletonMoveState : EnemyState<MageSkeleton>
         moveDir = 0f;
         moveTimer = moveInterval;
         enemy.Animator.SetBool("Walk", true);
+        enemy.Motor.ResumeControl();
     }
 
     public override void Exit()
@@ -24,6 +25,11 @@ public class MageSkeletonMoveState : EnemyState<MageSkeleton>
 
     public override void PhysicsUpdate()
     {
+        if (moveDir != 0f && enemy.Motor.IsBlocked(moveDir))
+        {
+            moveDir = -moveDir;
+            enemy.AllFlip(moveDir);
+        }
         enemy.Motor.MoveHorizontal(moveDir);
     }
 

@@ -6,6 +6,8 @@ public class EnemyPerception : MonoBehaviour
     [SerializeField] private float detectionRange = 8f;
     [SerializeField] private float viewAngle = 120f;     // 시야각 (0이면 전방향)
     [SerializeField] private Transform eyePoint;          // 시선 원점 (없으면 transform)
+    [SerializeField] private float detectionPlayerDist = 2f;
+    [SerializeField] private float nearDist = 0.7f;
 
     [Header("Layers")]
     [SerializeField] private LayerMask targetMask;        // Player 레이어
@@ -54,8 +56,8 @@ public class EnemyPerception : MonoBehaviour
 
         Vector2 toTarget = (Vector2)hit.transform.position - Origin;
         float dist = toTarget.magnitude;
-        if (dist < 2f) { player = hit.transform; near = true; }
-        if (dist < 0.7f) tooNear = true;
+        if (dist < detectionPlayerDist) { player = hit.transform; near = true; }
+        if (dist < nearDist) tooNear = true;
         Vector2 dir = toTarget / dist;
 
         // 2) 시야각 체크 (viewAngle <= 0 이면 전방향 감지)

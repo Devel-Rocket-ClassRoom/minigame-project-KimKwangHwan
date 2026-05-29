@@ -19,11 +19,16 @@ public class DashAttack : EnemyAttackPattern
 
     [Header("애니메이션")]
     public string animTelegraphTrigger = "DashTelegraph";
-    public string animTrigger = "Dash";
+    public string animStartTrigger = "Dash";
+    public string animEndTrigger = "DashEnd";
+
+    [Header("추적")]
+    public float trackingTurnSpeed = 3f;
+
     public override bool CanExecute(EnemyContext ctx)
     {
         float dist = Vector2.Distance(ctx.self.position, ctx.target.position);
-        return dist <= range && dist > 2f;
+        return dist <= range;
     }
 
     public override IEnumerator Execute(EnemyContext ctx)
@@ -32,25 +37,37 @@ public class DashAttack : EnemyAttackPattern
         ctx.anim.SetTrigger(animTelegraphTrigger);
         float facing = ctx.Facing;
         Vector2 dir = new(facing, 0f);
-        yield return new WaitForSeconds(telegraphTime);
+        yield return ctx.WaitForAnimEvent("TelegraphEnd");
 
         // 2) 돌진 시작 + 히트박스 ON
-        ctx.anim.SetTrigger(animTrigger);
+        yield return ctx.WaitForAnimEvent("HitboxOn");
+        ctx.anim.SetTrigger(animStartTrigger);
         Vector2 offset = new(hitboxOffset.x * facing, hitboxOffset.y);
         ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing);
 
+        var motor = ctx.self.GetComponent<EnemyMotor>();
+        motor.SuspendControl();
+        float currentDirX = facing;
         float t = 0;
         while (t < dashDuration)
         {
-            ctx.rb.linearVelocity = new Vector2(dir.x * dashSpeed, ctx.rb.linearVelocity.y);
+            if (ctx.target != null)
+            {
+                float targetDirX = Mathf.Sign(ctx.target.position.x - ctx.self.position.x);
+                currentDirX = Mathf.MoveTowards(currentDirX, targetDirX, trackingTurnSpeed * Time.deltaTime);
+            }
+            ctx.rb.linearVelocity = new Vector2(currentDirX * dashSpeed, ctx.rb.linearVelocity.y);
             t += Time.deltaTime;
             yield return null;
         }
+        motor.ResumeControl();
 
         // 3) 정지 + 히트박스 OFF
         ctx.hitbox.Disable();
+        ctx.anim.SetTrigger(animEndTrigger);
+        yield return ctx.WaitForAnimEvent("HitboxOff");
         ctx.rb.linearVelocity = new Vector2(0, ctx.rb.linearVelocity.y);
-
+        yield return ctx.WaitForAnimEvent("RecoveryEnd");
         yield return new WaitForSeconds(recoveryTime);
     }
 }

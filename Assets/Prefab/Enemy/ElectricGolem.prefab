@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 3312350693313803784}
   - component: {fileID: 7768615061073174950}
   - component: {fileID: 7731430608253937915}
+  - component: {fileID: 4440104997211798663}
+  - component: {fileID: 8301130244778486743}
+  - component: {fileID: 4344460492010653190}
   m_Layer: 0
   m_Name: ElectricGolem
   m_TagString: Untagged
@@ -36,6 +39,8 @@ Transform:
   - {fileID: 7572761791049740131}
   - {fileID: 3297937960129090421}
   - {fileID: 1972034039843304551}
+  - {fileID: 8433753714544229696}
+  - {fileID: 702443110802180099}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3312350693313803784
@@ -51,6 +56,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMotor
   moveSpeed: 0.8
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  wallCheckDist: 0.3
+  cliffCheckDown: 0.5
+  wallCheck: {fileID: 8433753714544229696}
+  cliffCheck: {fileID: 702443110802180099}
 --- !u!114 &7768615061073174950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,13 +88,138 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd787a2bd2f531b41b68629380d49c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
-  patterns: []
-  hitbox: {fileID: 0}
+  patterns:
+  - {fileID: 11400000, guid: 1b72bbd4083cec14784e479695d39925, type: 2}
+  - {fileID: 11400000, guid: a53a81e0c8e0a204981349063e8c6b23, type: 2}
+  hitbox: {fileID: 4049999572795524928}
   muzzle: {fileID: 0}
-  animator: {fileID: 0}
-  animEvents: {fileID: 0}
+  animator: {fileID: 9115180189231604042}
+  animEvents: {fileID: 8360405888293807851}
   hitboxSize: {x: 0, y: 0}
   hitboxOffset: {x: 0, y: 0}
+--- !u!61 &4440104997211798663
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107651957988185114}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.1473844, y: 1.0164449}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.0711513, y: 2.0367742}
+  m_EdgeRadius: 0
+--- !u!50 &8301130244778486743
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107651957988185114}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &4344460492010653190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107651957988185114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0155575c3805a5847ac042d21267833c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ElectricGolem
+  animator: {fileID: 9115180189231604042}
+  enemyMotor: {fileID: 3312350693313803784}
+  enemyCombat: {fileID: 7731430608253937915}
+  enemyHealth: {fileID: 7768615061073174950}
+  perception: {fileID: 5986849644310542837}
+  hurtDuration: 0.3
+  move: 1
+--- !u!1 &264896064336107266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 702443110802180099}
+  m_Layer: 0
+  m_Name: CliffCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &702443110802180099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264896064336107266}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.238, y: 0.065, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8687308944229966986}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &452890011644963057
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +231,7 @@ GameObject:
   - component: {fileID: 7572761791049740131}
   - component: {fileID: 1897139771324437523}
   - component: {fileID: 5389355123736007458}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hurtbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,6 +314,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.6092916, y: 2.0343795}
   m_EdgeRadius: 0
+--- !u!1 &4616381337305546456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8433753714544229696}
+  m_Layer: 0
+  m_Name: WallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8433753714544229696
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4616381337305546456}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.423, y: 0.209, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8687308944229966986}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5605419731253294819
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +371,7 @@ Transform:
   m_GameObject: {fileID: 5605419731253294819}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.71, z: 0}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -221,9 +389,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8858da83740814f40b94156769ff52a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyPerception
-  detectionRange: 10
+  detectionRange: 15
   viewAngle: 30
   eyePoint: {fileID: 0}
+  detectionPlayerDist: 5
+  nearDist: 5
   targetMask:
     serializedVersion: 2
     m_Bits: 8
@@ -405,8 +575,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1913220881
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -774327837, guid: 9ab21432c5f70fe4f88c7a8d9f2e93f7, type: 3}
