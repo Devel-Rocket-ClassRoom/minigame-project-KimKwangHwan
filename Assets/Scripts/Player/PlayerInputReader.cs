@@ -8,10 +8,7 @@ public class PlayerInputReader : MonoBehaviour
     public bool JumpPressed { get; private set; }
     public bool JumpHeld { get; private set; }
     public bool DashPressed { get; private set; }
-    private void Awake()
-    {
-
-    }
+    public bool UseItemPressed { get; private set; }
 
     public void OnMove(InputAction.CallbackContext c)
     {
@@ -28,9 +25,14 @@ public class PlayerInputReader : MonoBehaviour
     {
         if (c.started) DashPressed = true;
     }
+    public void OnUseItem(InputAction.CallbackContext c)
+    {
+        if (c.started) UseItemPressed = true; 
+    }
     void LateUpdate()
     {
         JumpPressed = false;
         DashPressed = false;
+        UseItemPressed = false;
     }
 }

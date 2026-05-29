@@ -18,7 +18,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
-        Debug.Log($"Take Damage: {damage}");
         if (IsDead) return;
         currentHp -= damage;
         currentHp = Mathf.Max(0f, currentHp);
