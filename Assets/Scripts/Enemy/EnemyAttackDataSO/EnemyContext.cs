@@ -22,4 +22,23 @@ public class EnemyContext
         yield return new WaitUntil(() => fired);
         animEvents.Unsubscribe(eventName, handler);
     }
+    public AnimEventAwaiter ArmEvent(string eventName)
+    {
+        var awaiter = new AnimEventAwaiter();
+        System.Action handler = () => awaiter.Fired = true;
+        animEvents.Subscribe(eventName, handler);
+        awaiter.OnComplete = () => animEvents.Unsubscribe(eventName, handler);
+        return awaiter;
+    }
+}
+public class AnimEventAwaiter
+{
+    public bool Fired { get; set; }
+    public System.Action OnComplete { get; set; }
+
+    public IEnumerator Wait()
+    {
+        yield return new WaitUntil(() => Fired);
+        OnComplete?.Invoke();
+    }
 }

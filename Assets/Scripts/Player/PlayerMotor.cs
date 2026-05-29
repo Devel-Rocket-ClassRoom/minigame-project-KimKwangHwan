@@ -18,8 +18,9 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float wallJumpHorizontalPower;
     [SerializeField] private float wallJumpVerticalPower = 14f;
     [SerializeField] private float wallJumpLockTime = 0.2f;
-    [SerializeField] private float wallDetachPushSpeed = 9f;
-    [SerializeField] private float wallDetachLockTime = 0.15f;
+    [SerializeField] private float wallDetachPushSpeed = 14f;
+    [SerializeField] private float wallDetachLockTime = 0.25f;
+    [SerializeField] private float wallDetachUpSpeed = 2f;
     [SerializeField] private float oneWayGroundMaxUpVelocity = 0.5f;
     [SerializeField] private float wallCheckDistance = 0.5f;
     [SerializeField] private float wallCheckHeight = 0.5f;
@@ -93,7 +94,8 @@ public class PlayerMotor : MonoBehaviour
     // 방향키로 벽에서 떼어낼 때 호출 — 벽 반대로 한 번 밀어주고, 짧게 재부착을 막음
     public void WallDetach(float wallSide)
     {
-        rb.linearVelocityX = -wallSide * wallDetachPushSpeed;
+        rb.linearVelocity = new Vector2(-wallSide * wallDetachPushSpeed,
+                                       Mathf.Max(rb.linearVelocityY, wallDetachUpSpeed));
         wallDetachLockTimer = wallDetachLockTime;
     }
 

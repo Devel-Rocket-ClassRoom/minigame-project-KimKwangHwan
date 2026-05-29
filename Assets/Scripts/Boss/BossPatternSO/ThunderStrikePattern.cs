@@ -1,8 +1,5 @@
-using Mono.Cecil;
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
-using static UnityEngine.UI.Image;
 
 [CreateAssetMenu(fileName = "ThunderStrikePattern", menuName = "BossPatterns/ThunderStrikePattern")]
 public class ThunderStrikePattern : BossPattern

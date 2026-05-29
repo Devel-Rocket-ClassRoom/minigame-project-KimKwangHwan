@@ -25,3 +25,4 @@ MonoBehaviour:
   hitboxOffset: {x: 0.34, y: 0.14}
   hitboxSize: {x: 1.69, y: 0.48}
   knockback: 0
+  needStamina: 3
