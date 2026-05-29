@@ -32,8 +32,12 @@ public class ElectricGolemAttackState : EnemyState<ElectricGolem>
     }
     public override void Exit()
     {
-        if (finished)
-            stateMachine.ChangeState(enemy.idleState);
+        enemy.Combat.Context.SuperArmor = false;
+        if (routine != null)
+        {
+            enemy.StopCoroutine(routine);
+            routine = null;
+        }
     }
 
     public override void PhysicsUpdate()
@@ -42,11 +46,7 @@ public class ElectricGolemAttackState : EnemyState<ElectricGolem>
 
     public override void Update()
     {
-        enemy.Combat.Context.SuperArmor = false;
-        if (routine != null)
-        {
-            enemy.StopCoroutine(routine);
-            routine = null;
-        }
+        if (finished)
+            stateMachine.ChangeState(enemy.idleState);
     }
 }

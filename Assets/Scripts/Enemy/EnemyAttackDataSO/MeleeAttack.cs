@@ -33,14 +33,14 @@ public class MeleeAttack : EnemyAttackPattern
             motor.SuspendControl();
             DoJump(ctx);
         }
-        var hitboxOff = ctx.ArmEvent("HitboxOff");
+        //var hitboxOff = ctx.ArmEvent("HitboxOff");
         yield return ctx.WaitForAnimEvent("HitboxOn");
 
         float facing = ctx.Facing;
         Vector2 offset = new(hitboxOffset.x, hitboxOffset.y);
 
         ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing);
-        yield return hitboxOff.Wait();
+        yield return ctx.WaitForAnimEvent("HitboxOff");
         ctx.hitbox.Disable();
 
         if (useJump)
