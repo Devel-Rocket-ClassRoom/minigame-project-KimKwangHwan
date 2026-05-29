@@ -21,7 +21,6 @@ public class EnemyContext
         animEvents.Subscribe(eventName, handler);
         yield return new WaitUntil(() => fired);
         animEvents.Unsubscribe(eventName, handler);
-        Debug.Log(eventName);
     }
     public AnimEventAwaiter ArmEvent(string eventName)
     {
