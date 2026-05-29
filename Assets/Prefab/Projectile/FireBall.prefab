@@ -131,7 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   hitLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 576
   hitPrefab: {fileID: 7306764939485561749, guid: 468b6d80fdf905f45ae9fcb150e532a9, type: 3}
   duration: 3
   isBreakable: 1

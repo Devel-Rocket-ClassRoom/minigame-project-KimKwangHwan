@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2043245957239253814}
   m_Layer: 8
   m_Name: Assassin
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
   moveSpeed: 2
   groundMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4160
   wallCheckDist: 0.3
   cliffCheckDown: 0.5
   wallCheck: {fileID: 8527181015264789011}
@@ -621,5 +621,5 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
-  loseSightDuration: 2
+  loseSightDuration: 10
   forceTarget: {fileID: 0}

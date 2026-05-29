@@ -54,8 +54,11 @@ public class ProjectileAttack : EnemyAttackPattern
             if (intervalBetweenShots > 0f && i < projectileCount - 1)
                 yield return new WaitForSeconds(intervalBetweenShots);
         }
-        ctx.anim.ResetTrigger(animOutTrigger);
-        ctx.anim.SetTrigger(animOutTrigger);
+        if (animOutTrigger != string.Empty)
+        {
+            ctx.anim.ResetTrigger(animOutTrigger);
+            ctx.anim.SetTrigger(animOutTrigger);
+        }
         ctx.SuperArmor = false;
         yield return ctx.WaitForAnimEvent("RecoveryEnd");
         yield return new WaitForSeconds(recoveryTime);

@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 2851535208867238594}
   m_Layer: 8
   m_Name: Mage Skeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
   moveSpeed: 0.8
   groundMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4160
   wallCheckDist: 0.3
   cliffCheckDown: 0.5
   wallCheck: {fileID: 5386691936392830814}
@@ -400,7 +400,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 64
-  loseSightDuration: 8
+  loseSightDuration: 10
   forceTarget: {fileID: 0}
 --- !u!1 &8304876046616949697
 GameObject:

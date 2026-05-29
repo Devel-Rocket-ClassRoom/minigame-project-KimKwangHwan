@@ -1,0 +1,45 @@
+using UnityEngine;
+
+public class PotCreatureIdleState : EnemyState<PotCreature>
+{
+    private float idleTime;
+    private float startIdleTime = 1f;
+    private float endIdleTime = 3f;
+    private float timer;
+
+    public PotCreatureIdleState(PotCreature enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
+    {
+    }
+
+    public override void Enter(EnemyState prevState)
+    {
+        idleTime = Random.Range(startIdleTime, endIdleTime);
+        enemy.Motor.MoveStop();
+    }
+
+    public override void Exit()
+    {
+    }
+
+    public override void PhysicsUpdate()
+    {
+    }
+
+    public override void Update()
+    {
+        if (enemy.Target != null)
+        {
+            stateMachine.ChangeState(enemy.moveState);
+            return;
+        }
+        if (enemy.move)
+        {
+            timer += Time.deltaTime;
+            if (timer >= idleTime)
+            {
+                stateMachine.ChangeState(enemy.moveState);
+                timer = 0;
+            }
+        }
+    }
+}
