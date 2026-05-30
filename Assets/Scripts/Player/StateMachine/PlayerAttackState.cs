@@ -37,11 +37,23 @@ public class PlayerAttackState : PlayerState
             ExitToLocomotion();
             return;
         }
-
         if (_data is MeleeAttackData meleeData)
         {
             if (!player.Stamina.TryUseStamina(meleeData.needStamina))
+            {
+                _aborted = true;
+                ExitToLocomotion();
                 return;
+            }
+        }
+        if (_data is RangedAttackData)
+        {
+            if (!player.Inventory.TryUseAmmo())
+            {
+                _aborted = true;
+                ExitToLocomotion();
+                return;
+            }
         }
 
         player.Combat.IsAttacking = true;

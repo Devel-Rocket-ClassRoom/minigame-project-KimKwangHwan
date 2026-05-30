@@ -4,29 +4,25 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInputReader)), RequireComponent(typeof(PlayerMotor))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerInputReader playerInput;
-    [SerializeField]
-    private PlayerMotor playerMotor;
-    [SerializeField]
-    private PlayerCombat playerCombat;
-    [SerializeField]
-    private PlayerHealth playerHealth;
-    [SerializeField]
-    private PlayerStamina playerStamina;
-    [SerializeField]
-    private Animator animator;
-    private PlayerStateMachine stateMachine;
+    [SerializeField] private PlayerInputReader playerInput;
+    [SerializeField] private PlayerMotor playerMotor;
+    [SerializeField] private PlayerCombat playerCombat;
+    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private PlayerStamina playerStamina;
+    [SerializeField] private Animator animator;
     [SerializeField] private HurtBox hurtBox;
-    public PlayerInputReader Input { get { return playerInput; } }
-    public PlayerMotor Motor { get { return playerMotor; } }
-    public PlayerCombat Combat { get { return playerCombat; } }
-    public PlayerHealth Health { get { return playerHealth; } }
-    public PlayerStamina Stamina { get { return playerStamina; } }
-    public HurtBox HurtBox { get { return hurtBox; } }
-    public PlayerState State { get { return stateMachine.CurrentState; } }
-    public Animator Animator { get { return animator; } }
-    public float Facing { get { return Mathf.Sign(transform.localScale.x); } } 
+    [SerializeField] private Inventory inventory;
+    private PlayerStateMachine stateMachine;
+    public Inventory Inventory => inventory;
+    public PlayerInputReader Input => playerInput;
+    public PlayerMotor Motor => playerMotor;
+    public PlayerCombat Combat => playerCombat;
+    public PlayerHealth Health => playerHealth;
+    public PlayerStamina Stamina => playerStamina;
+    public HurtBox HurtBox => hurtBox;
+    public PlayerState State => stateMachine.CurrentState;
+    public Animator Animator => animator;
+    public float Facing => Mathf.Sign(transform.localScale.x);
 
     public PlayerIdleState idleState;
     public PlayerRunState runState;
@@ -78,6 +74,10 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.CurrentState.HandleInput();
         stateMachine.CurrentState.Update();
+        if (Input.UseItemPressed)
+        {
+            inventory.TryUseHealItem(Health);
+        }
     }
     private void FixedUpdate()
     {
