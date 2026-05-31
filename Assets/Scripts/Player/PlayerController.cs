@@ -83,6 +83,8 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.CurrentState.PhysicsUpdate();
     }
+    void OnEnable() => PlayerManager.Instance?.Set(this);
+    void OnDisable() => PlayerManager.Instance?.Clear(this);
     public void AllFlip(float x)
     {
         if (x != 0f)

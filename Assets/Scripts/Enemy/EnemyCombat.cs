@@ -19,7 +19,7 @@ public class EnemyCombat : MonoBehaviour
         Context = new EnemyContext
         {
             self = transform,
-            target = GameObject.FindWithTag("Player").transform, // 나중에 바꿔야 할 듯
+            target = PlayerManager.Instance.Current?.transform, // 나중에 바꿔야 할 듯
             rb = GetComponent<Rigidbody2D>(),
             anim = animator,
             runner = this,
