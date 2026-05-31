@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolManager : MonoBehaviour
+public class PoolManager : Singleton<PoolManager>
 {
-    public static PoolManager Instance { get; private set; }
 
     [System.Serializable]
     public struct PoolConfig
@@ -17,9 +16,9 @@ public class PoolManager : MonoBehaviour
 
     private Dictionary<GameObject, ObjectPool<Transform>> pools = new();
 
-    void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         foreach (var config in configs)
         {
             var pool = new ObjectPool<Transform>(

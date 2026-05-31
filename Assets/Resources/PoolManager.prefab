@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1430237855463610954
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4002313408183543285}
+  - component: {fileID: 3809226002824765893}
+  m_Layer: 0
+  m_Name: PoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4002313408183543285
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430237855463610954}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.0455, y: 2.33883, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3809226002824765893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430237855463610954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbeafef670d3b443bda7aa44c95a97e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PoolManager
+  configs:
+  - prefab: {fileID: 6044797636053302131, guid: 6a3227b3db8c13e4f9343a3e24551ae7, type: 3}
+    preloadCount: 10
+  - prefab: {fileID: 6604078241619259767, guid: 70808610f1ca7a44fbd79057bafd7859, type: 3}
+    preloadCount: 100
+  - prefab: {fileID: 2371874511035793370, guid: 174be852575a97543b3b9ee4009387ff, type: 3}
+    preloadCount: 50
+  - prefab: {fileID: 8321853116240519755, guid: 15144906c9604f14e8fea3074052e921, type: 3}
+    preloadCount: 5
+  - prefab: {fileID: 6059270603503559200, guid: 049455c3efe88e64192c47eefdab7768, type: 3}
+    preloadCount: 20
+  - prefab: {fileID: 1972994194767679876, guid: a4c085be74dfdab478a7ca4ef5f8c7e2, type: 3}
+    preloadCount: 20
+  - prefab: {fileID: 6076046817846825411, guid: bf26670f05c2ea44f90460f4385fa65e, type: 3}
+    preloadCount: 20

@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 638990314342315114}
   - component: {fileID: 1878018382927978898}
   - component: {fileID: 6612309190093295851}
+  - component: {fileID: 6432724457468884444}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -127,7 +128,7 @@ Transform:
   m_GameObject: {fileID: 2297453124448676403}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4, y: 0.58, z: 0}
+  m_LocalPosition: {x: -6.84, y: -0.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -241,6 +242,7 @@ MonoBehaviour:
   playerStamina: {fileID: 6612309190093295851}
   animator: {fileID: 508341801885782112}
   hurtBox: {fileID: 2091577916273887846}
+  inventory: {fileID: 6432724457468884444}
   dashSpeed: 17
   dashDuration: 0.25
   dashCooldown: 0.5
@@ -358,6 +360,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 12e3ddea-786f-4ee3-adc0-52e93de56e1a
     m_ActionName: 'Player/Dash[/Keyboard/leftShift]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2293333252361658362}
+        m_TargetAssemblyTypeName: PlayerInputReader, Assembly-CSharp
+        m_MethodName: OnUseItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b55f602d-00b0-441f-a33c-0668c479a5f0
+    m_ActionName: 'Player/Heal[/Keyboard/h]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -458,6 +476,21 @@ MonoBehaviour:
   genAmount: 0.3
   genStartInterval: 1
   genInterval: 0.01
+--- !u!114 &6432724457468884444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297453124448676403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4fee2ae37e39a54180f383c387e3364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  maxAmmo: 30
+  maxHealItems: 3
+  healAmount: 30
 --- !u!1 &3984444603363980570
 GameObject:
   m_ObjectHideFlags: 0

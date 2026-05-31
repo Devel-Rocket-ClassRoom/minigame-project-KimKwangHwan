@@ -196,4 +196,10 @@ public class PlayerMotor : MonoBehaviour
         Gizmos.DrawWireSphere(o + Vector2.right * wallCheckDistance, wallRadius);
         Gizmos.DrawWireSphere(o + Vector2.left * wallCheckDistance, wallRadius);
     }
+    public void WarpTo(Vector2 pos)
+    {
+        //rb.linearVelocity = Vector2.zero;
+        //rb.position = pos;
+        transform.position = pos;
+    }
 }
