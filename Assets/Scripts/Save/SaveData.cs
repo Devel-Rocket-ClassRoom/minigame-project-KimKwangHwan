@@ -11,6 +11,7 @@ public abstract class SaveData
 public class SaveDataV1 : SaveData
 {
     public string savePointId;
+    public string mapId;
     public System.DateTime savedAt;
     public SaveDataV1()
     {

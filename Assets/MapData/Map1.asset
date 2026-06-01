@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b06f0d8f0d6906c4a92c8be5c1b0a818, type: 3}
+  m_Name: Map1
+  m_EditorClassIdentifier: Assembly-CSharp::MapData
+  mapId: 0
+  sceneName: Map1
+  sceneOffset: {x: 0, y: 0}
+  boundsCenter: {x: 6.27, y: -0.08}
+  boundsSize: {x: 29.3, y: 21.5}
+  connections:
+  - targetMap: {fileID: 11400000, guid: 1d756dbbe7d99614282c19bfdaf114d6, type: 2}
+    exitZoneId: 
+    entryZoneId: 
