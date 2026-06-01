@@ -68,9 +68,8 @@ public class SavePoint : MonoBehaviour
     public void ExecuteSave(int slot, PlayerController player)
     {
         SaveDataV data = new SaveDataV();
-
         data.savePointId = savePointId;
-
+        data.mapId = MapManager.Instance.CurrentMap?.mapId;
         SaveManager.Instance.Save(slot, data);
     }
     private void OnEnable() => Registry[savePointId] = this;

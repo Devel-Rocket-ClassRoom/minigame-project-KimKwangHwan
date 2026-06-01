@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using SaveDataV = SaveDataV1;
 
@@ -12,7 +13,7 @@ public class GameInitializer : Singleton<GameInitializer>
         var instance = Instance;
         if (!instance.autoLoadOnStart) return;
         SaveDataV data = SaveManager.Instance.LoadLastUsed();
-        instance.SpawnPlayer(data);
+        instance.StartCoroutine(instance.SpawnPlayerRoutine(data));
     }
 
     protected override void Awake()
@@ -23,11 +24,12 @@ public class GameInitializer : Singleton<GameInitializer>
     public void ApplyLoad(int slot)
     {
         SaveDataV data = SaveManager.Instance.Load(slot);
-        SpawnPlayer(data);
+        StartCoroutine(SpawnPlayerRoutine(data));
     }
 
-    private void SpawnPlayer(SaveDataV data)
+    private IEnumerator SpawnPlayerRoutine(SaveDataV data)
     {
+        yield return MapManager.Instance.Initialize(data?.mapId);
         Vector2 pos = data != null ? data.GetPosition() : defaultSpawnPos;
         PlayerManager.Instance.SpawnAt(pos);
     }
