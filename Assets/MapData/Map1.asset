@@ -15,8 +15,8 @@ MonoBehaviour:
   mapId: 0
   sceneName: Map1
   sceneOffset: {x: 0, y: 0}
-  boundsCenter: {x: 6.27, y: -0.08}
-  boundsSize: {x: 29.3, y: 21.5}
+  boundsCenter: {x: -6.33, y: 2.14}
+  boundsSize: {x: 30.1, y: 17}
   connections:
   - targetMap: {fileID: 11400000, guid: 1d756dbbe7d99614282c19bfdaf114d6, type: 2}
     exitZoneId: 
