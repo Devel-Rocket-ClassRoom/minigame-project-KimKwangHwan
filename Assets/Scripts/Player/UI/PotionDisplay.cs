@@ -1,25 +1,22 @@
 using TMPro;
 using UnityEngine;
-using static UnityEngine.InputManagerEntry;
+
 public class PotionDisplay : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI remainText;
     private Inventory inventory;
-
     private void OnEnable()
     {
-        if (PlayerManager.Instance != null && PlayerManager.Instance.HasPlayer)
-            Bind(PlayerManager.Instance.Current);
         PlayerManager.OnPlayerSet += Bind;
         PlayerManager.OnPlayerCleared += Unbind;
-        inventory.OnHealItemChanged += ChangeText;
-        ChangeText(inventory.MaxHealItems, inventory.CurrentHealItems);
+        if (PlayerManager.Instance != null && PlayerManager.Instance.HasPlayer)
+            Bind(PlayerManager.Instance.Current);
     }
     private void OnDisable()
     {
-        inventory.OnHealItemChanged -= ChangeText;
         PlayerManager.OnPlayerSet -= Bind;
         PlayerManager.OnPlayerCleared -= Unbind;
+        Unbind();
     }
     private void Start()
     {
@@ -31,7 +28,16 @@ public class PotionDisplay : MonoBehaviour
     }
     private void Bind(PlayerController p)
     {
+        if (inventory != null)
+            inventory.OnHealItemChanged -= ChangeText;
         inventory = p.GetComponent<Inventory>();
+        inventory.OnHealItemChanged += ChangeText;
+        ChangeText(inventory.MaxHealItems, inventory.CurrentHealItems);
     }
-    private void Unbind() { /* 정리 */ }
+    private void Unbind()
+    {
+        if (inventory != null)
+            inventory.OnHealItemChanged -= ChangeText;
+        inventory = null;
+    }
 }

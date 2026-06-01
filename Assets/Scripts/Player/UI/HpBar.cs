@@ -1,41 +1,54 @@
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.InputManagerEntry;
 
 public class HpBar : MonoBehaviour
 {
     private PlayerHealth playerHealth;
     private Slider hpBar;
+
     private void Awake()
     {
         hpBar = GetComponent<Slider>();
     }
+
+    private void OnEnable()
+    {
+        PlayerManager.OnPlayerSet += Bind;
+        PlayerManager.OnPlayerCleared += Unbind;
+        if (PlayerManager.Instance != null && PlayerManager.Instance.HasPlayer)
+            Bind(PlayerManager.Instance.Current);
+    }
+
+    private void OnDisable()
+    {
+        PlayerManager.OnPlayerSet -= Bind;
+        PlayerManager.OnPlayerCleared -= Unbind;
+        Unbind();
+    }
+
     private void Start()
     {
         UpdateHpBar(playerHealth.CurrentHp, playerHealth.MaxHp);
     }
-    private void OnEnable()
+
+    private void Bind(PlayerController p)
     {
-        if (PlayerManager.Instance != null && PlayerManager.Instance.HasPlayer)
-            Bind(PlayerManager.Instance.Current);
-        PlayerManager.OnPlayerSet += Bind;
-        PlayerManager.OnPlayerCleared += Unbind;
-        UpdateHpBar(playerHealth.CurrentHp, playerHealth.MaxHp);
+        if (playerHealth != null)
+            playerHealth.OnHealthChanged -= UpdateHpBar;
+        playerHealth = p.GetComponent<PlayerHealth>();
         playerHealth.OnHealthChanged += UpdateHpBar;
+        UpdateHpBar(playerHealth.CurrentHp, playerHealth.MaxHp);
     }
-    private void OnDisable()
+
+    private void Unbind()
     {
-        playerHealth.OnHealthChanged -= UpdateHpBar;
-        PlayerManager.OnPlayerSet -= Bind;
-        PlayerManager.OnPlayerCleared -= Unbind;
+        if (playerHealth != null)
+            playerHealth.OnHealthChanged -= UpdateHpBar;
+        playerHealth = null;
     }
+
     private void UpdateHpBar(float currentHp, float maxHp)
     {
         hpBar.value = maxHp > 0f ? currentHp / maxHp : 0f;
     }
-    private void Bind(PlayerController p) 
-    {
-        playerHealth = p.GetComponent<PlayerHealth>();
-    }
-    private void Unbind() { /* 정리 */ }
 }

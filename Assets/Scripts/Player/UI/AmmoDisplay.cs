@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using static UnityEngine.InputManagerEntry;
 
 public class AmmoDisplay : MonoBehaviour
 {
@@ -9,18 +8,16 @@ public class AmmoDisplay : MonoBehaviour
 
     private void OnEnable()
     {
-        if (PlayerManager.Instance != null && PlayerManager.Instance.HasPlayer)
-            Bind(PlayerManager.Instance.Current);
         PlayerManager.OnPlayerSet += Bind;
         PlayerManager.OnPlayerCleared += Unbind;
-        inventory.OnAmmoChanged += ChangeText;
-        ChangeText(inventory.MaxAmmo, inventory.CurrentAmmo);
+        if (PlayerManager.Instance != null && PlayerManager.Instance.HasPlayer)
+            Bind(PlayerManager.Instance.Current);
     }
     private void OnDisable()
     {
-        inventory.OnAmmoChanged -= ChangeText;
         PlayerManager.OnPlayerSet -= Bind;
         PlayerManager.OnPlayerCleared -= Unbind;
+        Unbind();
     }
     private void Start()
     {
@@ -32,7 +29,16 @@ public class AmmoDisplay : MonoBehaviour
     }
     private void Bind(PlayerController p)
     {
+        if (inventory != null)
+            inventory.OnAmmoChanged -= ChangeText;
         inventory = p.GetComponent<Inventory>();
+        inventory.OnAmmoChanged += ChangeText;
+        ChangeText(inventory.MaxAmmo, inventory.CurrentAmmo);
     }
-    private void Unbind() { /* 정리 */ }
+    private void Unbind() 
+    {
+        if (inventory != null)
+            inventory.OnAmmoChanged -= ChangeText;
+        inventory = null;
+    }
 }

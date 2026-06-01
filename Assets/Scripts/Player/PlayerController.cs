@@ -114,4 +114,10 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.ChangeState(deathState);
     }
+    public void AllRecovery()
+    {
+        Health.Heal(Health.MaxHp);
+        Inventory.AddAmmo(Inventory.MaxAmmo);
+        Inventory.AddHealItem(Inventory.MaxHealItems);
+    }
 }

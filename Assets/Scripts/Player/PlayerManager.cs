@@ -10,17 +10,16 @@ public class PlayerManager : Singleton<PlayerManager>
     // 정적으로 두면 Instance 준비 여부와 무관하게 구독 가능
     public static event System.Action<PlayerController> OnPlayerSet;
     public static event System.Action OnPlayerCleared;
-    public PlayerController GetOrSpawn()
+    public PlayerController SpawnAt(Vector2 pos)
     {
         if (_current != null) return _current;
         if (_playerPrefab == null) return null;
-        return Instantiate(_playerPrefab);
+        return Instantiate(_playerPrefab, pos, Quaternion.identity);
     }
 
     protected override void Awake()
     {
         base.Awake();
-        _current = GetOrSpawn();
     }
 
     public void Set(PlayerController player)

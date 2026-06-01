@@ -15,7 +15,7 @@ public class EnemyPerception : MonoBehaviour
 
     [Header("Memory")]
     [SerializeField] private float loseSightDuration = 2f;  // 시야에서 사라진 뒤 추적 유지 시간
-    [SerializeField] private Transform forceTarget;
+    private Transform forceTarget;
     public Transform Target { get; private set; }
     public bool HasTarget => Target != null && _lostTimer < loseSightDuration;
 
@@ -27,6 +27,11 @@ public class EnemyPerception : MonoBehaviour
     public float Facing
     {
         get { return transform.parent.transform.localScale.x > 0f ? 1f : -1f; }
+    }
+
+    private void Start()
+    {
+        forceTarget = PlayerManager.Instance.Current?.transform;
     }
 
     private void Update()

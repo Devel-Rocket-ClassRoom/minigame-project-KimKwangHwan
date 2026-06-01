@@ -193,6 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f34a86fabc1de1498baf714ea4c35b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMotor
+  rb: {fileID: 454131542156286643}
   moveSpeed: 5
   jumpPower: 10
   groundCheck: {fileID: 50364244640452389}
@@ -491,7 +492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
   maxAmmo: 30
   maxHealItems: 3
-  healAmount: 30
+  healAmount: 80
 --- !u!1 &3518679645232317139
 GameObject:
   m_ObjectHideFlags: 0

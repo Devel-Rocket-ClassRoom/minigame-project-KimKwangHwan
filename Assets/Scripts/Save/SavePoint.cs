@@ -61,6 +61,7 @@ public class SavePoint : MonoBehaviour
             Debug.Log("[SavePoint] 저장 키 입력 감지");
             //SaveSlotUI.Instance.OpenForSave(_player, this);
             ExecuteSave(0, _player); // 테스트용: 슬롯 패널 없이 바로 저장
+            _player.AllRecovery();
         }
     }
 
