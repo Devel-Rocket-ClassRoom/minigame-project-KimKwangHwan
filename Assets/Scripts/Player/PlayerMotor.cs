@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class PlayerMotor : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    public Rigidbody2D RB { get { return rb; } }
+    [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpPower;
     [SerializeField] private GameObject groundCheck;
@@ -40,13 +39,12 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] float airDecel = 30f;
     public bool SuppressHorizontalControl { get; set; }
     private bool isOnOneWayPlatform;
+    public Rigidbody2D RB { get { return rb; } }
     public bool IsOnOneWayPlatform() => isOnOneWayPlatform;
     [SerializeField] private float dropThroughDuration = 0.3f;
     private Coroutine CoDropThrough;
-
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
         isGrounded = true;
         wasGrounded = true;
         canWallClimbing = false;
@@ -195,5 +193,11 @@ public class PlayerMotor : MonoBehaviour
         Vector2 o = (Vector2)transform.position + Vector2.up * wallCheckHeight;
         Gizmos.DrawWireSphere(o + Vector2.right * wallCheckDistance, wallRadius);
         Gizmos.DrawWireSphere(o + Vector2.left * wallCheckDistance, wallRadius);
+    }
+    public void WarpTo(Vector2 pos)
+    {
+        transform.position = pos;
+        rb.linearVelocity = Vector2.zero;
+        rb.position = pos;
     }
 }

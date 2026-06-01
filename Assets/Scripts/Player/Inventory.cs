@@ -42,11 +42,15 @@ public class Inventory : MonoBehaviour
     public void AddAmmo(int amount)
     {
         CurrentAmmo += amount;
+        if (CurrentAmmo > MaxAmmo)
+            CurrentAmmo = MaxAmmo;
         OnAmmoChanged?.Invoke(MaxAmmo, CurrentAmmo);
     }
     public void AddHealItem(int amount)
     {
         CurrentHealItems += amount;
+        if (CurrentHealItems > MaxHealItems)
+            CurrentHealItems = MaxHealItems;
         OnHealItemChanged?.Invoke(MaxHealItems, CurrentHealItems);
     }
 }

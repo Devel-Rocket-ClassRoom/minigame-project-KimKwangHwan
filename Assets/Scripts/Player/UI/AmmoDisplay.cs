@@ -3,17 +3,21 @@ using UnityEngine;
 
 public class AmmoDisplay : MonoBehaviour
 {
-    [SerializeField] private Inventory inventory;
     [SerializeField] private TextMeshProUGUI remainText;
+    private Inventory inventory;
 
     private void OnEnable()
     {
-        inventory.OnAmmoChanged += ChangeText;
-        ChangeText(inventory.MaxAmmo, inventory.CurrentAmmo);
+        PlayerManager.OnPlayerSet += Bind;
+        PlayerManager.OnPlayerCleared += Unbind;
+        if (PlayerManager.Instance != null && PlayerManager.Instance.HasPlayer)
+            Bind(PlayerManager.Instance.Current);
     }
     private void OnDisable()
     {
-        inventory.OnAmmoChanged -= ChangeText;
+        PlayerManager.OnPlayerSet -= Bind;
+        PlayerManager.OnPlayerCleared -= Unbind;
+        Unbind();
     }
     private void Start()
     {
@@ -22,5 +26,19 @@ public class AmmoDisplay : MonoBehaviour
     private void ChangeText(int max, int current)
     {
         remainText.text = $"{current} / {max}";
+    }
+    private void Bind(PlayerController p)
+    {
+        if (inventory != null)
+            inventory.OnAmmoChanged -= ChangeText;
+        inventory = p.GetComponent<Inventory>();
+        inventory.OnAmmoChanged += ChangeText;
+        ChangeText(inventory.MaxAmmo, inventory.CurrentAmmo);
+    }
+    private void Unbind() 
+    {
+        if (inventory != null)
+            inventory.OnAmmoChanged -= ChangeText;
+        inventory = null;
     }
 }

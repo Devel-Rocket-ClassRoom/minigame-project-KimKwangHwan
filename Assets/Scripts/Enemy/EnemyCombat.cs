@@ -16,10 +16,14 @@ public class EnemyCombat : MonoBehaviour
 
     protected virtual void Awake()
     {
+        foreach (var p in patterns) lastUsedTime[p] = -999f;
+    }
+    protected virtual void Start()
+    {
         Context = new EnemyContext
         {
             self = transform,
-            target = GameObject.FindWithTag("Player").transform, // 나중에 바꿔야 할 듯
+            target = PlayerManager.Instance.Current?.transform,
             rb = GetComponent<Rigidbody2D>(),
             anim = animator,
             runner = this,
@@ -27,7 +31,6 @@ public class EnemyCombat : MonoBehaviour
             muzzle = muzzle,
             animEvents = animEvents
         };
-        foreach (var p in patterns) lastUsedTime[p] = -999f;
     }
     public EnemyAttackPattern SelectPattern()
     {
