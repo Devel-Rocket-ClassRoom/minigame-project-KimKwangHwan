@@ -10,14 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b06f0d8f0d6906c4a92c8be5c1b0a818, type: 3}
-  m_Name: Map1
+  m_Name: Map5
   m_EditorClassIdentifier: Assembly-CSharp::MapData
-  mapId: 1
-  sceneName: Map1
-  sceneOffset: {x: 0, y: 0}
-  boundsCenter: {x: -6.33, y: 2.14}
-  boundsSize: {x: 30.1, y: 17}
-  connections:
-  - targetMap: {fileID: 11400000, guid: 1d756dbbe7d99614282c19bfdaf114d6, type: 2}
-    exitZoneId: 
-    entryZoneId: 
+  mapId: 5
+  sceneName: Map5
+  sceneOffset: {x: 150, y: 0}
+  boundsCenter: {x: 95.8, y: 17.3}
+  boundsSize: {x: 196.7, y: 43.5}
+  connections: []
