@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputReader)), RequireComponent(typeof(PlayerMotor))]
@@ -49,7 +50,10 @@ public class PlayerController : MonoBehaviour
 
     public float hurtDuration = 0.8f;
     public float hurtEscapeTime = 0.4f;
-
+    private Coroutine _blinkCoroutine;
+    private Color _originalColor;
+    private MaterialPropertyBlock _mpb;
+    private static readonly int FlashID = Shader.PropertyToID("_FlashAmount");
 
     private void Awake()
     {
@@ -69,6 +73,16 @@ public class PlayerController : MonoBehaviour
         moveDirection = 1f;
         playerHealth.OnDamaged += GetHurt;
         playerHealth.OnDead += Dead;
+
+        _originalColor = new Color();
+        _originalColor = spriteRenderer.color;
+        _mpb = new MaterialPropertyBlock();
+    }
+    private void SetFlash(float amount)
+    {
+        spriteRenderer.GetPropertyBlock(_mpb);
+        _mpb.SetFloat(FlashID, amount);
+        spriteRenderer.SetPropertyBlock(_mpb);
     }
     private void Update()
     {
@@ -109,6 +123,32 @@ public class PlayerController : MonoBehaviour
     protected virtual void GetHurt(float damage)
     {
         stateMachine.ChangeState(hurtState);
+        StartBlink();
+    }
+
+    public void StartBlink(float interval = 0.1f, int count = 2)
+    {
+        if (_blinkCoroutine == null)
+            _originalColor = spriteRenderer.color;
+        else
+        {
+            StopCoroutine(_blinkCoroutine);
+            spriteRenderer.color = _originalColor;
+        }
+        _blinkCoroutine = StartCoroutine(BlinkRoutine(interval, count));
+    }
+
+    private IEnumerator BlinkRoutine(float interval, int count)
+    {
+        var wait = new WaitForSeconds(interval);
+        for (int b = 0; b < count; b++)
+        {
+            SetFlash(1f);
+            yield return wait;
+            SetFlash(0f);
+            yield return wait;
+        }
+        _blinkCoroutine = null;
     }
     private void Dead()
     {

@@ -6,6 +6,7 @@ public class PlayerWallClimbState : PlayerAirState
         : base(player, stateMachine) { }
 
     private float wallSide;
+    private float _releaseTimer;
 
     public override void Enter(PlayerState prevState)
     {
@@ -22,6 +23,9 @@ public class PlayerWallClimbState : PlayerAirState
         jumpUsed = 0;
         dashUsed = 0;
         pendingWallSide = wallSide;
+        _releaseTimer = 0f;
+        player.Animator.ResetTrigger("Jump");
+        player.Animator.ResetTrigger("DoubleJump");
         player.Animator.SetBool("WallClimb", true);
     }
 
@@ -56,9 +60,17 @@ public class PlayerWallClimbState : PlayerAirState
         float input = player.Input.MoveX;
         if (input != 0f && Mathf.Sign(input) == -wallSide)
         {
-            player.Motor.WallDetach(wallSide);
-            stateMachine.ChangeState(player.fallState);
-            return;
+            _releaseTimer += Time.deltaTime;
+            if (_releaseTimer >= player.Motor.WallReleaseHoldTime)
+            {
+                player.Motor.WallDetach(wallSide);
+                stateMachine.ChangeState(player.fallState);
+                return;
+            }
+        }
+        else
+        {
+            _releaseTimer = 0f;
         }
 
         if (!player.Motor.IsTouchingWall())

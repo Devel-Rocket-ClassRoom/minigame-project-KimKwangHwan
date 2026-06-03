@@ -32,5 +32,6 @@ public class GameInitializer : Singleton<GameInitializer>
         yield return MapManager.Instance.Initialize(data?.mapId);
         Vector2 pos = data != null ? data.GetPosition() : defaultSpawnPos;
         PlayerManager.Instance.SpawnAt(pos);
+        CameraController.Instance.SnapToPlayer();
     }
 }

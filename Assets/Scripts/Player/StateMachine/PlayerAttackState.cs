@@ -86,6 +86,11 @@ public class PlayerAttackState : PlayerState
         {
             _comboQueued = true;
         }
+        if (player.Input.DashPressed && player.CanDash())
+        {
+            stateMachine.ChangeState(player.dashState);
+            return;
+        }
     }
 
     public override void PhysicsUpdate()

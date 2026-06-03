@@ -396,7 +396,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: f26e37168c323c84abc0ee74921a0ef0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -416,7 +416,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1913220881
-  m_SortingLayer: 5
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 912874471, guid: eaf3ef0554f9f6e48a0183b887de72ba, type: 3}
@@ -622,4 +622,3 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   loseSightDuration: 10
-  forceTarget: {fileID: 0}

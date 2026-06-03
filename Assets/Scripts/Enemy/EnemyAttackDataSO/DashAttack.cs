@@ -16,6 +16,7 @@ public class DashAttack : EnemyAttackPattern
     public Vector2 hitboxOffset = new(0.5f, 0f);
     public Vector2 hitboxSize = new(1.2f, 1.4f);
     public float knockback = 6f;
+    public float rehitInterval = 0.3f;
 
     [Header("애니메이션")]
     public string animTelegraphTrigger = "DashTelegraph";
@@ -43,7 +44,7 @@ public class DashAttack : EnemyAttackPattern
         yield return ctx.WaitForAnimEvent("HitboxOn");
         ctx.anim.SetTrigger(animStartTrigger);
         Vector2 offset = new(hitboxOffset.x * facing, hitboxOffset.y);
-        ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing);
+        ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing, rehitInterval);
 
         var motor = ctx.self.GetComponent<EnemyMotor>();
         motor.SuspendControl();
