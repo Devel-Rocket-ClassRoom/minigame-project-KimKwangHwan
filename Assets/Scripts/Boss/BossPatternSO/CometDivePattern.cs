@@ -11,7 +11,6 @@ public class CometDivePattern : BossPattern
     [SerializeField] private float infernoTime = 0.3f;
 
     [SerializeField] private float diveSpeed = 10f;
-    [SerializeField] private float diveHeight = 5f;
 
     [SerializeField] private string[] sequenceAnimStates;
     [SerializeField] private Vector2[] hitboxSizes;
@@ -25,7 +24,7 @@ public class CometDivePattern : BossPattern
         var rb = ctx.bossTransform.GetComponent<Rigidbody2D>();
         for (int i = 0; i < hitCount; i++)
         {
-            ctx.bossTransform.position = new Vector2(ctx.PlayerPos.x, diveHeight);
+            ctx.bossTransform.position = new Vector2(ctx.PlayerPos.x, ctx.bossRoom.Max.y);
             ctx.animator.Play(sequenceAnimStates[0]);
             rb.gravityScale = 0f;
             yield return ctx.WaitForAnimEvent("TelegraphEnd");

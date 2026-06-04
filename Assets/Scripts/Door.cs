@@ -6,7 +6,7 @@ public class Door : MonoBehaviour
     [SerializeField] private float openDuration = 1f;
     [SerializeField] private float openDistance;
 
-    private bool _isOpen;
+    [SerializeField] private bool _isOpen;
 
     private void Start()
     {
@@ -25,6 +25,13 @@ public class Door : MonoBehaviour
         StartCoroutine(OpenRoutine());
     }
 
+    public void Close()
+    {
+        if (!_isOpen) return;
+        _isOpen = false;
+        StartCoroutine(CloseRoutine());
+    }
+
     private IEnumerator OpenRoutine()
     {
         Vector3 startPos = transform.position;
@@ -35,7 +42,25 @@ public class Door : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = elapsed / openDuration;
-            t = t * t * (3f - 2f * t); // smoothstep easing
+            t = t * t * (3f - 2f * t);
+            transform.position = Vector3.Lerp(startPos, targetPos, t);
+            yield return null;
+        }
+
+        transform.position = targetPos;
+    }
+
+    private IEnumerator CloseRoutine()
+    {
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = startPos - Vector3.up * openDistance;
+        float elapsed = 0f;
+
+        while (elapsed < openDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / openDuration;
+            t = t * t * (3f - 2f * t);
             transform.position = Vector3.Lerp(startPos, targetPos, t);
             yield return null;
         }

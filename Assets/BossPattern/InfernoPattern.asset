@@ -23,9 +23,9 @@ MonoBehaviour:
   recoveryTime: 1.2
   patternType: 1
   stationaryPrefab: {fileID: 3782029981103506096, guid: 049455c3efe88e64192c47eefdab7768, type: 3}
-  infernoCount: 5
+  infernoCount: 8
   infernoTime: 0.8
   animState: UpCast
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4160

@@ -42,7 +42,15 @@ public class Hitbox : MonoBehaviour
         _mode = HitboxMode.Repeating;
         _rehitInterval = rehitInterval;
         _hitTimes.Clear();
-        Enable(damage, offset, size, knockback, facing);
+        _damage = damage;
+        _knockback = knockback;
+
+        _col.size = size;
+        _col.offset = new Vector2(offset.x, offset.y);
+
+        _hitOnce.Clear();
+        _col.enabled = true;
+        _active = true;
     }
 
     public void Disable()
@@ -64,7 +72,7 @@ public class Hitbox : MonoBehaviour
     {
         if (!_active) return;
         if (((1 << other.gameObject.layer) & targetLayer.value) == 0) return;
-
+        Debug.Log($"TryHit: {other.name} {_mode}");
         int id = other.GetInstanceID();
         if (_mode == HitboxMode.OneShot)
         {

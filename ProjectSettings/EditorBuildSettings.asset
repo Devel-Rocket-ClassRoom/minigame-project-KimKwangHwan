@@ -23,6 +23,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Map5.unity
     guid: 3f06a14efda7c694591e33523b52b421
+  - enabled: 1
+    path: Assets/Scenes/Map6.unity
+    guid: 9e31562ea9d9e8641bee9f8965f4f31c
+  - enabled: 1
+    path: Assets/Scenes/Map7.unity
+    guid: 062bbff647ef825458bdd222527043c1
+  - enabled: 1
+    path: Assets/Scenes/Map8.unity
+    guid: 2491cfeb0a2326c4ba22e85a413885a8
+  - enabled: 1
+    path: Assets/Scenes/Map9.unity
+    guid: dec184733e257764a93d09f9e87d4be1
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 5438e2639a0a68048a6fce43708cc351, type: 2}

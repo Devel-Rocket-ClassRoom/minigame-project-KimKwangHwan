@@ -14,7 +14,7 @@ public class Witch : EnemyController
     [SerializeField] private Vector2 hitboxOffset;
     [SerializeField] private Vector2 hitboxSize;
     [SerializeField] private Transform muzzle;
-    [SerializeField] private Transform player;
+    //[SerializeField] private Transform player;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundWidth;
@@ -41,11 +41,26 @@ public class Witch : EnemyController
             return false;
         }
     }
+
+    public bool IsGroundedOn(LayerMask layer)
+    {
+        Vector2 c = groundCheck.position;
+        float half = groundWidth * 0.5f - 0.05f;
+        Vector2[] origins = { c + Vector2.left * half, c, c + Vector2.right * half };
+
+        foreach (var o in origins)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(o, Vector2.down, groundCheckDist, layer);
+            if (hit && hit.normal.y >= minNormalY) return true;
+        }
+        return false;
+    }
     public List<BossPattern> Patterns => patterns;
     public PatternSelector Selector => selector;
     public WitchAttackState attackState;
     public WitchIdleState idleState;
     public WitchMoveState moveState;
+    public WitchEngageState engageState;
     public BossPattern PendingPattern { get; set; }
     public BossContext Ctx => ctx;
     public BossMoveBehavior teleportMove;
@@ -55,7 +70,6 @@ public class Witch : EnemyController
         ctx = new BossContext
         {
             bossTransform = transform,
-            playerTransform = player,
             animator = animator,
             animEvents = animEvents,
             hitbox = hitbox,
@@ -67,8 +81,17 @@ public class Witch : EnemyController
         idleState = new WitchIdleState(this, stateMachine);
         attackState = new WitchAttackState(this, stateMachine);
         moveState = new WitchMoveState(this, stateMachine);
-        stateMachine.Initialize(idleState);
+        engageState = new WitchEngageState(this, stateMachine);
+        stateMachine.Initialize(engageState);
+        ctx.bossRoom.OnPlayerEnter += OnPlayerEnterRoom;
         teleportMove = new TeleportMove(groundLayer);
+    }
+
+    private void OnPlayerEnterRoom()
+    {
+        ctx.playerTransform = PlayerManager.Instance.Current?.transform;
+        if (ctx.playerTransform == null) return;
+        stateMachine.ChangeState(idleState);
     }
     //private void Start()
     //{

@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapData
   mapId: 4
   sceneName: Map4
-  sceneOffset: {x: 150, y: 0}
+  sceneOffset: {x: 300, y: 0}
   boundsCenter: {x: 27.3, y: 54.4}
   boundsSize: {x: 68.5, y: 119.1}
   connections:
   - targetMap: {fileID: 11400000, guid: caf169b0198576049ad9627b7ad31201, type: 2}
+    exitZoneId: 
+    entryZoneId: 
+  - targetMap: {fileID: 11400000, guid: 612cb98f53eb6ca4eb759ef9d807fee4, type: 2}
     exitZoneId: 
     entryZoneId: 

@@ -58,7 +58,7 @@ MonoBehaviour:
   moveSpeed: 0.8
   groundMask:
     serializedVersion: 2
-    m_Bits: 4160
+    m_Bits: 36928
   wallCheckDist: 0.3
   cliffCheckDown: 0.5
   wallCheck: {fileID: 8433753714544229696}
@@ -95,8 +95,8 @@ MonoBehaviour:
   muzzle: {fileID: 0}
   animator: {fileID: 9115180189231604042}
   animEvents: {fileID: 8360405888293807851}
-  hitboxSize: {x: 0, y: 0}
-  hitboxOffset: {x: 0, y: 0}
+  hitboxSize: {x: 3.58, y: 2.2}
+  hitboxOffset: {x: -0.07, y: 0.51}
 --- !u!61 &4440104997211798663
 BoxCollider2D:
   m_ObjectHideFlags: 0

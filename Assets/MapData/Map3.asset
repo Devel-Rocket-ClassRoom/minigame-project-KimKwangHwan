@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapData
   mapId: 3
   sceneName: Map3
-  sceneOffset: {x: 100, y: 0}
+  sceneOffset: {x: 200, y: 0}
   boundsCenter: {x: 11.2, y: 26.3}
   boundsSize: {x: 40.4, y: 67.2}
   connections:

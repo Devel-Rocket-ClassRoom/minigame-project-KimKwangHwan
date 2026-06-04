@@ -471,7 +471,7 @@ MonoBehaviour:
   moveSpeed: 0.8
   groundMask:
     serializedVersion: 2
-    m_Bits: 4160
+    m_Bits: 36928
   wallCheckDist: 0.3
   cliffCheckDown: 0.5
   wallCheck: {fileID: 8132234222671509444}

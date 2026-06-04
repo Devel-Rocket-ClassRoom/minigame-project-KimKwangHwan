@@ -412,9 +412,9 @@ MonoBehaviour:
   enemyCombat: {fileID: 0}
   enemyHealth: {fileID: 1548484314044596736}
   patterns:
+  - {fileID: 11400000, guid: 455a83d9a4d856b408e5b07ca27a7a86, type: 2}
   - {fileID: 11400000, guid: cee1988a74056cf42ac3b5e0ecb66068, type: 2}
   - {fileID: 11400000, guid: 7081b46c6e9678c4d885e4ccf7d4f0b2, type: 2}
-  - {fileID: 11400000, guid: 455a83d9a4d856b408e5b07ca27a7a86, type: 2}
   - {fileID: 11400000, guid: 47d49aa3ce4cd574e952245e85b9c682, type: 2}
   - {fileID: 11400000, guid: f7759ba015b73e44ea1ed8ee258c73b0, type: 2}
   - {fileID: 11400000, guid: f25d0d672e0564546b2becb9a84c33fa, type: 2}
@@ -424,11 +424,10 @@ MonoBehaviour:
   hitboxOffset: {x: 0, y: 0}
   hitboxSize: {x: 0, y: 0}
   muzzle: {fileID: 3614087267112828672}
-  player: {fileID: 0}
   groundCheck: {fileID: 713339460549578112}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4160
   groundWidth: 0.93
   groundHeight: 0.18
   bossRoom: {fileID: 0}
