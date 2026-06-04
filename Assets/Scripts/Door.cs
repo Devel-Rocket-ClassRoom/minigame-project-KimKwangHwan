@@ -32,6 +32,19 @@ public class Door : MonoBehaviour
         StartCoroutine(CloseRoutine());
     }
 
+    public void OpenImmediately()
+    {
+        if (_isOpen) return;
+        _isOpen = true;
+        StopAllCoroutines();
+        if (openDistance == 0f)
+        {
+            var sr = GetComponent<SpriteRenderer>();
+            if (sr != null) openDistance = sr.bounds.size.y;
+        }
+        transform.position += Vector3.up * openDistance;
+    }
+
     private IEnumerator OpenRoutine()
     {
         Vector3 startPos = transform.position;

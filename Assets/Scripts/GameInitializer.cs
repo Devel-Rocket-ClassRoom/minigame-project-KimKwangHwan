@@ -30,6 +30,8 @@ public class GameInitializer : Singleton<GameInitializer>
     private IEnumerator SpawnPlayerRoutine(SaveDataV data)
     {
         yield return MapManager.Instance.Initialize(data?.mapId);
+        if (data?.activatedSwitchIds != null)
+            Switch.RestoreActivated(data.activatedSwitchIds);
         Vector2 pos = data != null ? data.GetPosition() : defaultSpawnPos;
         PlayerManager.Instance.SpawnAt(pos);
         CameraController.Instance.SnapToPlayer();

@@ -1,13 +1,29 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Switch : MonoBehaviour
 {
+    [SerializeField] private string switchId;
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Sprite switchedSprite;
     [SerializeField] private Door linkedDoor;
     private SpriteRenderer _renderer;
     private bool _isActivated;
     private bool _playerNearby;
+
+    private static readonly Dictionary<string, Switch> Registry = new Dictionary<string, Switch>();
+
+    private void OnEnable()
+    {
+        if (!string.IsNullOrEmpty(switchId))
+            Registry[switchId] = this;
+    }
+
+    private void OnDisable()
+    {
+        if (!string.IsNullOrEmpty(switchId) && Registry.TryGetValue(switchId, out var sw) && sw == this)
+            Registry.Remove(switchId);
+    }
 
     private void Awake()
     {
@@ -43,5 +59,33 @@ public class Switch : MonoBehaviour
         _isActivated = true;
         _renderer.sprite = switchedSprite;
         linkedDoor?.Open();
+    }
+
+    public void ActivateSilent()
+    {
+        if (_isActivated) return;
+        _isActivated = true;
+        _renderer.sprite = switchedSprite;
+        linkedDoor?.OpenImmediately();
+    }
+
+    public static List<string> GetAllActivatedIds()
+    {
+        var ids = new List<string>();
+        foreach (var kv in Registry)
+        {
+            if (kv.Value._isActivated)
+                ids.Add(kv.Key);
+        }
+        return ids;
+    }
+
+    public static void RestoreActivated(List<string> ids)
+    {
+        foreach (var id in ids)
+        {
+            if (Registry.TryGetValue(id, out var sw))
+                sw.ActivateSilent();
+        }
     }
 }

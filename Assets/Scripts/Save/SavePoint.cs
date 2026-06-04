@@ -69,6 +69,8 @@ public class SavePoint : MonoBehaviour
         SaveDataV data = new SaveDataV();
         data.savePointId = savePointId;
         data.mapId = MapManager.Instance.CurrentMap?.mapId;
+        data.savedAt = System.DateTime.Now;
+        data.activatedSwitchIds = Switch.GetAllActivatedIds();
         SaveManager.Instance.Save(slot, data);
     }
     private void OnEnable() => Registry[savePointId] = this;
