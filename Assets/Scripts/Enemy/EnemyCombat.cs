@@ -34,6 +34,9 @@ public class EnemyCombat : MonoBehaviour
     }
     public EnemyAttackPattern SelectPattern()
     {
+        if (Context.target == null)
+            Context.target = PlayerManager.Instance.Current?.transform;
+
         // 쿨다운 + CanExecute 통과한 것 중 priority 높은 거
         EnemyAttackPattern best = null;
         int bestPriority = int.MinValue;

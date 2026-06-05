@@ -170,6 +170,38 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7564794706726997298, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
   m_PrefabInstance: {fileID: 3369058694483653964}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &282937747 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1983539177030295855, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+  m_PrefabInstance: {fileID: 3369058694483653964}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &282937750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282937747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d855d3bdea19f5349acef82ae8c6ed01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameOverUI
+  canvasGroup: {fileID: 282937751}
+  fadeDuration: 1.5
+  delayBeforeFade: 0.3
+--- !u!225 &282937751
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282937747}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1635,6 +1667,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameOver
       objectReference: {fileID: 0}
+    - target: {fileID: 1983539177030295855, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5199350312567756772, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840757354405339138, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840757354405339138, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840757354405339138, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 282937750}
+    - target: {fileID: 6840757354405339138, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840757354405339138, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRestartClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840757354405339138, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameOverUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840757354405339138, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7564794706726997298, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1718,7 +1786,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1983539177030295855, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 282937750}
+    - targetCorrespondingSourceObject: {fileID: 1983539177030295855, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 282937751}
   m_SourcePrefab: {fileID: 100100000, guid: dbced1b01078df8469ac95fedaddb3f5, type: 3}
 --- !u!114 &3400716794874562140
 MonoBehaviour:

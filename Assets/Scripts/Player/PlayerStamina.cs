@@ -21,6 +21,8 @@ public class PlayerStamina : MonoBehaviour
         genTimer = 0f;
     }
 
+    public void ForceNotify() => OnStaminaChanged?.Invoke(currentStamina, maxStamina);
+
     public bool TryUseStamina(float amount)
     {
         if (currentStamina < amount)

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -39,8 +38,6 @@ public class GameOverUI : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(delayBeforeFade);
 
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.interactable = true;
 
         float elapsed = 0f;
         while (elapsed < fadeDuration)
@@ -50,10 +47,15 @@ public class GameOverUI : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = true;
     }
 
     public void OnRestartClick()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        canvasGroup.alpha = 0f;
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.interactable = false;
+        GameInitializer.Instance.Restart();
     }
 }

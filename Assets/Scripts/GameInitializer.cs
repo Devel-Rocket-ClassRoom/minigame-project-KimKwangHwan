@@ -27,6 +27,21 @@ public class GameInitializer : Singleton<GameInitializer>
         StartCoroutine(SpawnPlayerRoutine(data));
     }
 
+    public void Restart()
+    {
+        StartCoroutine(RestartRoutine());
+    }
+
+    private IEnumerator RestartRoutine()
+    {
+        Destroy(PlayerManager.Instance?.Current.gameObject);
+        PlayerManager.Instance.Clear(PlayerManager.Instance?.Current);
+        Switch.ClearPersistent();
+        yield return MapManager.Instance.UnloadAll();
+        SaveDataV data = SaveManager.Instance.LoadLastUsed();
+        yield return SpawnPlayerRoutine(data);
+    }
+
     private IEnumerator SpawnPlayerRoutine(SaveDataV data)
     {
         yield return MapManager.Instance.Initialize(data?.mapId);
@@ -34,6 +49,14 @@ public class GameInitializer : Singleton<GameInitializer>
             Switch.RestoreActivated(data.activatedSwitchIds);
         Vector2 pos = data != null ? data.GetPosition() : defaultSpawnPos;
         PlayerManager.Instance.SpawnAt(pos);
+        yield return null;
+        var player = PlayerManager.Instance.Current;
+        if (player != null)
+        {
+            player.Health.ForceNotify();
+            player.Stamina.ForceNotify();
+            player.Inventory.ForceNotify();
+        }
         CameraController.Instance.SnapToPlayer();
     }
 }

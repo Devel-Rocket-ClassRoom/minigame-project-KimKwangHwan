@@ -212,7 +212,7 @@ MonoBehaviour:
   wallJumpHorizontalPower: 4
   wallJumpVerticalPower: 8
   wallJumpLockTime: 0.6
-  wallDetachPushSpeed: 14
+  wallDetachPushSpeed: 5
   wallDetachLockTime: 0.25
   wallDetachUpSpeed: 2
   oneWayGroundMaxUpVelocity: 0.5

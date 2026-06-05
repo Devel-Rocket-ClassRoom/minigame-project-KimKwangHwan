@@ -12,11 +12,19 @@ public class Switch : MonoBehaviour
     private bool _playerNearby;
 
     private static readonly Dictionary<string, Switch> Registry = new Dictionary<string, Switch>();
+    private static readonly HashSet<string> s_persistentActivated = new HashSet<string>();
 
     private void OnEnable()
     {
         if (!string.IsNullOrEmpty(switchId))
+        {
             Registry[switchId] = this;
+            if (s_persistentActivated.Contains(switchId))
+            {
+                ActivateSilent();
+                Debug.Log($"Switched : {switchId}");
+            }
+        }
     }
 
     private void OnDisable()
@@ -59,6 +67,7 @@ public class Switch : MonoBehaviour
         _isActivated = true;
         _renderer.sprite = switchedSprite;
         linkedDoor?.Open();
+        s_persistentActivated.Add(switchId);
     }
 
     public void ActivateSilent()
@@ -71,21 +80,19 @@ public class Switch : MonoBehaviour
 
     public static List<string> GetAllActivatedIds()
     {
-        var ids = new List<string>();
-        foreach (var kv in Registry)
-        {
-            if (kv.Value._isActivated)
-                ids.Add(kv.Key);
-        }
-        return ids;
+        return new List<string>(s_persistentActivated);
     }
 
     public static void RestoreActivated(List<string> ids)
     {
+        s_persistentActivated.Clear();
+        foreach (var id in ids) s_persistentActivated.Add(id);
         foreach (var id in ids)
-        {
             if (Registry.TryGetValue(id, out var sw))
                 sw.ActivateSilent();
-        }
     }
+
+    public static void ClearPersistent() => s_persistentActivated.Clear();
+
+    public static bool TryGet(string id, out Switch sw) => Registry.TryGetValue(id, out sw);
 }

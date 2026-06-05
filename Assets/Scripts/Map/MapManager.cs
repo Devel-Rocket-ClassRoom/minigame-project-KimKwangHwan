@@ -100,6 +100,14 @@ public class MapManager : Singleton<MapManager>
         _loadedScenes[map] = scene;
     }
 
+    public IEnumerator UnloadAll()
+    {
+        _isTransitioning = false;
+        foreach (var map in _loadedScenes.Keys.ToList())
+            yield return UnloadMap(map);
+        CurrentMap = null;
+    }
+
     private IEnumerator UnloadMap(MapData map)
     {
         if (!_loadedScenes.TryGetValue(map, out var scene)) yield break;

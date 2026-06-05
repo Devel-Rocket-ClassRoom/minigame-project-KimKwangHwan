@@ -8,14 +8,14 @@ public class Door : MonoBehaviour
 
     [SerializeField] private bool _isOpen;
 
-    private void Start()
+    private void Awake()
     {
-        if (openDistance == 0f)
-        {
-            var sr = GetComponent<SpriteRenderer>();
-            if (sr != null)
-                openDistance = sr.bounds.size.y;
-        }
+        SetOpenDistance();
+    }
+
+    private void OnEnable()
+    {
+        SetOpenDistance();
     }
 
     public void Open()
@@ -35,13 +35,9 @@ public class Door : MonoBehaviour
     public void OpenImmediately()
     {
         if (_isOpen) return;
+        SetOpenDistance();
         _isOpen = true;
         StopAllCoroutines();
-        if (openDistance == 0f)
-        {
-            var sr = GetComponent<SpriteRenderer>();
-            if (sr != null) openDistance = sr.bounds.size.y;
-        }
         transform.position += Vector3.up * openDistance;
     }
 
@@ -79,5 +75,15 @@ public class Door : MonoBehaviour
         }
 
         transform.position = targetPos;
+    }
+
+    private void SetOpenDistance()
+    {
+        if (openDistance == 0f)
+        {
+            var sr = GetComponent<SpriteRenderer>();
+            if (sr != null)
+                openDistance = sr.bounds.size.y;
+        }
     }
 }
