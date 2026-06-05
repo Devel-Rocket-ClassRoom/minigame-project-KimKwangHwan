@@ -9,6 +9,7 @@ public class PotCreatureDeathState : EnemyState<PotCreature>
     public override void Enter(EnemyState prevState)
     {
         enemy.Animator.SetBool("Death", true);
+        enemy.StartFadeAndDestroy();
     }
 
     public override void Exit()

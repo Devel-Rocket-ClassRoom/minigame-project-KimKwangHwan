@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - DeadZone
   layers:
   - Default
   - TransparentFX
@@ -21,8 +22,8 @@ TagManager:
   - OneWayPlatform
   - SavePoint
   - Transition
-  - 
-  - 
+  - Obstacle
+  - Interactable
   - 
   - 
   - 
@@ -48,6 +49,12 @@ TagManager:
   - name: Detail
     uniqueID: 30250991
     locked: 0
+  - name: Obstacle
+    uniqueID: 1273849197
+    locked: 0
+  - name: Harzard
+    uniqueID: 1586635585
+    locked: 0
   - name: OneWayPlatform
     uniqueID: 2500613567
     locked: 0
@@ -59,9 +66,6 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 285479161
-    locked: 0
-  - name: Harzard
-    uniqueID: 1586635585
     locked: 0
   - name: Foreground
     uniqueID: 1305037787

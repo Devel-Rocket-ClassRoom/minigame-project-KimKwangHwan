@@ -29,6 +29,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
     }
 
+    public void ForceNotify() => OnHealthChanged?.Invoke(currentHp, maxHp);
+
     public void Heal(float amount)
     {
         if (currentHp < maxHp)

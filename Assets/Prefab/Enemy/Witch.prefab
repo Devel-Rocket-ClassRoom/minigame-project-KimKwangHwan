@@ -412,9 +412,9 @@ MonoBehaviour:
   enemyCombat: {fileID: 0}
   enemyHealth: {fileID: 1548484314044596736}
   patterns:
+  - {fileID: 11400000, guid: 455a83d9a4d856b408e5b07ca27a7a86, type: 2}
   - {fileID: 11400000, guid: cee1988a74056cf42ac3b5e0ecb66068, type: 2}
   - {fileID: 11400000, guid: 7081b46c6e9678c4d885e4ccf7d4f0b2, type: 2}
-  - {fileID: 11400000, guid: 455a83d9a4d856b408e5b07ca27a7a86, type: 2}
   - {fileID: 11400000, guid: 47d49aa3ce4cd574e952245e85b9c682, type: 2}
   - {fileID: 11400000, guid: f7759ba015b73e44ea1ed8ee258c73b0, type: 2}
   - {fileID: 11400000, guid: f25d0d672e0564546b2becb9a84c33fa, type: 2}
@@ -424,14 +424,15 @@ MonoBehaviour:
   hitboxOffset: {x: 0, y: 0}
   hitboxSize: {x: 0, y: 0}
   muzzle: {fileID: 3614087267112828672}
-  player: {fileID: 0}
   groundCheck: {fileID: 713339460549578112}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4160
   groundWidth: 0.93
   groundHeight: 0.18
   bossRoom: {fileID: 0}
+  groundCheckDist: 0.15
+  minNormalY: 0.5
 --- !u!114 &1548484314044596736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,7 +528,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: f26e37168c323c84abc0ee74921a0ef0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -547,7 +548,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1913220881
-  m_SortingLayer: 5
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8145330047459180198, guid: 1f11a6f952148b54ab2f953aafab0cb2, type: 3}

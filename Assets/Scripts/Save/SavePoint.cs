@@ -37,7 +37,6 @@ public class SavePoint : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("[SavePoint] Trigger Exit: " + other.name);
         var player = other.GetComponent<PlayerController>();
         if (player == null) return;
 
@@ -51,12 +50,12 @@ public class SavePoint : MonoBehaviour
     private void Update()
     {
         if (!_playerInRange || _player == null) return;
-        if (Keyboard.current == null) return;
+        // if (Keyboard.current == null) return;
 
         // 이미 슬롯 패널이 열려 있으면(타임스케일 0) 중복 오픈 방지
         //if (SaveSlotUI.Instance != null && SaveSlotUI.Instance.IsOpen) return;
 
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        if (_player.Input.InteractPressed)
         {
             Debug.Log("[SavePoint] 저장 키 입력 감지");
             //SaveSlotUI.Instance.OpenForSave(_player, this);
@@ -70,6 +69,8 @@ public class SavePoint : MonoBehaviour
         SaveDataV data = new SaveDataV();
         data.savePointId = savePointId;
         data.mapId = MapManager.Instance.CurrentMap?.mapId;
+        data.savedAt = System.DateTime.Now;
+        data.activatedSwitchIds = Switch.GetAllActivatedIds();
         SaveManager.Instance.Save(slot, data);
     }
     private void OnEnable() => Registry[savePointId] = this;

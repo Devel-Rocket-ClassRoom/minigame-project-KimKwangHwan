@@ -10,6 +10,7 @@ public abstract class EnemyAttackPattern : ScriptableObject
 
     public virtual bool CanExecute(EnemyContext ctx)
     {
+        if (ctx.target == null) return false;
         float dist = Vector2.Distance(ctx.self.position, ctx.target.position);
         return dist <= range;
     }

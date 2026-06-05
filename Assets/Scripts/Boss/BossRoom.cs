@@ -4,6 +4,7 @@ public class BossRoom : MonoBehaviour
 {
     [SerializeField] private Vector2 center;
     [SerializeField] private Vector2 size;
+    [SerializeField] private Door[] entranceDoors;
     public Vector2 Min => (Vector2)transform.position + center - size * 0.5f;
     public Vector2 Max => (Vector2)transform.position + center + size * 0.5f;
 
@@ -28,9 +29,36 @@ public class BossRoom : MonoBehaviour
         return (Vector2)transform.position + dir * minDistance;
     }
 
+    public event System.Action OnPlayerEnter;
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            OnPlayerEnter?.Invoke();
+            CloseDoors();
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireCube((Vector2)transform.position + center, size);
+    }
+
+    public void OpenDoors()
+    {
+        foreach (var door in entranceDoors)
+        {
+            door.Open();
+        }
+    }
+
+    public void CloseDoors()
+    {
+        foreach (var door in entranceDoors)
+        {
+            door.Close();
+        }
     }
 }

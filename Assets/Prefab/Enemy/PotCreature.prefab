@@ -56,7 +56,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   loseSightDuration: 10
-  forceTarget: {fileID: 0}
 --- !u!1 &2185185307090492375
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +241,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f26e37168c323c84abc0ee74921a0ef0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -262,7 +261,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1913220881
-  m_SortingLayer: 5
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -492661096, guid: 6fa0d2d0ad9ac254e9d92e975aa004d2, type: 3}
@@ -472,7 +471,7 @@ MonoBehaviour:
   moveSpeed: 0.8
   groundMask:
     serializedVersion: 2
-    m_Bits: 4160
+    m_Bits: 36928
   wallCheckDist: 0.3
   cliffCheckDown: 0.5
   wallCheck: {fileID: 8132234222671509444}

@@ -3,11 +3,16 @@ using System.Collections.Generic;
 
 public class Hitbox : MonoBehaviour
 {
+    private enum HitboxMode { OneShot, Repeating }
+
     [SerializeField] private LayerMask targetLayer;
     private BoxCollider2D _col;
     private readonly HashSet<int> _hitOnce = new();
+    private readonly Dictionary<int, float> _hitTimes = new();
     private float _damage, _knockback, _facing = 1f;
     private bool _active;
+    private HitboxMode _mode = HitboxMode.OneShot;
+    private float _rehitInterval;
 
     void Awake()
     {
@@ -19,8 +24,24 @@ public class Hitbox : MonoBehaviour
     public void Enable(float damage, Vector2 offset, Vector2 size,
                        float knockback, float facing)
     {
-        // TODO: 콜라이더 위치/크기 세팅 후 활성화.
-        //       같은 스윙 내 중복 타격 방지(이미 맞은 대상 HashSet)는 필수.
+        _mode = HitboxMode.OneShot;
+        _damage = damage;
+        _knockback = knockback;
+
+        _col.size = size;
+        _col.offset = new Vector2(offset.x, offset.y);
+
+        _hitOnce.Clear();
+        _col.enabled = true;
+        _active = true;
+    }
+
+    public void Enable(float damage, Vector2 offset, Vector2 size,
+                       float knockback, float facing, float rehitInterval)
+    {
+        _mode = HitboxMode.Repeating;
+        _rehitInterval = rehitInterval;
+        _hitTimes.Clear();
         _damage = damage;
         _knockback = knockback;
 
@@ -34,20 +55,38 @@ public class Hitbox : MonoBehaviour
 
     public void Disable()
     {
-        // TODO: 콜라이더 비활성 + 타격 대상 set 클리어
         _col.enabled = false;
         _active = false;
         _hitOnce.Clear();
+        _hitTimes.Clear();
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other) => TryHit(other);
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (_mode == HitboxMode.Repeating) TryHit(other);
+    }
+
+    void TryHit(Collider2D other)
     {
         if (!_active) return;
         if (((1 << other.gameObject.layer) & targetLayer.value) == 0) return;
-        if (!_hitOnce.Add(other.GetInstanceID())) return;
+        Debug.Log($"TryHit: {other.name} {_mode}");
+        int id = other.GetInstanceID();
+        if (_mode == HitboxMode.OneShot)
+        {
+            if (!_hitOnce.Add(id)) return;
+        }
+        else
+        {
+            float now = Time.time;
+            if (_hitTimes.TryGetValue(id, out float last) && now - last < _rehitInterval) return;
+            _hitTimes[id] = now;
+        }
+
         if (!other.TryGetComponent<HurtBox>(out var hurtbox)) return;
         hurtbox.ReceiveHit(_damage);
-        // Debug.Log($"[Hitbox] HIT {other.name} dmg={_damage} kb={_knockback} dir={_facing}");
     }
 #if UNITY_EDITOR
     void OnDrawGizmos()

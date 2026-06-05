@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -13,6 +14,7 @@ public class SaveDataV1 : SaveData
     public string savePointId;
     public string mapId;
     public System.DateTime savedAt;
+    public List<string> activatedSwitchIds = new List<string>();
     public SaveDataV1()
     {
         Version = 1;

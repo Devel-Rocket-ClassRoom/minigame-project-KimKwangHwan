@@ -24,6 +24,9 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float wallCheckDistance = 0.5f;
     [SerializeField] private float wallCheckHeight = 0.5f;
     [SerializeField] private float wallStickSpeed = 2f;
+    [SerializeField] private float wallReleaseHoldTime = 0.2f;
+
+    public float WallReleaseHoldTime => wallReleaseHoldTime;
 
     private Vector2 origin;
     private bool isGrounded;
@@ -42,7 +45,14 @@ public class PlayerMotor : MonoBehaviour
     public Rigidbody2D RB { get { return rb; } }
     public bool IsOnOneWayPlatform() => isOnOneWayPlatform;
     [SerializeField] private float dropThroughDuration = 0.3f;
+    [SerializeField] private float slopeCheckDistance = 0.3f;
+    [SerializeField] private float maxSlopeAngle = 60f;
+    [SerializeField] private float minSlopeAngle = 1f;
     private Coroutine CoDropThrough;
+    private bool isJumping;
+    private bool isOnSlope;
+    private float slopeAngle;
+    private Vector2 slopeNormal;
     private void Awake()
     {
         isGrounded = true;
@@ -76,18 +86,22 @@ public class PlayerMotor : MonoBehaviour
     // 수직 점프 — 카운트 안 셈. 시키면 뛸 뿐.
     public void JumpVertical()
     {
+        isJumping = true;
         rb.linearVelocityY = 0f;
         rb.AddForce(new Vector2(0f, jumpPower), ForceMode2D.Impulse);
         wallJumpLockTimer = 0f;
+        wallDetachLockTimer = 0f;  // 더블점프 후 벽 재부착 허용
     }
 
     // 대각 벽 점프 — 벽 방향을 인자로 받음 (+1 = 벽이 오른쪽)
     public void WallJump(float wallSide)
     {
+        isJumping = true;
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(new Vector2(-wallSide * wallJumpHorizontalPower, wallJumpVerticalPower),
                     ForceMode2D.Impulse);
         wallJumpLockTimer = wallJumpLockTime;
+        wallDetachLockTimer = wallJumpLockTime;  // 점프 직후 재부착 방지
     }
     // 방향키로 벽에서 떼어낼 때 호출 — 벽 반대로 한 번 밀어주고, 짧게 재부착을 막음
     public void WallDetach(float wallSide)
@@ -127,6 +141,28 @@ public class PlayerMotor : MonoBehaviour
         // (러닝 중 물리 잔차로 velocityY가 잠깐 +가 돼도 ground 유지)
         bool oneWayAsGround = isOnOneWayPlatform && rb.linearVelocityY <= oneWayGroundMaxUpVelocity;
         isGrounded = hardGround != null || oneWayAsGround;
+
+        if (isGrounded && !wasGrounded)
+            isJumping = false;
+
+        isOnSlope = false;
+        slopeAngle = 0f;
+        slopeNormal = Vector2.up;
+        if (isGrounded)
+        {
+            RaycastHit2D slopeHit = Physics2D.Raycast(
+                groundCheck.transform.position,
+                Vector2.down,
+                slopeCheckDistance,
+                hardGroundMask);
+            if (slopeHit.collider != null)
+            {
+                slopeNormal = slopeHit.normal;
+                slopeAngle  = Vector2.Angle(Vector2.up, slopeNormal);
+                isOnSlope   = slopeAngle > minSlopeAngle && slopeAngle <= maxSlopeAngle;
+            }
+        }
+
         origin = (Vector2)transform.position + Vector2.up * wallCheckHeight;
         bool right = Physics2D.OverlapCircle(origin + Vector2.right * wallCheckDistance,
                                              wallRadius, wallLayer) != null;
@@ -145,7 +181,19 @@ public class PlayerMotor : MonoBehaviour
                 ? (accelerating ? groundAccel : groundDecel)
                 : (accelerating ? airAccel : airDecel);
 
-            rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, target, rate * Time.fixedDeltaTime);
+            if (isGrounded && !isJumping && isOnSlope)
+            {
+                Vector2 tangent = new Vector2(slopeNormal.y, -slopeNormal.x);
+                float along = Mathf.MoveTowards(
+                    Vector2.Dot(rb.linearVelocity, tangent),
+                    target,
+                    rate * Time.fixedDeltaTime);
+                rb.linearVelocity = tangent * along;
+            }
+            else
+            {
+                rb.linearVelocityX = Mathf.MoveTowards(rb.linearVelocityX, target, rate * Time.fixedDeltaTime);
+            }
         }
     }
     public void DropThroughOneWay()

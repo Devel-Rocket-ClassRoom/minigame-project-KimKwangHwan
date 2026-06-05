@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06f0d8f0d6906c4a92c8be5c1b0a818, type: 3}
   m_Name: Map2
   m_EditorClassIdentifier: Assembly-CSharp::MapData
-  mapId: 1
+  mapId: 2
   sceneName: Map2
-  sceneOffset: {x: 50, y: 0}
-  boundsCenter: {x: 0.06, y: 2.09}
-  boundsSize: {x: 26.5, y: 24.7}
+  sceneOffset: {x: 100, y: 0}
+  boundsCenter: {x: 2.96, y: 7.8}
+  boundsSize: {x: 32.9, y: 14.7}
   connections:
   - targetMap: {fileID: 11400000, guid: 378647f0cecaf8e439f6a8582d40cd4f, type: 2}
+    exitZoneId: 
+    entryZoneId: 
+  - targetMap: {fileID: 11400000, guid: caf169b0198576049ad9627b7ad31201, type: 2}
     exitZoneId: 
     entryZoneId: 

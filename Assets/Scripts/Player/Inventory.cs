@@ -20,6 +20,12 @@ public class Inventory : MonoBehaviour
         CurrentHealItems = maxHealItems;
     }
 
+    public void ForceNotify()
+    {
+        OnAmmoChanged?.Invoke(MaxAmmo, CurrentAmmo);
+        OnHealItemChanged?.Invoke(MaxHealItems, CurrentHealItems);
+    }
+
     public bool TryUseAmmo()
     {
         if (CurrentAmmo == 0)

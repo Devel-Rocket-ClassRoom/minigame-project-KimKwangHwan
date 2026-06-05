@@ -11,7 +11,8 @@ public class ArcProjectile : Projectile
     }
 
     // start: 발사 위치, target: 착지 목표, speed: 발사 속력 (고정)
-    public void LaunchArc(Vector2 start, Vector2 target, float speed, float damage)
+    // useLowArc: true면 저각(직선에 가까운) 궤도 사용
+    public void LaunchArc(Vector2 start, Vector2 target, float speed, float damage, bool useLowArc = false)
     {
         rb.position = start;
         this.damage = damage;
@@ -22,10 +23,10 @@ public class ArcProjectile : Projectile
         float dx = Mathf.Abs(rawDx);
         float dy = target.y - start.y;
 
-        // 거의 수직인 경우 그냥 위로 발사
+        // 거의 수직인 경우
         if (dx < 0.01f)
         {
-            rb.linearVelocity = new Vector2(0f, speed);
+            rb.linearVelocity = new Vector2(0f, useLowArc ? -speed : speed);
             return;
         }
 
@@ -34,16 +35,19 @@ public class ArcProjectile : Projectile
         float disc = v2 * v2 - g * (g * dx * dx + 2f * dy * v2);
         if (disc < 0f)
         {
-            // 사정거리 초과 시 45도(최대 사거리 각도)로 발사
+            float fallbackAngle = useLowArc ? 20f : 45f;
             rb.linearVelocity = new Vector2(
-                speed * Mathf.Cos(45f * Mathf.Deg2Rad) * Mathf.Sign(rawDx),
-                speed * Mathf.Sin(45f * Mathf.Deg2Rad)
+                speed * Mathf.Cos(fallbackAngle * Mathf.Deg2Rad) * Mathf.Sign(rawDx),
+                speed * Mathf.Sin(fallbackAngle * Mathf.Deg2Rad)
             );
             return;
         }
 
-        // +sqrt → 고각(포물선), -sqrt → 저각(직선에 가까움)
-        float tanTheta = (v2 + Mathf.Sqrt(disc)) / (g * dx);
+        // +sqrt → 고각(포물선), -sqrt → 저각(직선에 가까움, dy<0이면 하향도 가능)
+        float sqrtDisc = Mathf.Sqrt(disc);
+        float tanTheta = useLowArc
+            ? (v2 - sqrtDisc) / (g * dx)
+            : (v2 + sqrtDisc) / (g * dx);
         float theta = Mathf.Atan(tanTheta);
 
         rb.linearVelocity = new Vector2(

@@ -15,6 +15,10 @@ public class ArcProjectileAttack : EnemyAttackPattern
     public float spreadRadius = 0.5f;   // 착지 위치 분산 반경 (0이면 정확히 타겟)
     public float intervalBetweenShots = 0f;
 
+    [Header("거리 기반 각도 조정")]
+    [Tooltip("이 수평 거리 이하이거나 플레이어가 아래에 있으면 저각으로 발사")]
+    public float closeRangeThreshold = 4f;
+
     [Header("애니메이션")]
     public string animTrigger = "Shoot";
     public string animOutTrigger = "ShootStop";
@@ -26,14 +30,19 @@ public class ArcProjectileAttack : EnemyAttackPattern
         ctx.anim.SetTrigger(animTrigger);
         yield return ctx.WaitForAnimEvent("ProjectileFire");
 
+        Vector2 muzzlePos = ctx.muzzle.position;
+        float rawDx = ctx.target.position.x - muzzlePos.x;
+        float dy = ctx.target.position.y - muzzlePos.y;
+        bool useLowArc = Mathf.Abs(rawDx) < closeRangeThreshold || dy < 0f;
+
         for (int i = 0; i < projectileCount; i++)
         {
             Vector2 landPos = ctx.target.position;
             if (spreadRadius > 0f)
                 landPos += Random.insideUnitCircle * spreadRadius;
 
-            var go = PoolManager.Instance.Spawn(projectilePrefab.gameObject, ctx.muzzle.position, Quaternion.identity);
-            go.GetComponent<ArcProjectile>().LaunchArc(ctx.muzzle.position, landPos, speed, damage);
+            var go = PoolManager.Instance.Spawn(projectilePrefab.gameObject, muzzlePos, Quaternion.identity);
+            go.GetComponent<ArcProjectile>().LaunchArc(muzzlePos, landPos, speed, damage, useLowArc);
 
             if (intervalBetweenShots > 0f && i < projectileCount - 1)
                 yield return new WaitForSeconds(intervalBetweenShots);

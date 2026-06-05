@@ -125,8 +125,8 @@ public class SaveSlotUI : MonoBehaviour
                 break;
 
             case Mode.Load:
-                //if (GameInitializer.Instance != null)
-                //    GameInitializer.Instance.ApplyLoad(slot);
+                if (GameInitializer.Instance != null)
+                    GameInitializer.Instance.ApplyLoad(slot);
                 break;
         }
         ClosePanel();

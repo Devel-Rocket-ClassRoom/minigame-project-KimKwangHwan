@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffd3e1722ca4d394dafcd63d12accd52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameInitializer
-  player: {fileID: 6561089411599535322, guid: b486d3470d4c0f549bc73f21abebfef0, type: 3}
+  defaultSpawnPos: {x: -5, y: 0}
   autoLoadOnStart: 1

@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
         SnapToPlayer();
     }
 
-    private void SnapToPlayer()
+    public void SnapToPlayer()
     {
         if (!PlayerManager.Instance.HasPlayer) return;
         _velocity = Vector3.zero;

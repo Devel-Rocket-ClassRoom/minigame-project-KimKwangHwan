@@ -34,12 +34,13 @@ public class BossContext
         return dir;
     }
 
-    public IEnumerator WaitForAnimEvent(string eventName)
+    public IEnumerator WaitForAnimEvent(string eventName, float timeout = 10f)
     {
         bool fired = false;
+        float startTime = Time.time;
         System.Action handler = () => fired = true;
         animEvents.Subscribe(eventName, handler);
-        yield return new WaitUntil(() => fired);
+        yield return new WaitUntil(() => fired || Time.time - startTime > timeout);
         animEvents.Unsubscribe(eventName, handler);
     }
 }

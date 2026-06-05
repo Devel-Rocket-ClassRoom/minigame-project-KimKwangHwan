@@ -21,6 +21,10 @@ public class PlayerDeathState : PlayerState
 
     public override void PhysicsUpdate()
     {
+        if (player.Motor.IsGrounded())
+        {
+            player.Animator.SetBool("IsGrounded", true);
+        }
     }
 
     public override void Update()

@@ -20,6 +20,7 @@ public class PotionDisplay : MonoBehaviour
     }
     private void Start()
     {
+        if (inventory == null) return;
         ChangeText(inventory.MaxHealItems, inventory.CurrentHealItems);
     }
     private void ChangeText(int max, int current)

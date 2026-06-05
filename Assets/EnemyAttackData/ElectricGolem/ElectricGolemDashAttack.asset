@@ -20,9 +20,10 @@ MonoBehaviour:
   recoveryTime: 0.5
   dashSpeed: 12
   damage: 20
-  hitboxOffset: {x: 0.5, y: 0}
-  hitboxSize: {x: 1.2, y: 1.4}
+  hitboxOffset: {x: -0.07, y: 0.51}
+  hitboxSize: {x: 3.58, y: 2.2}
   knockback: 6
+  rehitInterval: 0.3
   animTelegraphTrigger: Attack2Start
   animStartTrigger: Attack2
   animEndTrigger: Attack2Stop

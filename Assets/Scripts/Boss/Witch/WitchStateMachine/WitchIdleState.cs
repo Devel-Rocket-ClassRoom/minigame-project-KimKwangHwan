@@ -22,6 +22,8 @@ public class WitchIdleState : EnemyState<Witch>
 
     public override void Update()
     {
+        if (enemy.Ctx.playerTransform == null) return;
+        //enemy.PendingPattern = enemy.Patterns[0];
         enemy.PendingPattern = enemy.Selector.SelectNext(enemy.Ctx);
         stateMachine.ChangeState(enemy.moveState);
     }

@@ -9,7 +9,12 @@ public class PlayerInputReader : MonoBehaviour
     public bool JumpHeld { get; private set; }
     public bool DashPressed { get; private set; }
     public bool UseItemPressed { get; private set; }
+    public bool InteractPressed { get; private set; }
 
+    public void OnInteract(InputAction.CallbackContext c)
+    {
+        if (c.started) InteractPressed = true;
+    }
     public void OnMove(InputAction.CallbackContext c)
     {
         var v = c.ReadValue<Vector2>();
@@ -34,5 +39,6 @@ public class PlayerInputReader : MonoBehaviour
         JumpPressed = false;
         DashPressed = false;
         UseItemPressed = false;
+        InteractPressed = false;
     }
 }
