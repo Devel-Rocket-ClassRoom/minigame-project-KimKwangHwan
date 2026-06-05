@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 4440104997211798663}
   - component: {fileID: 8301130244778486743}
   - component: {fileID: 4344460492010653190}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ElectricGolem
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c892b811c1f6fc54d8b180c8895336af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHp: 100
+  maxHp: 250
 --- !u!114 &7731430608253937915
 MonoBehaviour:
   m_ObjectHideFlags: 0

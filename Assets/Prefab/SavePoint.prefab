@@ -32,6 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2645255980921530465}
+  - {fileID: 5926355527364205401}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &5047103305781128335
@@ -93,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SavePoint
   savePointId: sp_01
-  glowSprite: {fileID: 5999321484246790829, guid: e40c2b055488a404b8f4ca42ff299313, type: 3}
+  key: {fileID: 4290705481870374364}
 --- !u!1 &6511818184934478643
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +173,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 285479161
-  m_SortingLayer: 6
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 0638c11c579d3924eb4e8068f88069e2, type: 3}
@@ -185,3 +186,70 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1001 &5410483574844829496
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4490429666431579892}
+    m_Modifications:
+    - target: {fileID: 1813616765066900577, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.704
+      objectReference: {fileID: 0}
+    - target: {fileID: 1813616765066900577, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.514
+      objectReference: {fileID: 0}
+    - target: {fileID: 1813616765066900577, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1813616765066900577, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1813616765066900577, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1813616765066900577, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1813616765066900577, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1813616765066900577, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1813616765066900577, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1813616765066900577, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114998079725394660, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_Name
+      value: InteractableToggle
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+--- !u!1 &4290705481870374364 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8114998079725394660, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+  m_PrefabInstance: {fileID: 5410483574844829496}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5926355527364205401 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1813616765066900577, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+  m_PrefabInstance: {fileID: 5410483574844829496}
+  m_PrefabAsset: {fileID: 0}
