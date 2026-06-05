@@ -53,6 +53,7 @@ public class GameOverUI : MonoBehaviour
 
     public void OnRestartClick()
     {
+        // 패널 즉시 숨기고 Restart()에 FadeOut/FadeIn 위임
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
         canvasGroup.interactable = false;

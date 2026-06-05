@@ -28,6 +28,7 @@ public class HpBar : MonoBehaviour
 
     private void Start()
     {
+        if (playerHealth == null) return;
         UpdateHpBar(playerHealth.CurrentHp, playerHealth.MaxHp);
     }
 

@@ -160,4 +160,9 @@ public class PlayerController : MonoBehaviour
         Inventory.AddAmmo(Inventory.MaxAmmo);
         Inventory.AddHealItem(Inventory.MaxHealItems);
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "DeadZone")
+            playerHealth.TakeDamage(Health.MaxHp);
+    }
 }

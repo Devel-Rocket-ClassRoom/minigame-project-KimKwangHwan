@@ -21,6 +21,7 @@ public class AmmoDisplay : MonoBehaviour
     }
     private void Start()
     {
+        if (inventory == null) return;
         ChangeText(inventory.MaxAmmo, inventory.CurrentAmmo);
     }
     private void ChangeText(int max, int current)

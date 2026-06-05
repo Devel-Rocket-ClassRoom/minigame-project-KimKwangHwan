@@ -27,6 +27,7 @@ public class StaminaBar : MonoBehaviour
     }
     private void Start()
     {
+        if (playerStamina == null) return;
         UpdateStaminaBar(playerStamina.CurrentStamina, playerStamina.MaxStamina);
     }
     private void Bind(PlayerController p)
