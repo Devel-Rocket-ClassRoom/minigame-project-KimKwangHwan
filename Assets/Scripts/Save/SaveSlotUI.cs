@@ -56,7 +56,7 @@ public class SaveSlotUI : MonoBehaviour
                     SaveDataV data = SaveManager.Instance.Load(i);
                     string mapLabel = data?.mapId ?? "Unknown";
                     string dateLabel = data?.savedAt.ToString("yyyy-MM-dd HH:mm") ?? "";
-                    slotTexts[i].text = $"Slot {i + 1}\n{mapLabel}\n{dateLabel}";
+                    slotTexts[i].text = $"Slot {i + 1}\n{dateLabel}";
                 }
                 else
                 {
