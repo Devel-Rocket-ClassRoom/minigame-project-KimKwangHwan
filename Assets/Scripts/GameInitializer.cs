@@ -56,14 +56,8 @@ public class GameInitializer : Singleton<GameInitializer>
         if (!_pendingGameStart) return;
 
         _pendingGameStart = false;
-        SaveDataV data = SaveManager.Instance.LoadLastUsed();
+        SaveDataV data = SaveManager.Instance.Load(SaveManager.Instance.ActiveSlot);
         StartCoroutine(InitWithFadeIn(data));
-    }
-
-    public void ApplyLoad(int slot)
-    {
-        SaveDataV data = SaveManager.Instance.Load(slot);
-        StartCoroutine(SpawnPlayerRoutine(data));
     }
 
     public void Restart()
@@ -79,7 +73,7 @@ public class GameInitializer : Singleton<GameInitializer>
         PlayerManager.Instance.Clear(PlayerManager.Instance?.Current);
         Switch.ClearPersistent();
         yield return MapManager.Instance.UnloadAll();
-        SaveDataV data = SaveManager.Instance.LoadLastUsed();
+        SaveDataV data = SaveManager.Instance.Load(SaveManager.Instance.ActiveSlot);
         yield return SpawnPlayerRoutine(data);
 
         yield return FadeController.Instance.FadeIn(fadeInDuration);

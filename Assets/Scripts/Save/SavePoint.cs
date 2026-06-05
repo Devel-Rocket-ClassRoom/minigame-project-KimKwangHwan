@@ -52,7 +52,7 @@ public class SavePoint : MonoBehaviour
         if (_player.Input.InteractPressed)
         {
             Debug.Log("[SavePoint] 저장 키 입력 감지");
-            ExecuteSave(0, _player);
+            ExecuteSave(SaveManager.Instance.ActiveSlot, _player);
             _player.AllRecovery();
         }
     }

@@ -6,6 +6,7 @@ public class TitleSceneController : MonoBehaviour
     [SerializeField] private string gameSceneName = "MainScene";
     [SerializeField] private float fadeInDuration = 1f;
     [SerializeField] private float fadeOutDuration = 0.5f;
+    [SerializeField] private SaveSlotUI saveSlotUI;
 
     private bool _isTransitioning;
 
@@ -14,11 +15,23 @@ public class TitleSceneController : MonoBehaviour
         StartCoroutine(FadeController.Instance.FadeIn(fadeInDuration));
     }
 
-    // 시작 버튼 OnClick()에 연결
-    public void OnStartGameClick()
+    public void OnNewGameClick()
+    {
+        if (_isTransitioning) return;
+        saveSlotUI.Open(SaveSlotUI.Mode.NewGame, OnSlotSelected);
+    }
+
+    public void OnContinueClick()
+    {
+        if (_isTransitioning) return;
+        saveSlotUI.Open(SaveSlotUI.Mode.Continue, OnSlotSelected);
+    }
+
+    private void OnSlotSelected(int slot)
     {
         if (_isTransitioning) return;
         _isTransitioning = true;
+        SaveManager.Instance.SetActiveSlot(slot);
         StartCoroutine(StartGameRoutine());
     }
 
