@@ -10,7 +10,7 @@ public class PlayerInputReader : MonoBehaviour
     public bool DashPressed { get; private set; }
     public bool UseItemPressed { get; private set; }
     public bool InteractPressed { get; private set; }
-
+    public bool PausePressed { get; private set; }
     public void OnInteract(InputAction.CallbackContext c)
     {
         if (c.started) InteractPressed = true;
@@ -34,10 +34,15 @@ public class PlayerInputReader : MonoBehaviour
     {
         if (c.started) UseItemPressed = true; 
     }
+    public void OnPause(InputAction.CallbackContext c)
+    {
+        if (c.started) PausePressed = true;
+    }
     void LateUpdate()
     {
         JumpPressed = false;
         DashPressed = false;
+        PausePressed = false;
         UseItemPressed = false;
         InteractPressed = false;
     }
