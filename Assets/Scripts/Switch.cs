@@ -7,6 +7,7 @@ public class Switch : MonoBehaviour
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Sprite switchedSprite;
     [SerializeField] private Door linkedDoor;
+    [SerializeField] private GameObject key;
     private SpriteRenderer _renderer;
     private bool _isActivated;
     private bool _playerNearby;
@@ -37,6 +38,7 @@ public class Switch : MonoBehaviour
     {
         _renderer = GetComponent<SpriteRenderer>();
         _renderer.sprite = defaultSprite;
+        if (key != null) key.SetActive(false);
     }
 
     private void Update()
@@ -53,13 +55,19 @@ public class Switch : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
+        {
             _playerNearby = true;
+            if (key != null) key.SetActive(true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
+        {
             _playerNearby = false;
+            if (key != null) key.SetActive(false);
+        }
     }
 
     private void Activate()

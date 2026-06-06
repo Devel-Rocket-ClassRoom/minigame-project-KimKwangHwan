@@ -7,15 +7,28 @@ public class SaveManager : Singleton<SaveManager>
 {
     public const int SlotCount = 3;
     private const string LastUsedSlotId = "LastUsedSlot";
+    private const string ActiveSlotKey = "ActiveSlot";
+
+    public int ActiveSlot { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
     {
         _ = Instance;
     }
+
     protected override void Awake()
     {
         base.Awake();
+        ActiveSlot = PlayerPrefs.GetInt(ActiveSlotKey, 0);
+    }
+
+    public void SetActiveSlot(int slot)
+    {
+        if (!IsValidSlot(slot)) return;
+        ActiveSlot = slot;
+        PlayerPrefs.SetInt(ActiveSlotKey, slot);
+        PlayerPrefs.Save();
     }
 
     private static string GetPath(int slot) => Path.Combine(Application.persistentDataPath, $"slot{slot}.sav");

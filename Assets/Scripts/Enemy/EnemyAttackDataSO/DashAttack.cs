@@ -34,6 +34,7 @@ public class DashAttack : EnemyAttackPattern
 
     public override IEnumerator Execute(EnemyContext ctx)
     {
+        ctx.SuperArmor = true;
         // 1) 예비 동작
         ctx.anim.SetTrigger(animTelegraphTrigger);
         float facing = ctx.Facing;
@@ -68,6 +69,7 @@ public class DashAttack : EnemyAttackPattern
         ctx.anim.SetTrigger(animEndTrigger);
         yield return ctx.WaitForAnimEvent("HitboxOff");
         ctx.rb.linearVelocity = new Vector2(0, ctx.rb.linearVelocity.y);
+        ctx.SuperArmor = false;
         yield return ctx.WaitForAnimEvent("RecoveryEnd");
         yield return new WaitForSeconds(recoveryTime);
     }

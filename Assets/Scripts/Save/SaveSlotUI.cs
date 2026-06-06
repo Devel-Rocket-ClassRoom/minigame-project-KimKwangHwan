@@ -2,143 +2,79 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using SaveDataV = SaveDataV1;
-/// <summary>
-/// 3슬롯 선택 UI. 저장 모드와 로드 모드를 같은 패널로 처리한다.
-///   - 저장 모드: 슬롯 선택 → SavePoint.ExecuteSave
-///   - 로드 모드: 슬롯 선택 → GameInitializer.ApplyLoad
-/// 패널이 열리면 Time.timeScale = 0 으로 게임을 정지한다.
-/// </summary>
+
 public class SaveSlotUI : MonoBehaviour
 {
-    public static SaveSlotUI Instance { get; private set; }
+    public enum Mode { NewGame, Continue }
 
-    private enum Mode { None, Save, Load }
+    [SerializeField] private TextMeshProUGUI titleText;
+    [SerializeField] private Button[] slotButtons;
+    [SerializeField] private TextMeshProUGUI[] slotTexts;
+    [SerializeField] private Button backButton;
 
-    [Header("Panels")]
-    [SerializeField] private GameObject slotPanel;     // 기본 SetActive false
-    [SerializeField] private GameObject promptUI;      // 기본 SetActive false
-
-    [Header("Slots")]
-    [SerializeField] private Button[] slotButtons = new Button[SaveManager.SlotCount];
-    [SerializeField] private TextMeshProUGUI[] slotTexts = new TextMeshProUGUI[SaveManager.SlotCount];
-
-    [Header("Etc")]
-    [SerializeField] private Button cancelButton;
-
-    private Mode _mode = Mode.None;
-    private PlayerController _currentPlayer;
-    private SavePoint _currentSavePoint;
-
-    public bool IsOpen => slotPanel != null && slotPanel.activeSelf;
+    private Mode _mode;
+    private System.Action<int> _onSlotSelected;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        if (backButton != null)
+            backButton.onClick.AddListener(() => gameObject.SetActive(false));
 
-        // 슬롯 버튼 리스너 연결 (루프 변수 캡처 주의 → 지역 복사)
         for (int i = 0; i < slotButtons.Length; i++)
         {
-            int index = i;
+            int slot = i;
             if (slotButtons[i] != null)
-                slotButtons[i].onClick.AddListener(() => OnSlotSelected(index));
+                slotButtons[i].onClick.AddListener(() => OnSlotClicked(slot));
         }
 
-        if (cancelButton != null)
-            cancelButton.onClick.AddListener(ClosePanel);
-
-        if (slotPanel != null) slotPanel.SetActive(false);
-        if (promptUI != null) promptUI.SetActive(false);
+        gameObject.SetActive(false);
     }
 
-    // ── 패널 열기 ───────────────────────────────────────────────
-    public void OpenForSave(PlayerController player, SavePoint savePoint)
+    public void Open(Mode mode, System.Action<int> onSlotSelected)
     {
-        _mode = Mode.Save;
-        _currentPlayer = player;
-        _currentSavePoint = savePoint;
-        OpenPanel();
+        _mode = mode;
+        _onSlotSelected = onSlotSelected;
+        gameObject.SetActive(true);
+        Refresh();
     }
 
-    public void OpenForLoad()
+    private void Refresh()
     {
-        _mode = Mode.Load;
-        _currentPlayer = null;
-        _currentSavePoint = null;
-        OpenPanel();
-    }
+        if (titleText != null)
+            titleText.text = _mode == Mode.NewGame ? "New Game" : "Continue";
 
-    private void OpenPanel()
-    {
-        ShowPrompt(false);
-        if (slotPanel != null) slotPanel.SetActive(true);
-        RefreshSlotTexts();
-        Time.timeScale = 0f;
-    }
-
-    // ── 프롬프트 ────────────────────────────────────────────────
-    public void ShowPrompt(bool show)
-    {
-        if (promptUI != null) promptUI.SetActive(show);
-    }
-
-    // ── 슬롯 텍스트 갱신 ────────────────────────────────────────
-    private void RefreshSlotTexts()
-    {
-        for (int slot = 0; slot < SaveManager.SlotCount; slot++)
+        for (int i = 0; i < slotButtons.Length; i++)
         {
-            if (slotTexts[slot] == null) continue;
+            if (i >= SaveManager.SlotCount) break;
 
-            string header = $"슬롯 {slot + 1}";
+            bool hasSave = SaveManager.Instance.HasSave(i);
 
-            if (!SaveManager.Instance.HasSave(slot))
+            if (slotTexts != null && i < slotTexts.Length && slotTexts[i] != null)
             {
-                slotTexts[slot].text = $"{header}\n비어 있음";
-                continue;
+                if (hasSave)
+                {
+                    SaveDataV data = SaveManager.Instance.Load(i);
+                    string mapLabel = data?.mapId ?? "Unknown";
+                    string dateLabel = data?.savedAt.ToString("yyyy-MM-dd HH:mm") ?? "";
+                    slotTexts[i].text = $"Slot {i + 1}\n{dateLabel}";
+                }
+                else
+                {
+                    slotTexts[i].text = $"Slot {i + 1}\n Empty";
+                }
             }
 
-            SaveDataV data = SaveManager.Instance.Load(slot);
-            if (data == null)
-            {
-                // 파일은 있으나 복호화/역직렬화 실패 → 손상
-                slotTexts[slot].text = $"{header}\n손상됨";
-                continue;
-            }
-
-            string when = data.savedAt.ToString("yyyy-MM-dd HH:mm");
-            slotTexts[slot].text = $"{header}\n{when}";
+            if (slotButtons[i] != null)
+                slotButtons[i].interactable = _mode == Mode.NewGame || hasSave;
         }
     }
 
-    // ── 슬롯 선택 ───────────────────────────────────────────────
-    private void OnSlotSelected(int slot)
+    private void OnSlotClicked(int slot)
     {
-        switch (_mode)
-        {
-            case Mode.Save:
-                if (_currentSavePoint != null && _currentPlayer != null)
-                    _currentSavePoint.ExecuteSave(slot, _currentPlayer);
-                break;
+        if (_mode == Mode.NewGame)
+            SaveManager.Instance.DeleteSave(slot);
 
-            case Mode.Load:
-                if (GameInitializer.Instance != null)
-                    GameInitializer.Instance.ApplyLoad(slot);
-                break;
-        }
-        ClosePanel();
-    }
-
-    // ── 패널 닫기 ───────────────────────────────────────────────
-    public void ClosePanel()
-    {
-        if (slotPanel != null) slotPanel.SetActive(false);
-        _mode = Mode.None;
-        _currentPlayer = null;
-        _currentSavePoint = null;
-        Time.timeScale = 1f;
+        _onSlotSelected?.Invoke(slot);
+        gameObject.SetActive(false);
     }
 }

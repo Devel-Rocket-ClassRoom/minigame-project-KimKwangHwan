@@ -8,7 +8,7 @@ using SaveDataV = SaveDataV1;
 public class SavePoint : MonoBehaviour
 {
     [SerializeField] private string savePointId = "sp_01";
-    [SerializeField] private SpriteRenderer glowSprite; // 활성 시 강조용(선택)
+    [SerializeField] private GameObject key;
 
     private bool _playerInRange;
     private PlayerController _player;
@@ -19,7 +19,7 @@ public class SavePoint : MonoBehaviour
 
     private void Awake()
     {
-        if (glowSprite != null) glowSprite.enabled = false;
+        if (key != null) key.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -31,8 +31,7 @@ public class SavePoint : MonoBehaviour
         _playerInRange = true;
         _player = player;
 
-        if (glowSprite != null) glowSprite.enabled = true;
-        //if (SaveSlotUI.Instance != null) SaveSlotUI.Instance.ShowPrompt(true);
+        if (key != null) key.SetActive(true);
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -43,23 +42,17 @@ public class SavePoint : MonoBehaviour
         _playerInRange = false;
         _player = null;
 
-        if (glowSprite != null) glowSprite.enabled = false;
-        //if (SaveSlotUI.Instance != null) SaveSlotUI.Instance.ShowPrompt(false);
+        if (key != null) key.SetActive(false);
     }
 
     private void Update()
     {
         if (!_playerInRange || _player == null) return;
-        // if (Keyboard.current == null) return;
-
-        // 이미 슬롯 패널이 열려 있으면(타임스케일 0) 중복 오픈 방지
-        //if (SaveSlotUI.Instance != null && SaveSlotUI.Instance.IsOpen) return;
 
         if (_player.Input.InteractPressed)
         {
             Debug.Log("[SavePoint] 저장 키 입력 감지");
-            //SaveSlotUI.Instance.OpenForSave(_player, this);
-            ExecuteSave(0, _player); // 테스트용: 슬롯 패널 없이 바로 저장
+            ExecuteSave(SaveManager.Instance.ActiveSlot, _player);
             _player.AllRecovery();
         }
     }
