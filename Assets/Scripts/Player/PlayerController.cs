@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+        if (PauseManager.Instance != null && PauseManager.Instance.IsPaused) return;
         stateMachine.CurrentState.HandleInput();
         stateMachine.CurrentState.Update();
         if (Input.UseItemPressed)
