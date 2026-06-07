@@ -31,3 +31,5 @@ MonoBehaviour:
   - ThunderTwinStart
   - ThunderTwinCharging
   - ThunderTwinCast
+  chargingClip: {fileID: 8300000, guid: 54359fb332b05b84e89eae196b0e300c, type: 3}
+  launchClip: {fileID: 8300000, guid: 04da30f945374bd4bbd43370dae850c8, type: 3}

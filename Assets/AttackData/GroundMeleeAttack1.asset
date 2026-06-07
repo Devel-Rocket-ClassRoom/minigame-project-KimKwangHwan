@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: GroundMeleeAttack1
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackData
   animState: Attack1
-  duration: 0.5
-  activeStart: 0.221
-  activeEnd: 0.413
-  cancelWindowStart: 0.7
+  duration: 0.3
+  activeStart: 0.1
+  activeEnd: 0.3
+  cancelWindowStart: 0.5
   lockHorizontal: 0
   lungeVelocity: {x: 0, y: 0}
   overrideGravity: 0
@@ -26,3 +26,5 @@ MonoBehaviour:
   hitboxSize: {x: 1.19, y: 1.29}
   knockback: 0
   needStamina: 3
+  sfxClip: {fileID: 8300000, guid: f1cabf316f6f9304a8846de3479806dd, type: 3}
+  hitClip: {fileID: 8300000, guid: 086e68842744beb459a1364b4bce36ab, type: 3}

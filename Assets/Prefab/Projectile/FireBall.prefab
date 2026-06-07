@@ -104,7 +104,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1913220881
-  m_SortingLayer: 5
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2704165734314405472, guid: 7700a7b7457d14042bf735f8a77c57ba, type: 3}
@@ -135,6 +135,8 @@ MonoBehaviour:
   hitPrefab: {fileID: 7306764939485561749, guid: 468b6d80fdf905f45ae9fcb150e532a9, type: 3}
   duration: 3
   isBreakable: 1
+  launchClip: {fileID: 8300000, guid: 8d530c3462669b54ab13d44065f77721, type: 3}
+  hitClip: {fileID: 8300000, guid: e0a14a912a0d0e040b4c5cb7a747de87, type: 3}
 --- !u!50 &2164967722999672028
 Rigidbody2D:
   serializedVersion: 5

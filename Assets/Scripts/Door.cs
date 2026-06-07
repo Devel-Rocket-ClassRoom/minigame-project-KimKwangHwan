@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
     [SerializeField] private float openDistance;
 
     [SerializeField] private bool _isOpen;
+    public AudioClip sfxClip;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class Door : MonoBehaviour
     {
         if (_isOpen) return;
         _isOpen = true;
+        SFXManager.Instance?.PlaySFX(sfxClip);
         StartCoroutine(OpenRoutine());
     }
 
@@ -29,6 +31,7 @@ public class Door : MonoBehaviour
     {
         if (!_isOpen) return;
         _isOpen = false;
+        SFXManager.Instance?.PlaySFX(sfxClip);
         StartCoroutine(CloseRoutine());
     }
 

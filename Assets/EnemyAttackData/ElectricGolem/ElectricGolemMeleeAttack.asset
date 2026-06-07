@@ -26,3 +26,6 @@ MonoBehaviour:
   jumpAngle: 30
   jumpSpeed: 8
   animTrigger: Attack1
+  sfxClip: {fileID: 8300000, guid: d632d498c14164b22a3dfe87b374e901, type: 3}
+  jumpClip: {fileID: 0}
+  hitClip: {fileID: 8300000, guid: 7791f32088a465d43bb222496f92214a, type: 3}

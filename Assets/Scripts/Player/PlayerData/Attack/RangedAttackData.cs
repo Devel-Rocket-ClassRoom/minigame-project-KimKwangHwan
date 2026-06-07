@@ -20,7 +20,7 @@ public sealed class RangedAttackData : AttackData
     public float spreadDegrees = 0f;
     [Header("VFX")]
     [SerializeField] private GameObject muzzleEffectPrefab;
-
+    public AudioClip sfxClip;
     public override void OnActiveStart(AttackRuntime rt)
     {
         if (projectilePrefab == null) return;
@@ -69,6 +69,7 @@ public sealed class RangedAttackData : AttackData
     {
         if (muzzleEffectPrefab == null) return;
         var effect = Object.Instantiate(muzzleEffectPrefab, origin, Quaternion.identity);
+        SFXManager.Instance.PlaySFX(sfxClip);
         var s = effect.transform.localScale;
         s.x = facing > 0f ? Mathf.Abs(s.x) : -Mathf.Abs(s.x);
         effect.transform.localScale = s;

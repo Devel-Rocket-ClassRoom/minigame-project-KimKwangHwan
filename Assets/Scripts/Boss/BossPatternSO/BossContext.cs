@@ -34,7 +34,7 @@ public class BossContext
         return dir;
     }
 
-    public IEnumerator WaitForAnimEvent(string eventName, float timeout = 10f)
+    public IEnumerator WaitForAnimEvent(string eventName, float timeout = 5f)
     {
         bool fired = false;
         float startTime = Time.time;

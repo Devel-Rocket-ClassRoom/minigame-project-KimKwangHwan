@@ -28,3 +28,4 @@ MonoBehaviour:
   projectileLifetime: 2
   muzzleOffset: {x: 0, y: 0}
   fireAnimState: FastCast
+  castClip: {fileID: 8300000, guid: fd45643b65211c54f9f904776cf47f9f, type: 3}

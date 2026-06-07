@@ -18,7 +18,7 @@ public class Chest : MonoBehaviour
 
     private static readonly Dictionary<string, Chest> Registry = new Dictionary<string, Chest>();
     private static readonly HashSet<string> s_persistentActivated = new HashSet<string>();
-
+    public AudioClip openClip;
     private void Awake()
     {
         _animator = GetComponent<Animator>();

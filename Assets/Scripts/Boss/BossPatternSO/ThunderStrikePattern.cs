@@ -9,6 +9,8 @@ public class ThunderStrikePattern : BossPattern
     [SerializeField] private int thunderCount = 8;
     [SerializeField] private float thunderTime = 0.2f;
     [SerializeField] private LayerMask groundLayer;
+    public AudioClip chargingClip;
+    public AudioClip castingClip;
     public override IEnumerator Execute(BossContext ctx)
     {
         bool playerIsRight = ctx.PlayerIsRight;
@@ -17,12 +19,14 @@ public class ThunderStrikePattern : BossPattern
         yield return ctx.WaitForAnimEvent("TelegraphEnd");
 
         ctx.animator.Play(animStates[1]);
+        SFXManager.Instance.PlaySFX(chargingClip);
         yield return new WaitForSeconds(2f);
 
         ctx.animator.Play(animStates[2]);
         yield return ctx.WaitForAnimEvent("TelegraphEnd");
         ctx.animator.Play(animStates[3]);
         Vector2 dir = ctx.AllFlip();
+        SFXManager.Instance.PlaySFX(castingClip);
         for (int i = 0; i < thunderCount; i++)
         {
             RaycastHit2D hit = Physics2D.Raycast(

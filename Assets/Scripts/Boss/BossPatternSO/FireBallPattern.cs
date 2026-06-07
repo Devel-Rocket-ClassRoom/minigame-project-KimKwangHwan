@@ -13,11 +13,14 @@ public class FireBallPattern : BossPattern
     [SerializeField] private Vector2 muzzleOffset;
     [SerializeField] private string fireAnimState;
 
+    public AudioClip castClip;
+
     public override IEnumerator Execute(BossContext ctx)
     {
         bool playerIsRight = ctx.PlayerIsRight;
         ctx.animator.Play(fireAnimState);
         yield return ctx.WaitForAnimEvent("ProjectileFire");
+        SFXManager.Instance.PlaySFX(castClip);
         ctx.AllFlip();
         // Vector2 dir = new Vector2(playerIsRight ? 1f : -1f, 0f);
         Vector2 origin = (Vector2)ctx.muzzle.position + muzzleOffset;

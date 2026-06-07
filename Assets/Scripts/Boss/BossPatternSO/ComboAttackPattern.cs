@@ -15,6 +15,8 @@ public class ComboAttackPattern : BossPattern
     [SerializeField] private Vector2[] hitboxOffsets;
     [SerializeField] private float damage = 10f;
 
+    public AudioClip[] attackClip;
+    public AudioClip[] hitClip;
     public override IEnumerator Execute(BossContext ctx)
     {
         int hitCount = ctx.currentPhase == 1 ? phase1HitCount : phase2HitCount;
@@ -24,9 +26,10 @@ public class ComboAttackPattern : BossPattern
             int index = Mathf.Min(i, hitAnimStates.Length - 1);
             string clip = hitAnimStates[index];
             ctx.animator.Play(clip);
+            SFXManager.Instance.PlaySFX(attackClip[index]);
             yield return ctx.WaitForAnimEvent("HitboxOn");
             Vector2 dir = ctx.AllFlip();
-            ctx.hitbox.Enable(damage, hitboxOffsets[index], hitboxSizes[index], 0f, 1f);
+            ctx.hitbox.Enable(damage, hitboxOffsets[index], hitboxSizes[index], 0f, 1f, hitClip[index]);
             rb.linearVelocityX = dir.x * 5f;
             yield return ctx.WaitForAnimEvent("HitboxOff");
             ctx.hitbox.Disable();

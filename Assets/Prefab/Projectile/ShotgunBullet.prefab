@@ -141,7 +141,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 285479161
-  m_SortingLayer: 6
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 6119371526762617507, guid: 836ac142d38092242b3e340c591531f5, type: 3}
@@ -168,10 +168,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   hitLayer:
     serializedVersion: 2
-    m_Bits: 2112
+    m_Bits: 34880
   hitPrefab: {fileID: 1576647585050499331, guid: d8eeb7c270750df40b4663e91b93f827, type: 3}
   duration: 1.3
   isBreakable: 1
+  hitClip: {fileID: 8300000, guid: 19d0c1e9d4d708a44820dae0313e5bdf, type: 3}
 --- !u!50 &6469181208047921864
 Rigidbody2D:
   serializedVersion: 5

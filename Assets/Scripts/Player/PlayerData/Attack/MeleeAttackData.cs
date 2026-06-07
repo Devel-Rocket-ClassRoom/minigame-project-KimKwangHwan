@@ -9,6 +9,9 @@ public sealed class MeleeAttackData : AttackData
     public Vector2 hitboxSize = Vector2.one;
     public float knockback = 4f;
     public float needStamina = 6f;
+    public AudioClip sfxClip;
+    public AudioClip hitClip;
+
     public override void OnActiveEnd(AttackRuntime rt)
     {
         rt.Hitbox.Disable();
@@ -17,7 +20,8 @@ public sealed class MeleeAttackData : AttackData
     public override void OnActiveStart(AttackRuntime rt)
     {
         var offset = hitboxOffset;
-        rt.Hitbox.Enable(rt.AttackPower * damage, offset, hitboxSize, knockback, rt.Facing);
+        rt.Hitbox.Enable(rt.AttackPower * damage, offset, hitboxSize, knockback, rt.Facing, hitClip);
+        SFXManager.Instance.PlaySFX(sfxClip);
     }
 
     public override void OnEnter(AttackRuntime rt)

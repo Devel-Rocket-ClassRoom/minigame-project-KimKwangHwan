@@ -24,3 +24,4 @@ MonoBehaviour:
   - targetMap: {fileID: 11400000, guid: 5dfd542ec321fa74d9d297e67de0ac4c, type: 2}
     exitZoneId: 
     entryZoneId: 
+  bgmClip: {fileID: 8300000, guid: 6f33e7ed51ba1f64c9afb8d389788976, type: 3}

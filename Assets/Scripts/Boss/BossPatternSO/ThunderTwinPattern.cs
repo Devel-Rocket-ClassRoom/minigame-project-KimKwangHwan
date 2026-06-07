@@ -12,13 +12,15 @@ public class ThunderTwinPattern : BossPattern
     [SerializeField] private Vector2 muzzleOffset;
     [SerializeField] private string[] animStates;
 
-
+    public AudioClip chargingClip;
+    public AudioClip launchClip;
     public override IEnumerator Execute(BossContext ctx)
     {
         ctx.AllFlip();
         ctx.animator.Play(animStates[0]);
         yield return ctx.WaitForAnimEvent("TelegraphEnd");
         ctx.animator.Play(animStates[1]);
+        SFXManager.Instance.PlaySFX(chargingClip);
         yield return new WaitForSeconds(1f);
         ctx.animator.Play(animStates[2]);
         yield return ctx.WaitForAnimEvent("ProjectileFire");
@@ -32,6 +34,7 @@ public class ThunderTwinPattern : BossPattern
         //{
         //    sr.flipX = !playerIsRight;
         //}
+        SFXManager.Instance.PlaySFX(launchClip);
         proj.GetComponent<HomingProjectile>().LaunchHoming(dir.normalized, projectileSpeed, projectileDamage, dir.x, ctx.playerTransform);
         yield return ctx.WaitForAnimEvent("RecoveryEnd");
         yield return new WaitForSeconds(recoveryTime);

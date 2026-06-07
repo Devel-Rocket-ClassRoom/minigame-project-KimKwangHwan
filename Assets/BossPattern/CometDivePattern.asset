@@ -27,7 +27,6 @@ MonoBehaviour:
   infernoInterval: 1
   infernoTime: 0.1
   diveSpeed: 20
-  diveHeight: 5
   sequenceAnimStates:
   - ToDive
   - Diving
@@ -41,3 +40,8 @@ MonoBehaviour:
   damage: 10
   hitCount: 3
   interHitDelay: 0.2
+  upClip: {fileID: 8300000, guid: 626d4911cdc1c4538a93042ce7abce43, type: 3}
+  diveClip: {fileID: 8300000, guid: 06c3d76126b0f4b969d90b0b534392b2, type: 3}
+  impactClip: {fileID: 8300000, guid: 2c3658d02095087468999fe390780567, type: 3}
+  diveHitClip: {fileID: 8300000, guid: 006366243d3ec4532b936503820324ed, type: 3}
+  impactHitClip: {fileID: 8300000, guid: e5c00133ae3994e958362ed3a390ed1c, type: 3}

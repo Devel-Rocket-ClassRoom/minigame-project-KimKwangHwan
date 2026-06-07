@@ -373,6 +373,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Witch
       objectReference: {fileID: 0}
+    - target: {fileID: 4836163198682350226, guid: e81c97d20af48e14bbf632b220c1c109, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5021731577655022096, guid: e81c97d20af48e14bbf632b220c1c109, type: 3}
       propertyPath: bossRoom
       value: 
@@ -525,19 +529,41 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8069192668160250744, guid: bfba6031cce46f345a2035006dd2c0ad, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1160833980}
   m_SourcePrefab: {fileID: 100100000, guid: bfba6031cce46f345a2035006dd2c0ad, type: 3}
 --- !u!114 &1160833978 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8523048017279554976, guid: bfba6031cce46f345a2035006dd2c0ad, type: 3}
   m_PrefabInstance: {fileID: 1160833977}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1160833979}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0511993c12f57cf48a936f89b49650a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossRoom
+--- !u!1 &1160833979 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8069192668160250744, guid: bfba6031cce46f345a2035006dd2c0ad, type: 3}
+  m_PrefabInstance: {fileID: 1160833977}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1160833980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160833979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7b82ece301a4d44a9458b6d0489d6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BGMZone
+  _bgmClip: {fileID: 8300000, guid: 58ca6aa70be157446b2670208697b5c9, type: 3}
+  _crossfade: 1
 --- !u!1 &2062906561
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +766,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 30250991
-  m_SortingLayer: 2
+  m_SortingLayer: -8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -861,7 +887,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -445435061
-  m_SortingLayer: 1
+  m_SortingLayer: -9
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -1028,7 +1054,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1273849197
-  m_SortingLayer: 3
+  m_SortingLayer: -7
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -1084,7 +1110,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1305037787
-  m_SortingLayer: 9
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -6893,7 +6919,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1794353729
-  m_SortingLayer: 5
+  m_SortingLayer: -5
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -6949,7 +6975,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -906308271
-  m_SortingLayer: 6
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -12379,7 +12405,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1586635585
-  m_SortingLayer: 4
+  m_SortingLayer: -6
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}

@@ -31,6 +31,7 @@ public class PlayerDashState : PlayerState
         //if (!player.Motor.IsGrounded()) player.airDashLeft--;
         afterImageRoutine = player.StartCoroutine(SpawnAfterimages());
         player.Animator.SetBool("Dash", true);
+        SFXManager.Instance.PlaySFX(player.dashClip);
     }
 
     public override void Exit()

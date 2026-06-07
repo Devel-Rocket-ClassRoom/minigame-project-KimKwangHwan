@@ -29,6 +29,7 @@ public class HurtBox : MonoBehaviour
     }
     public void ReceiveHit(float damage)
     {
+        if (!hitArea.enabled) return;
         float finalDamage = Mathf.Max(damage - defense, 1f);
         owner.TakeDamage(finalDamage);
         DoInvincible();

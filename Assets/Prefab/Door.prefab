@@ -80,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1273849197
-  m_SortingLayer: 3
+  m_SortingLayer: -7
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1947350623, guid: 7702e2ce12065f143ba9dc280511004b, type: 3}
@@ -151,3 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edfa7f00840d2d1488e64d4b22bdbb06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
+  openDuration: 1
+  openDistance: 0
+  _isOpen: 0
+  sfxClip: {fileID: 8300000, guid: d05d54390da15eb4da2fff1d521637e0, type: 3}

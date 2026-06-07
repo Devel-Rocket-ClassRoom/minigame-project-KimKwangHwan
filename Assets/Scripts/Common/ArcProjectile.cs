@@ -3,7 +3,7 @@ using UnityEngine;
 public class ArcProjectile : Projectile
 {
     [SerializeField] private float gravityScale = 1f;
-
+    
     protected override void OnEnable()
     {
         base.OnEnable();

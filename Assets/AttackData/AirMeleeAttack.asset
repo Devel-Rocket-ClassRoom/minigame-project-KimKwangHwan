@@ -26,3 +26,5 @@ MonoBehaviour:
   hitboxSize: {x: 1.69, y: 0.48}
   knockback: 0
   needStamina: 3
+  sfxClip: {fileID: 8300000, guid: 56f1f35ffe50aef49b125db465fe80ea, type: 3}
+  hitClip: {fileID: 8300000, guid: 086e68842744beb459a1364b4bce36ab, type: 3}

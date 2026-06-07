@@ -13,6 +13,9 @@ public class DashPattern : BossPattern
     [SerializeField] private Vector2 hitboxOffset;
     [SerializeField] private float damage = 10f;
     [SerializeField] private float rehitInterval = 0.3f;
+
+    public AudioClip dashClip;
+    public AudioClip hitClip;
     public override IEnumerator Execute(BossContext ctx)
     {
         Vector2 dir = ctx.AllFlip();
@@ -20,8 +23,8 @@ public class DashPattern : BossPattern
         ctx.animator.Play(animStates[0]);
 
         yield return ctx.WaitForAnimEvent("HitboxOn");
-
-        ctx.hitbox.Enable(damage, hitboxOffset, hitboxSize, 0f, 1f, rehitInterval);
+        SFXManager.Instance.PlaySFX(dashClip);
+        ctx.hitbox.Enable(damage, hitboxOffset, hitboxSize, 0f, 1f, hitClip, rehitInterval);
         ctx.animator.Play(animStates[1]);
         rb.linearVelocity = dir * dashSpeed;
         yield return new WaitForSeconds(dashDuration);

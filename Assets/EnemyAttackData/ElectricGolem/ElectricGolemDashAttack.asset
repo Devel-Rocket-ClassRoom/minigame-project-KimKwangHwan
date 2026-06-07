@@ -28,3 +28,6 @@ MonoBehaviour:
   animStartTrigger: Attack2
   animEndTrigger: Attack2Stop
   trackingTurnSpeed: 1.5
+  prepareClip: {fileID: 8300000, guid: ba9cbb65437a25240acd93ecbf756b7a, type: 3}
+  dashClip: {fileID: 8300000, guid: 4b41eea0ccd33e447b867bab80618039, type: 3}
+  hitClip: {fileID: 8300000, guid: a40bca9da56ed2b46ac500264810e2e0, type: 3}

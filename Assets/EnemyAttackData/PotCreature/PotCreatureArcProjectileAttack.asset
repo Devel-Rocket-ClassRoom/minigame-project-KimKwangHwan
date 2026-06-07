@@ -22,5 +22,8 @@ MonoBehaviour:
   projectileCount: 1
   spreadRadius: 0
   intervalBetweenShots: 0
+  closeRangeThreshold: 4
   animTrigger: Shoot
   animOutTrigger: 
+  launchClip: {fileID: 8300000, guid: b404b8383806565449b15025dc30ce42, type: 3}
+  hitClip: {fileID: 8300000, guid: 3f3163797bf02a044b80f2eda00943a5, type: 3}

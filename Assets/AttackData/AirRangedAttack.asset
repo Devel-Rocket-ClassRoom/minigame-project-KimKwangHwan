@@ -29,3 +29,4 @@ MonoBehaviour:
   shotCount: 1
   spreadDegrees: 0
   muzzleEffectPrefab: {fileID: 278797306730148270, guid: f1a9a4823e57d5b449c5a7a7e884dd35, type: 3}
+  sfxClip: {fileID: 8300000, guid: 1baeca875f4934e49b68bc54af4c7cfc, type: 3}

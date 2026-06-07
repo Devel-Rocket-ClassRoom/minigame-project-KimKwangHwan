@@ -27,3 +27,5 @@ MonoBehaviour:
   aimAtTarget: 0
   animTrigger: Attack1
   animOutTrigger: Attack1Stop
+  launchClip: {fileID: 8300000, guid: d466cb3c74f12d34db030a887233f2a6, type: 3}
+  hitClip: {fileID: 8300000, guid: 0b2a9f86ee73c49688569e7f6ce3b58e, type: 3}

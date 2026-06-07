@@ -23,13 +23,15 @@ public class ProjectileAttack : EnemyAttackPattern
     [Header("애니메이션")]
     public string animTrigger = "Shoot";
     public string animOutTrigger = "ShootStop";
+
+    public AudioClip launchClip;
     public override IEnumerator Execute(EnemyContext ctx)
     {
         ctx.SuperArmor = true;
         ctx.anim.ResetTrigger(animTrigger);
         ctx.anim.SetTrigger(animTrigger);
         yield return ctx.WaitForAnimEvent("ProjectileFire");
-
+        SFXManager.Instance.PlaySFX(launchClip);
         float facing = ctx.Facing;
         Vector2 center = aimAtTarget
             ? ((Vector2)(ctx.target.position - ctx.self.position)).normalized

@@ -22,14 +22,14 @@ public class ArcProjectileAttack : EnemyAttackPattern
     [Header("애니메이션")]
     public string animTrigger = "Shoot";
     public string animOutTrigger = "ShootStop";
-
+    public AudioClip launchClip;
     public override IEnumerator Execute(EnemyContext ctx)
     {
         ctx.SuperArmor = true;
         ctx.anim.ResetTrigger(animTrigger);
         ctx.anim.SetTrigger(animTrigger);
         yield return ctx.WaitForAnimEvent("ProjectileFire");
-
+        SFXManager.Instance.PlaySFX(launchClip);
         Vector2 muzzlePos = ctx.muzzle.position;
         float rawDx = ctx.target.position.x - muzzlePos.x;
         float dy = ctx.target.position.y - muzzlePos.y;

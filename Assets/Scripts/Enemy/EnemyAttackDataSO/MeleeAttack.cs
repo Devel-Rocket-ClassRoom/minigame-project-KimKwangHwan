@@ -23,6 +23,10 @@ public class MeleeAttack : EnemyAttackPattern
     [Header("애니메이션")]
     public string animTrigger = "Attack";
 
+    public AudioClip sfxClip;
+    public AudioClip jumpClip;
+    public AudioClip hitClip;
+
     public override IEnumerator Execute(EnemyContext ctx)
     {
         ctx.SuperArmor = true;
@@ -32,14 +36,15 @@ public class MeleeAttack : EnemyAttackPattern
         {
             motor.SuspendControl();
             DoJump(ctx);
+            SFXManager.Instance.PlaySFX(jumpClip);
         }
         //var hitboxOff = ctx.ArmEvent("HitboxOff");
         yield return ctx.WaitForAnimEvent("HitboxOn");
-
+        SFXManager.Instance.PlaySFX(sfxClip);
         float facing = ctx.Facing;
         Vector2 offset = new(hitboxOffset.x, hitboxOffset.y);
 
-        ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing);
+        ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing, hitClip);
         yield return ctx.WaitForAnimEvent("HitboxOff");
         ctx.hitbox.Disable();
 
