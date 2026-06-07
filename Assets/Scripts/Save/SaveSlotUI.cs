@@ -28,6 +28,8 @@ public class SaveSlotUI : MonoBehaviour
         }
 
         gameObject.SetActive(false);
+
+
     }
 
     public void Open(Mode mode, System.Action<int> onSlotSelected)

@@ -176,7 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Treasure Hunter
+  m_text: TileVania
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6dcc9c888cdd2214db9d1796df5ab53b, type: 2}
   m_sharedMaterial: {fileID: 8403595930473394171, guid: 6dcc9c888cdd2214db9d1796df5ab53b, type: 2}
@@ -753,13 +753,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1373418283}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1373418285}
+        m_TargetAssemblyTypeName: TitleSceneController, Assembly-CSharp
+        m_MethodName: OnExitClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1916,6 +1916,7 @@ MonoBehaviour:
   fadeInDuration: 1
   fadeOutDuration: 0.5
   saveSlotUI: {fileID: 847566709}
+  continueButton: {fileID: 1623014419}
 --- !u!1 &1623014419
 GameObject:
   m_ObjectHideFlags: 0

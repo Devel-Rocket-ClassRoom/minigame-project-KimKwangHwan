@@ -22,8 +22,8 @@ MonoBehaviour:
   overrideGravity: 0
   gravityScale: 1
   damage: 1.2
-  hitboxOffset: {x: 0.13, y: -0.1}
-  hitboxSize: {x: 2.27, y: 0.66}
+  hitboxOffset: {x: 0.61, y: 0.05}
+  hitboxSize: {x: 1.22, y: 1.3}
   knockback: 0
   needStamina: 3
   sfxClip: {fileID: 8300000, guid: 03e9f874800c3824e9894fa1efebc1b6, type: 3}

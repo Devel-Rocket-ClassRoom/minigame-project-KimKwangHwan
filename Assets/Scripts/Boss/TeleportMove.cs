@@ -4,15 +4,19 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 public class TeleportMove : BossMoveBehavior
 {
-    public TeleportMove(LayerMask layerMask) : base(layerMask)
+    private AudioClip _sfxClip;
+
+    public TeleportMove(LayerMask layerMask, AudioClip clip) : base(layerMask)
     {
-        
+        _sfxClip = clip;
     }
 
     public override IEnumerator Execute(BossContext ctx, PatternType patternType, float minDistance, float maxDistance)
     {
         ctx.animator.SetTrigger("Spin");
+        SFXManager.Instance.PlaySFX(_sfxClip);
         yield return ctx.WaitForAnimEvent("TelegraphEnd");
+        SFXManager.Instance.PlaySFX(_sfxClip);
         //Debug.Log($"[Teleport] groundLayer = {string.Join(", ", Enumerable.Range(0, 32).Where(i => (groundLayer.value & (1 << i)) != 0).Select(i => LayerMask.LayerToName(i)))}");
         Vector2 target;
         switch (patternType)
@@ -23,13 +27,14 @@ public class TeleportMove : BossMoveBehavior
             case PatternType.Melee:
                 {
                     target = ctx.bossRoom.RandomPointAwayFrom(ctx.playerTransform.position, minDistance, maxDistance);
-                    RaycastHit2D hit = Physics2D.Raycast(
-                        target,
-                        Vector2.down,
-                        100f,
-                        groundLayer
-                    );
-                    target = hit.point;
+                    //RaycastHit2D hit = Physics2D.Raycast(
+                    //    target,
+                    //    Vector2.down,
+                    //    100f,
+                    //    groundLayer
+                    //);
+                    //target = hit.point;
+                    target.y = ctx.playerTransform.position.y;
                     break;
                 }
             case PatternType.Ranged:

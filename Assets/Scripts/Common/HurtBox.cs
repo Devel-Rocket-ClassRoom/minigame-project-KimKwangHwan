@@ -7,12 +7,12 @@ public class HurtBox : MonoBehaviour
     [SerializeField] private float defense;
     [SerializeField] private float resistance;
     [SerializeField] private float hitInterval;
-    private Collider2D hitArea;
+    private BoxCollider2D hitArea;
     private float hitTimer; // 0이면 계속 데미지를 입음
     private void Awake()
     {
         owner = transform.parent.GetComponent<IDamageable>();
-        hitArea = transform.GetComponent<Collider2D>();
+        hitArea = transform.GetComponent<BoxCollider2D>();
         CancelInvincible();
     }
     private void Update()
@@ -30,9 +30,10 @@ public class HurtBox : MonoBehaviour
     public void ReceiveHit(float damage)
     {
         if (!hitArea.enabled) return;
+        if (hitInterval > 0f)
+            DoInvincible();
         float finalDamage = Mathf.Max(damage - defense, 1f);
         owner.TakeDamage(finalDamage);
-        DoInvincible();
     }
     public void DoInvincible()
     {

@@ -20,7 +20,7 @@ MonoBehaviour:
   maxDistance: 20
   animStateName: Dash
   telegraphTime: 0.5
-  recoveryTime: 0.8
+  recoveryTime: 1.2
   patternType: 4
   dashSpeed: 20
   dashDuration: 2

@@ -61,9 +61,11 @@ public class Witch : EnemyController
     public WitchIdleState idleState;
     public WitchMoveState moveState;
     public WitchEngageState engageState;
+    public WitchDeathState deathState;
     public BossPattern PendingPattern { get; set; }
     public BossContext Ctx => ctx;
     public BossMoveBehavior teleportMove;
+    public AudioClip teleportClip;
     protected override void Awake()
     {
         base.Awake();
@@ -82,9 +84,11 @@ public class Witch : EnemyController
         attackState = new WitchAttackState(this, stateMachine);
         moveState = new WitchMoveState(this, stateMachine);
         engageState = new WitchEngageState(this, stateMachine);
+        deathState = new WitchDeathState(this, stateMachine);
         stateMachine.Initialize(engageState);
+        teleportMove = new TeleportMove(groundLayer, teleportClip);
         ctx.bossRoom.OnPlayerEnter += OnPlayerEnterRoom;
-        teleportMove = new TeleportMove(groundLayer);
+        Health.OnDead += Dead;
     }
 
     private void OnPlayerEnterRoom()
@@ -93,25 +97,6 @@ public class Witch : EnemyController
         if (ctx.playerTransform == null) return;
         stateMachine.ChangeState(idleState);
     }
-    //private void Start()
-    //{
-    //    StartCoroutine(BehaviorLoop());
-    //}
-    //private IEnumerator BehaviorLoop()
-    //{
-    //    while (true)
-    //    {
-    //        var pattern = Selector.SelectNext(ctx);
-    //        yield return StartCoroutine(ExecutePattern(pattern));
-    //    }
-    //}
-    //private IEnumerator ExecutePattern(BossPattern pattern)
-    //{
-    //    lastPattern = pattern;
-    //    pattern.lastUsedTime = Time.time;
-
-    //    yield return StartCoroutine(pattern.Execute(ctx));
-    //}
 
     public void OnDrawGizmos()
     {
@@ -120,5 +105,9 @@ public class Witch : EnemyController
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube((Vector2)hitbox.transform.position + hitboxOffset, hitboxSize);
+    }
+    private void Dead()
+    {
+        stateMachine.ChangeState(deathState);
     }
 }

@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     [SerializeField] private AudioClip hurtClip;
     [SerializeField] private AudioClip deathClip;
+    [SerializeField] private AudioClip healClip;
     private float currentHp;
     public float MaxHp => Stats.MaxHp.FinalValue;
     public float CurrentHp => currentHp;
@@ -58,6 +59,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             currentHp += amount;
             if (currentHp > MaxHp)
                 currentHp = MaxHp;
+            SFXManager.Instance?.PlaySFX(healClip);
             OnHealthChanged?.Invoke(currentHp, MaxHp);
         }
     }

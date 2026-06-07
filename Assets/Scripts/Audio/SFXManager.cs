@@ -178,7 +178,6 @@ public class SFXManager : Singleton<SFXManager>
     public void PlaySFX(AudioClip clip, float volumeScale = 1f, float pitch = 1f)
     {
         if (clip == null) return;
-        Debug.Log($"PlaySFX: {clip?.name}");
         if (CountPlaying(clip) >= _maxSameSound) return;
 
         int idx = PickSource();

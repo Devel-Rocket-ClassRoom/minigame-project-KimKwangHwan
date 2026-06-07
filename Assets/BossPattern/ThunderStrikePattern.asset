@@ -20,7 +20,7 @@ MonoBehaviour:
   maxDistance: 20
   animStateName: ThunderStrike
   telegraphTime: 0.5
-  recoveryTime: 0.8
+  recoveryTime: 1.5
   patternType: 1
   stationaryPrefab: {fileID: 3080791218645607588, guid: a4c085be74dfdab478a7ca4ef5f8c7e2, type: 3}
   animStates:

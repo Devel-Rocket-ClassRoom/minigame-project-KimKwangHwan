@@ -20,7 +20,7 @@ MonoBehaviour:
   maxDistance: 20
   animStateName: ThunderTwin
   telegraphTime: 0.5
-  recoveryTime: 0.8
+  recoveryTime: 1.5
   patternType: 2
   projectilePrefab: {fileID: 2541541883833720141, guid: 15144906c9604f14e8fea3074052e921, type: 3}
   projectileSpeed: 3

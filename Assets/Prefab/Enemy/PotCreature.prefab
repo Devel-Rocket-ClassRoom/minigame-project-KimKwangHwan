@@ -490,7 +490,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHp: 150
   hurtClip: {fileID: 8300000, guid: 22502ddba8182bb439af5b3df4ad3dcb, type: 3}
-  deathClip: {fileID: 8300000, guid: 8b0d0c199a71e1845a2ba46f8de8a090, type: 3}
+  deathClip: {fileID: 8300000, guid: ae0cc068ff742d14cac7a33ade36cc24, type: 3}
 --- !u!114 &4239023748844388435
 MonoBehaviour:
   m_ObjectHideFlags: 0
