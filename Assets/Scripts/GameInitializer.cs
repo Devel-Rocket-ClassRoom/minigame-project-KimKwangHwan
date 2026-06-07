@@ -72,6 +72,7 @@ public class GameInitializer : Singleton<GameInitializer>
         Destroy(PlayerManager.Instance?.Current.gameObject);
         PlayerManager.Instance.Clear(PlayerManager.Instance?.Current);
         Switch.ClearPersistent();
+        Chest.ClearPersistent();
         yield return MapManager.Instance.UnloadAll();
         SaveDataV data = SaveManager.Instance.Load(SaveManager.Instance.ActiveSlot);
         yield return SpawnPlayerRoutine(data);
@@ -90,12 +91,23 @@ public class GameInitializer : Singleton<GameInitializer>
         yield return MapManager.Instance.Initialize(data?.mapId);
         if (data?.activatedSwitchIds != null)
             Switch.RestoreActivated(data.activatedSwitchIds);
+        if (data?.activatedChestIds != null)
+            Chest.RestoreActivated(data.activatedChestIds);
         Vector2 pos = data != null ? data.GetPosition() : defaultSpawnPos;
         PlayerManager.Instance.SpawnAt(pos);
         yield return null;
         var player = PlayerManager.Instance.Current;
         if (player != null)
         {
+            if (data?.playerStats != null)
+            {
+                player.Stats.AttackPower.SetBaseValue(data.playerStats.attackPower);
+                player.Stats.MaxHp.SetBaseValue(data.playerStats.maxHp);
+                player.Stats.MaxStamina.SetBaseValue(data.playerStats.maxStamina);
+                player.Stats.MaxAmmo.SetBaseValue(data.playerStats.maxAmmo);
+                player.Stats.MaxHealItems.SetBaseValue(data.playerStats.maxHealItems);
+                player.AllRecovery();
+            }
             player.Health.ForceNotify();
             player.Stamina.ForceNotify();
             player.Inventory.ForceNotify();

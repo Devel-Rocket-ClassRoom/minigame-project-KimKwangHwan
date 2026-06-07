@@ -64,6 +64,15 @@ public class SavePoint : MonoBehaviour
         data.mapId = MapManager.Instance.CurrentMap?.mapId;
         data.savedAt = System.DateTime.Now;
         data.activatedSwitchIds = Switch.GetAllActivatedIds();
+        data.activatedChestIds  = Chest.GetAllActivatedIds();
+        data.playerStats = new PlayerStatsData
+        {
+            attackPower  = player.Stats.AttackPower.FinalValue,
+            maxHp        = player.Stats.MaxHp.FinalValue,
+            maxStamina   = player.Stats.MaxStamina.FinalValue,
+            maxAmmo      = player.Stats.MaxAmmo.FinalValue,
+            maxHealItems = player.Stats.MaxHealItems.FinalValue,
+        };
         SaveManager.Instance.Save(slot, data);
     }
     private void OnEnable() => Registry[savePointId] = this;

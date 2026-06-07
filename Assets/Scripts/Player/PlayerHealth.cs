@@ -3,17 +3,33 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] private float maxHp = 100;
+    private PlayerStats _stats;
+    private PlayerStats Stats => _stats != null ? _stats : (_stats = GetComponent<PlayerStats>());
+
     private float currentHp;
-    public float MaxHp => maxHp;
+    public float MaxHp => Stats.MaxHp.FinalValue;
     public float CurrentHp => currentHp;
     public bool IsDead => currentHp <= 0;
     public event Action<float, float> OnHealthChanged;
     public event Action<float> OnDamaged;
     public event Action OnDead;
+
     private void Awake()
     {
-        currentHp = maxHp;
+        currentHp = MaxHp;
+        Stats.MaxHp.OnValueChanged += OnMaxHpChanged;
+    }
+
+    private void OnDestroy()
+    {
+        if (_stats != null)
+            _stats.MaxHp.OnValueChanged -= OnMaxHpChanged;
+    }
+
+    private void OnMaxHpChanged(float newMax)
+    {
+        currentHp = Mathf.Min(currentHp, newMax);
+        OnHealthChanged?.Invoke(currentHp, MaxHp);
     }
 
     public void TakeDamage(float damage)
@@ -22,25 +38,21 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHp -= damage;
         currentHp = Mathf.Max(0f, currentHp);
         OnDamaged?.Invoke(damage);
-        OnHealthChanged?.Invoke(currentHp, maxHp);
+        OnHealthChanged?.Invoke(currentHp, MaxHp);
         if (currentHp <= 0f)
-        {
             OnDead?.Invoke();
-        }
     }
 
-    public void ForceNotify() => OnHealthChanged?.Invoke(currentHp, maxHp);
+    public void ForceNotify() => OnHealthChanged?.Invoke(currentHp, MaxHp);
 
     public void Heal(float amount)
     {
-        if (currentHp < maxHp)
+        if (currentHp < MaxHp)
         {
             currentHp += amount;
-            if (currentHp > maxHp)
-            {
-                currentHp = maxHp;
-            }
-            OnHealthChanged?.Invoke(currentHp, maxHp);
+            if (currentHp > MaxHp)
+                currentHp = MaxHp;
+            OnHealthChanged?.Invoke(currentHp, MaxHp);
         }
     }
 }

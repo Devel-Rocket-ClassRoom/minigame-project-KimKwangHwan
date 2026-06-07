@@ -72,7 +72,6 @@ public class Hitbox : MonoBehaviour
     {
         if (!_active) return;
         if (((1 << other.gameObject.layer) & targetLayer.value) == 0) return;
-        Debug.Log($"TryHit: {other.name} {_mode}");
         int id = other.GetInstanceID();
         if (_mode == HitboxMode.OneShot)
         {

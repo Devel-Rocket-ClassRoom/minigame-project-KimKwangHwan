@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 638990314342315114}
   - component: {fileID: 1878018382927978898}
   - component: {fileID: 6612309190093295851}
+  - component: {fileID: 3843638120669086909}
   - component: {fileID: 6432724457468884444}
   m_Layer: 3
   m_Name: Player
@@ -437,7 +438,7 @@ MonoBehaviour:
   hitboxSize: {x: 0.9, y: 1}
   hitboxOffset: {x: 0.61, y: 0.05}
   bufferDuration: 0.15
-  comboResetTime: 0.5
+  comboResetTime: 1
 --- !u!114 &638990314342315114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,7 +451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d658e768dce63ae44b36068fbb3d2c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHp: 100
 --- !u!61 &1878018382927978898
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -509,10 +509,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d5dd67d0c49e049afb1abae4b7f1f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStamina
-  maxStamina: 50
   genAmount: 0.3
   genStartInterval: 1
   genInterval: 0.01
+--- !u!114 &3843638120669086909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297453124448676403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c783d4b325ddd6945af98dfc08697d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  baseAttackPower: 10
+  baseMaxHp: 100
+  baseMaxStamina: 60
+  baseMaxAmmo: 30
+  baseMaxHealItems: 3
 --- !u!114 &6432724457468884444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,8 +541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4fee2ae37e39a54180f383c387e3364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
-  maxAmmo: 30
-  maxHealItems: 3
   healAmount: 80
 --- !u!1 &3984444603363980570
 GameObject:

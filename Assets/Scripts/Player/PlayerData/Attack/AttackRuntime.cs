@@ -7,4 +7,5 @@ public sealed class AttackRuntime
     public Hitbox Hitbox;
     public Transform MuzzleOrigin;
     public float Facing;
+    public float AttackPower;
 }
