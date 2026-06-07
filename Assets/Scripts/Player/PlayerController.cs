@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerInputReader)), RequireComponent(typeof(PlayerMotor))]
+[RequireComponent(typeof(PlayerInputReader)), RequireComponent(typeof(PlayerMotor)), RequireComponent(typeof(PlayerStats))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerInputReader playerInput;
@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private HurtBox hurtBox;
     [SerializeField] private Inventory inventory;
+    private PlayerStats _stats;
     private PlayerStateMachine stateMachine;
     public Inventory Inventory => inventory;
     public PlayerInputReader Input => playerInput;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public PlayerCombat Combat => playerCombat;
     public PlayerHealth Health => playerHealth;
     public PlayerStamina Stamina => playerStamina;
+    public PlayerStats Stats => _stats != null ? _stats : (_stats = GetComponent<PlayerStats>());
     public HurtBox HurtBox => hurtBox;
     public PlayerState State => stateMachine.CurrentState;
     public Animator Animator => animator;

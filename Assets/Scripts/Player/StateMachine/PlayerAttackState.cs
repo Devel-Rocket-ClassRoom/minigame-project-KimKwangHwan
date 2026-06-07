@@ -65,6 +65,7 @@ public class PlayerAttackState : PlayerState
         _lungeApplied = false;
 
         _rt.Facing = player.Combat.Facing;
+        _rt.AttackPower = player.Stats.AttackPower.FinalValue;
 
         player.Combat.ConsumeBuffer();
         //player.Animator.Play(_data.animState);

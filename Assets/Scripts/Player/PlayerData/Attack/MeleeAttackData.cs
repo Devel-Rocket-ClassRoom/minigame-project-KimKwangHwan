@@ -17,7 +17,7 @@ public sealed class MeleeAttackData : AttackData
     public override void OnActiveStart(AttackRuntime rt)
     {
         var offset = hitboxOffset;
-        rt.Hitbox.Enable(damage, offset, hitboxSize, knockback, rt.Facing);
+        rt.Hitbox.Enable(rt.AttackPower * damage, offset, hitboxSize, knockback, rt.Facing);
     }
 
     public override void OnEnter(AttackRuntime rt)

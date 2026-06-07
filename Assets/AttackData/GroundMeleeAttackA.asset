@@ -21,7 +21,7 @@ MonoBehaviour:
   lungeVelocity: {x: 0, y: 0}
   overrideGravity: 0
   gravityScale: 1
-  damage: 10
+  damage: 1.2
   hitboxOffset: {x: 0.13, y: -0.1}
   hitboxSize: {x: 2.27, y: 0.66}
   knockback: 0

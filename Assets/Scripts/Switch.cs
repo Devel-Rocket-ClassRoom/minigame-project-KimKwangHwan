@@ -23,7 +23,6 @@ public class Switch : MonoBehaviour
             if (s_persistentActivated.Contains(switchId))
             {
                 ActivateSilent();
-                Debug.Log($"Switched : {switchId}");
             }
         }
     }

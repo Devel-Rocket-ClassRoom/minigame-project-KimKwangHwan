@@ -32,11 +32,8 @@ public class MapTransitionZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("TriggerEnter");
         if (!other.CompareTag("Player")) return;
-        Debug.Log("Player");
         if (targetMap == null || string.IsNullOrEmpty(targetZoneId)) return;
-        Debug.Log("Not Empty");
         MapManager.Instance.StartTransition(targetMap, targetZoneId);
     }
 

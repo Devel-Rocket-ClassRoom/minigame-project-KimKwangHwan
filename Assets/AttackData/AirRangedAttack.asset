@@ -24,7 +24,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 4180102910035349537, guid: 6a3227b3db8c13e4f9343a3e24551ae7, type: 3}
   muzzleOffset: {x: 0, y: 0}
   projectileSpeed: 12
-  projectileDamage: 8
+  projectileDamage: 1
+  fireMode: 0
   shotCount: 1
   spreadDegrees: 0
   muzzleEffectPrefab: {fileID: 278797306730148270, guid: f1a9a4823e57d5b449c5a7a7e884dd35, type: 3}

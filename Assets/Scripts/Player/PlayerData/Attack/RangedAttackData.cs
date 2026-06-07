@@ -63,7 +63,7 @@ public sealed class RangedAttackData : AttackData
         var proj = PoolManager.Instance.Spawn(projectilePrefab.gameObject, origin, Quaternion.identity);
         if (proj.TryGetComponent<SpriteRenderer>(out var sr))
             sr.flipX = rt.Facing < 0f;
-        proj.GetComponent<Projectile>().Launch(dir.normalized, projectileSpeed, projectileDamage, rt.Facing);
+        proj.GetComponent<Projectile>().Launch(dir.normalized, projectileSpeed, rt.AttackPower * projectileDamage, rt.Facing);
     }
     private void SpawnMuzzleEffect(Vector3 origin, float facing)
     {
