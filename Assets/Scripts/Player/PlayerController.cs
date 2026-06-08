@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private HurtBox hurtBox;
     [SerializeField] private Inventory inventory;
+    
     private PlayerStats _stats;
     private PlayerStateMachine stateMachine;
     public Inventory Inventory => inventory;
@@ -57,6 +58,9 @@ public class PlayerController : MonoBehaviour
     private MaterialPropertyBlock _mpb;
     private static readonly int FlashID = Shader.PropertyToID("_FlashAmount");
 
+    public AudioClip jumpClip;
+    public AudioClip doubleJumpClip;
+    public AudioClip dashClip;
     private void Awake()
     {
         stateMachine = new PlayerStateMachine();

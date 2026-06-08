@@ -13,6 +13,7 @@ public class Hitbox : MonoBehaviour
     private bool _active;
     private HitboxMode _mode = HitboxMode.OneShot;
     private float _rehitInterval;
+    private AudioClip hitClip;
 
     void Awake()
     {
@@ -22,11 +23,12 @@ public class Hitbox : MonoBehaviour
     }
 
     public void Enable(float damage, Vector2 offset, Vector2 size,
-                       float knockback, float facing)
+                       float knockback, float facing, AudioClip clip)
     {
         _mode = HitboxMode.OneShot;
         _damage = damage;
         _knockback = knockback;
+        hitClip = clip;
 
         _col.size = size;
         _col.offset = new Vector2(offset.x, offset.y);
@@ -37,13 +39,14 @@ public class Hitbox : MonoBehaviour
     }
 
     public void Enable(float damage, Vector2 offset, Vector2 size,
-                       float knockback, float facing, float rehitInterval)
+                       float knockback, float facing, AudioClip clip, float rehitInterval)
     {
         _mode = HitboxMode.Repeating;
         _rehitInterval = rehitInterval;
         _hitTimes.Clear();
         _damage = damage;
         _knockback = knockback;
+        hitClip = clip;
 
         _col.size = size;
         _col.offset = new Vector2(offset.x, offset.y);
@@ -86,6 +89,10 @@ public class Hitbox : MonoBehaviour
 
         if (!other.TryGetComponent<HurtBox>(out var hurtbox)) return;
         hurtbox.ReceiveHit(_damage);
+        if (hitClip != null)
+        {
+            SFXManager.Instance.PlaySFX(hitClip);
+        }
     }
 #if UNITY_EDITOR
     void OnDrawGizmos()

@@ -11,7 +11,7 @@ public class MapData : ScriptableObject
     public Vector2 boundsCenter;
     public Vector2 boundsSize;
     public List<MapConnection> connections = new List<MapConnection>();
-
+    public AudioClip bgmClip;
     public Rect GetCameraBounds()
     {
         Vector2 center = sceneOffset + boundsCenter;

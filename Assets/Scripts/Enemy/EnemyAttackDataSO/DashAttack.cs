@@ -26,6 +26,10 @@ public class DashAttack : EnemyAttackPattern
     [Header("추적")]
     public float trackingTurnSpeed = 3f;
 
+    public AudioClip prepareClip;
+    public AudioClip dashClip;
+    public AudioClip hitClip;
+
     public override bool CanExecute(EnemyContext ctx)
     {
         float dist = Vector2.Distance(ctx.self.position, ctx.target.position);
@@ -39,13 +43,14 @@ public class DashAttack : EnemyAttackPattern
         ctx.anim.SetTrigger(animTelegraphTrigger);
         float facing = ctx.Facing;
         Vector2 dir = new(facing, 0f);
+        SFXManager.Instance.PlaySFX(prepareClip);
         yield return ctx.WaitForAnimEvent("TelegraphEnd");
 
         // 2) 돌진 시작 + 히트박스 ON
         yield return ctx.WaitForAnimEvent("HitboxOn");
         ctx.anim.SetTrigger(animStartTrigger);
         Vector2 offset = new(hitboxOffset.x * facing, hitboxOffset.y);
-        ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing, rehitInterval);
+        ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing, hitClip, rehitInterval);
 
         var motor = ctx.self.GetComponent<EnemyMotor>();
         motor.SuspendControl();
@@ -60,6 +65,7 @@ public class DashAttack : EnemyAttackPattern
             }
             ctx.rb.linearVelocity = new Vector2(currentDirX * dashSpeed, ctx.rb.linearVelocity.y);
             t += Time.deltaTime;
+            SFXManager.Instance.PlaySFX(dashClip);
             yield return null;
         }
         motor.ResumeControl();

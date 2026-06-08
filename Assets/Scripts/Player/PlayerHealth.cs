@@ -6,6 +6,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private PlayerStats _stats;
     private PlayerStats Stats => _stats != null ? _stats : (_stats = GetComponent<PlayerStats>());
 
+    [SerializeField] private AudioClip hurtClip;
+    [SerializeField] private AudioClip deathClip;
+    [SerializeField] private AudioClip healClip;
     private float currentHp;
     public float MaxHp => Stats.MaxHp.FinalValue;
     public float CurrentHp => currentHp;
@@ -39,8 +42,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHp = Mathf.Max(0f, currentHp);
         OnDamaged?.Invoke(damage);
         OnHealthChanged?.Invoke(currentHp, MaxHp);
+        SFXManager.Instance?.PlaySFX(hurtClip);
         if (currentHp <= 0f)
+        {
+            SFXManager.Instance?.PlaySFX(deathClip);
             OnDead?.Invoke();
+        }
     }
 
     public void ForceNotify() => OnHealthChanged?.Invoke(currentHp, MaxHp);
@@ -52,6 +59,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             currentHp += amount;
             if (currentHp > MaxHp)
                 currentHp = MaxHp;
+            SFXManager.Instance?.PlaySFX(healClip);
             OnHealthChanged?.Invoke(currentHp, MaxHp);
         }
     }

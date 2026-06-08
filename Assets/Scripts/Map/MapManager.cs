@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AppUI.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,7 +28,8 @@ public class MapManager : Singleton<MapManager>
 
         CurrentMap = map;
         yield return LoadMap(map);
-
+        
+        SFXManager.Instance?.PlayBGM(map.bgmClip, true);
         foreach (var conn in map.connections)
         {
             if (conn.targetMap != null)
@@ -50,6 +52,7 @@ public class MapManager : Singleton<MapManager>
 
         yield return LoadMap(target);
 
+
         if (MapTransitionZone.TryGet(entryZoneId, out var zone))
         {
             PlayerManager.Instance.Current.Motor.WarpTo(zone.SpawnPosition);
@@ -60,6 +63,8 @@ public class MapManager : Singleton<MapManager>
         }
 
         CurrentMap = target;
+
+        SFXManager.Instance?.PlayBGM(target.bgmClip, true);
 
         if (CameraController.Instance != null)
             CameraController.Instance.SetBounds(CurrentBounds);

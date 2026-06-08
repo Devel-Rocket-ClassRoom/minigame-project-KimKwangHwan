@@ -5,6 +5,8 @@ public class Stationary : MonoBehaviour
     [SerializeField] private LayerMask hitLayer;
     [SerializeField] private GameObject hitPrefab;
     [SerializeField] private string animStateName;
+    [SerializeField] private AudioClip genClip;
+    [SerializeField] private AudioClip hitClip;
     private float damage = 20f;
     private PooledObject pooled;
     private PooledObject Pooled => pooled != null ? pooled : (pooled = GetComponent<PooledObject>());
@@ -25,6 +27,7 @@ public class Stationary : MonoBehaviour
     public void HitboxEnable()
     {
         hitbox.enabled = true;
+        SFXManager.Instance?.PlaySFX(genClip);
     }
     public void HitboxDisable()
     {
@@ -43,6 +46,7 @@ public class Stationary : MonoBehaviour
             if (other.TryGetComponent<HurtBox>(out var hurtbox))
             {
                 hurtbox.ReceiveHit(this.damage);
+                SFXManager.Instance?.PlaySFX(hitClip);
             }
         }
     }

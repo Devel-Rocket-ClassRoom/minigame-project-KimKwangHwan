@@ -19,6 +19,12 @@ public class CometDivePattern : BossPattern
 
     [SerializeField] private int hitCount = 3;
     [SerializeField] private float interHitDelay = 0.2f;
+
+    public AudioClip upClip;
+    public AudioClip diveClip;
+    public AudioClip impactClip;
+    public AudioClip diveHitClip;
+    public AudioClip impactHitClip;
     public override IEnumerator Execute(BossContext ctx)
     {
         var rb = ctx.bossTransform.GetComponent<Rigidbody2D>();
@@ -27,12 +33,14 @@ public class CometDivePattern : BossPattern
             ctx.bossTransform.position = new Vector2(ctx.PlayerPos.x, ctx.bossRoom.Max.y);
             ctx.animator.Play(sequenceAnimStates[0]);
             rb.gravityScale = 0f;
+            SFXManager.Instance.PlaySFX(upClip);
             yield return ctx.WaitForAnimEvent("TelegraphEnd");
             ctx.animator.Play(sequenceAnimStates[1]);
             rb.gravityScale = 1f;
             rb.linearVelocity = Vector2.down * diveSpeed;
             yield return ctx.WaitForAnimEvent("HitboxOn");
-            ctx.hitbox.Enable(damage, hitboxOffsets[0], hitboxSizes[0], 0f, 1f);
+            SFXManager.Instance.PlaySFX(diveClip);
+            ctx.hitbox.Enable(damage, hitboxOffsets[0], hitboxSizes[0], 0f, 1f, diveHitClip);
             yield return new WaitUntil(() => ctx.bossTransform.GetComponent<Witch>().IsGrounded);
             yield return ctx.WaitForAnimEvent("HitboxOff");
             ctx.hitbox.Disable();
@@ -41,8 +49,9 @@ public class CometDivePattern : BossPattern
             rb.linearVelocity = Vector2.zero;
             Vector2 divePos = new Vector2(ctx.bossTransform.position.x, ctx.bossTransform.position.y);
             ctx.bossTransform.GetComponent<Witch>().StartCoroutine(CoInferno(divePos));
+            SFXManager.Instance.PlaySFX(impactClip);
             yield return ctx.WaitForAnimEvent("HitboxOn");
-            ctx.hitbox.Enable(damage, hitboxOffsets[1], hitboxSizes[1], 0f, 1f);
+            ctx.hitbox.Enable(damage, hitboxOffsets[1], hitboxSizes[1], 0f, 1f, impactHitClip);
             yield return ctx.WaitForAnimEvent("HitboxOff");
             ctx.hitbox.Disable();
             yield return ctx.WaitForAnimEvent("RecoveryEnd");

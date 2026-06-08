@@ -24,7 +24,6 @@ public class SavePoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"[SavePoint] Trigger Enter: {other.name}");
         var player = other.GetComponent<PlayerController>();
         if (player == null) return;
 
@@ -51,7 +50,6 @@ public class SavePoint : MonoBehaviour
 
         if (_player.Input.InteractPressed)
         {
-            Debug.Log("[SavePoint] 저장 키 입력 감지");
             ExecuteSave(SaveManager.Instance.ActiveSlot, _player);
             _player.AllRecovery();
         }

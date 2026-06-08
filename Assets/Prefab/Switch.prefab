@@ -111,6 +111,7 @@ MonoBehaviour:
   switchedSprite: {fileID: 1681848623715062167, guid: 7702e2ce12065f143ba9dc280511004b, type: 3}
   linkedDoor: {fileID: 0}
   key: {fileID: 8076077109060135502}
+  sfxClip: {fileID: 8300000, guid: 9b9cdba2528fcdc4c9f5b2e95cd76edc, type: 3}
 --- !u!61 &-1238950562971926854
 BoxCollider2D:
   m_ObjectHideFlags: 0

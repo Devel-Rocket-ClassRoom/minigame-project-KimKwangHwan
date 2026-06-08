@@ -9,6 +9,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public bool IsDead => currentHp <= 0;
     public event Action<float> OnDamaged;
     public event Action OnDead;
+
+    [SerializeField] private AudioClip hurtClip;
+    [SerializeField] private AudioClip deathClip;
     private void Awake()
     {
         currentHp = maxHp;
@@ -19,8 +22,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         if (IsDead) return;
         currentHp -= damage;
         OnDamaged?.Invoke(damage);
+        SFXManager.Instance?.PlaySFX(hurtClip);
         if (currentHp <= 0f)
         {
+            SFXManager.Instance?.PlaySFX(deathClip);
             OnDead?.Invoke();
         }
     }

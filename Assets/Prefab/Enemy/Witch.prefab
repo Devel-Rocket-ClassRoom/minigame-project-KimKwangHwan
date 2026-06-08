@@ -93,7 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HurtBox
   defense: 0
   resistance: 0
-  hitInterval: 1
+  hitInterval: 0
 --- !u!1 &1632080587117307146
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 5609858553081818696}
   - component: {fileID: 5021731577655022096}
   - component: {fileID: 1548484314044596736}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Witch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,12 +427,13 @@ MonoBehaviour:
   groundCheck: {fileID: 713339460549578112}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 4160
+    m_Bits: 64
   groundWidth: 0.93
   groundHeight: 0.18
   bossRoom: {fileID: 0}
   groundCheckDist: 0.15
   minNormalY: 0.5
+  teleportClip: {fileID: 8300000, guid: affd7be9cbf6ec6489edb354006085e8, type: 3}
 --- !u!114 &1548484314044596736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,7 +446,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c892b811c1f6fc54d8b180c8895336af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHp: 100
+  maxHp: 800
+  hurtClip: {fileID: 8300000, guid: b7de5b8f9ce56d84a959382dec84aefc, type: 3}
+  deathClip: {fileID: 8300000, guid: e0dc1a893b87fb048b628f874ea57a8c, type: 3}
 --- !u!1 &7493553198004900599
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +551,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1913220881
-  m_SortingLayer: 7
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8145330047459180198, guid: 1f11a6f952148b54ab2f953aafab0cb2, type: 3}

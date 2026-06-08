@@ -31,7 +31,7 @@ public class PotCreature : EnemyController
         perception.SetTarget();
         if (Combat.Context.SuperArmor)
         {
-            if (damage >= 20f)
+            if (damage >= 25f)
                 stateMachine.ChangeState(hurtState);
             return;
         }

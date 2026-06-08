@@ -26,6 +26,12 @@ public class PlayerRunState : PlayerGroundState
             stateMachine.ChangeState(player.idleState);
             return;
         }
+        if (player.Combat.AttackBuffered)
+        {
+            player.Motor.MoveStop();
+            stateMachine.ChangeState(player.attackState);
+            return;
+        }
         if (player.Input.JumpPressed && player.Motor.IsGrounded())
         {
             //stateMachine.ChangeState(player.jumpState);

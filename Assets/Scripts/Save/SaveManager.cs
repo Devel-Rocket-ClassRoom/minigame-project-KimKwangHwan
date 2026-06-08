@@ -87,6 +87,13 @@ public class SaveManager : Singleton<SaveManager>
     public bool HasSave(int slot)
         => IsValidSlot(slot) && File.Exists(GetPath(slot));
 
+    public bool HasAnySave()
+    {
+        for (int i = 0; i < SlotCount; i++)
+            if (HasSave(i)) return true;
+        return false;
+    }
+
     public void DeleteSave(int slot)
     {
         if (!IsValidSlot(slot)) return;

@@ -20,7 +20,7 @@ MonoBehaviour:
   maxDistance: 20
   animStateName: Dash
   telegraphTime: 0.5
-  recoveryTime: 0.8
+  recoveryTime: 1.2
   patternType: 4
   dashSpeed: 20
   dashDuration: 2
@@ -31,3 +31,6 @@ MonoBehaviour:
   hitboxSize: {x: 1.85, y: 0.9}
   hitboxOffset: {x: -0.106, y: 0.06}
   damage: 10
+  rehitInterval: 0.3
+  dashClip: {fileID: 8300000, guid: 78ab53b2c8eaf6e4e9395d0a0390e5e4, type: 3}
+  hitClip: {fileID: 8300000, guid: 006366243d3ec4532b936503820324ed, type: 3}

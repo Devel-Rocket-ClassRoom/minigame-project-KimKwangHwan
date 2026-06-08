@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour
     protected PooledObject Pooled => pooled != null ? pooled : (pooled = GetComponent<PooledObject>());
     protected float timer;
 
+    [SerializeField] protected AudioClip hitClip;
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -41,6 +42,7 @@ public class Projectile : MonoBehaviour
             if (other.TryGetComponent<HurtBox>(out var hurtbox))
             {
                 hurtbox.ReceiveHit(this.damage);
+                SFXManager.Instance?.PlaySFX(hitClip);
             }
         }
         else

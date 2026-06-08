@@ -20,7 +20,7 @@ MonoBehaviour:
   maxDistance: 20
   animStateName: ThunderTwin
   telegraphTime: 0.5
-  recoveryTime: 0.8
+  recoveryTime: 1.5
   patternType: 2
   projectilePrefab: {fileID: 2541541883833720141, guid: 15144906c9604f14e8fea3074052e921, type: 3}
   projectileSpeed: 3
@@ -31,3 +31,5 @@ MonoBehaviour:
   - ThunderTwinStart
   - ThunderTwinCharging
   - ThunderTwinCast
+  chargingClip: {fileID: 8300000, guid: 54359fb332b05b84e89eae196b0e300c, type: 3}
+  launchClip: {fileID: 8300000, guid: 04da30f945374bd4bbd43370dae850c8, type: 3}

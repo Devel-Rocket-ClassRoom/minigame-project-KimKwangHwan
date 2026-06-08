@@ -27,6 +27,8 @@ public class PlayerAttackState : PlayerState
         _rt = player.Combat.Runtime;
         _typeAtEntry = player.Combat.BufferedType;
         _ctxAtEntry = ResolveContext();
+        if (_ctxAtEntry == AttackContext.Grounded)
+            player.Motor.SetHorizontalVelocity(0f);
         player.Combat.BeginChain(_typeAtEntry);
         _comboIndexAtEntry = player.Combat.ComboIndex;
         _data = player.Combat.MoveSet.Resolve(_typeAtEntry, _ctxAtEntry, _comboIndexAtEntry);

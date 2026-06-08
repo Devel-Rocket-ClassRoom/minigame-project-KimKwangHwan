@@ -38,3 +38,11 @@ MonoBehaviour:
   - {x: 0.794, y: 0.03}
   - {x: 1.244, y: 0.09}
   damage: 10
+  attackClip:
+  - {fileID: 8300000, guid: 484169af40c1d794db29621ff3e3c915, type: 3}
+  - {fileID: 8300000, guid: 052b1baba2db89f49bb3420150c848b0, type: 3}
+  - {fileID: 8300000, guid: 484169af40c1d794db29621ff3e3c915, type: 3}
+  hitClip:
+  - {fileID: 8300000, guid: c8e69155c05a36f468e2c7dc784d59b2, type: 3}
+  - {fileID: 8300000, guid: beaf1520db340c14893c02f26224887e, type: 3}
+  - {fileID: 8300000, guid: 33ff65dc8415b8e46b1993012c4cac2b, type: 3}

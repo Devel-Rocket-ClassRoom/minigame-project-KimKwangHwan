@@ -14,6 +14,7 @@ public class Switch : MonoBehaviour
 
     private static readonly Dictionary<string, Switch> Registry = new Dictionary<string, Switch>();
     private static readonly HashSet<string> s_persistentActivated = new HashSet<string>();
+    public AudioClip sfxClip;
 
     private void OnEnable()
     {
@@ -73,6 +74,7 @@ public class Switch : MonoBehaviour
     {
         _isActivated = true;
         _renderer.sprite = switchedSprite;
+        SFXManager.Instance?.PlaySFX(sfxClip);
         linkedDoor?.Open();
         s_persistentActivated.Add(switchId);
     }

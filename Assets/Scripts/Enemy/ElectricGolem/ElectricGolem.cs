@@ -30,7 +30,7 @@ public class ElectricGolem : EnemyController
         perception.SetTarget();
         if (Combat.Context.SuperArmor)
         {
-            if (damage >= 20f)
+            if (damage >= 40f)
                 stateMachine.ChangeState(hurtState);
             return;
         }

@@ -10,11 +10,15 @@ public class InfernoPattern : BossPattern
     [SerializeField] private string animState;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Coroutine coInferno = null;
+
+    public AudioClip castClip;
+
     public override IEnumerator Execute(BossContext ctx)
     {
         ctx.AllFlip();
         ctx.animator.Play(animState);
         yield return ctx.WaitForAnimEvent("TelegraphEnd");
+        SFXManager.Instance.PlaySFX(castClip);
         Vector2 divePos = new Vector2(ctx.bossTransform.position.x, ctx.bossTransform.position.y);
         if (coInferno != null) ctx.bossTransform.GetComponent<Witch>().StopCoroutine(coInferno);
         coInferno = ctx.bossTransform.GetComponent<Witch>().StartCoroutine(CoInferno(ctx));

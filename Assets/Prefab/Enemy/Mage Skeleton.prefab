@@ -134,6 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHp: 60
+  hurtClip: {fileID: 8300000, guid: d176cfb07985e9c46bf36c418c6764b1, type: 3}
+  deathClip: {fileID: 8300000, guid: 0b8234379638dbc439c4b1bc73cc6ebb, type: 3}
 --- !u!114 &6006479865128490648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,7 +514,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1913220881
-  m_SortingLayer: 7
+  m_SortingLayer: -3
   m_SortingOrder: 100
   m_MaskInteraction: 0
   m_Sprite: {fileID: -823782870, guid: 4fcc519e127067e4a8ca8af6984c9c10, type: 3}

@@ -103,7 +103,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1913220881
-  m_SortingLayer: 5
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9014176874859079664, guid: c4f87cf78c1081f4ba6c9ba2e6131af3, type: 3}
@@ -179,3 +179,5 @@ MonoBehaviour:
     m_Bits: 512
   hitPrefab: {fileID: 0}
   animStateName: Inferno_Fire
+  genClip: {fileID: 8300000, guid: 14e7571238a4f124694eef05f4fee8b9, type: 3}
+  hitClip: {fileID: 8300000, guid: fc51377a695c64141a82800630a9379f, type: 3}

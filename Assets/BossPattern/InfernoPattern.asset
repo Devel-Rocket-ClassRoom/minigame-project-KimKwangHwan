@@ -29,3 +29,4 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 4160
+  castClip: {fileID: 8300000, guid: 6c7490d24479d044baa749a6386aed77, type: 3}

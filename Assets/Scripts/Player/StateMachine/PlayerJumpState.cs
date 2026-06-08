@@ -20,9 +20,15 @@ public class PlayerJumpState : PlayerAirState
         jumpUsed++;
 
         if (jumpUsed == 1)
+        {
             player.Animator.SetTrigger("Jump");
+            SFXManager.Instance.PlaySFX(player.jumpClip);
+        }
         else
+        {
             player.Animator.SetTrigger("DoubleJump");
+            SFXManager.Instance.PlaySFX(player.doubleJumpClip);
+        }
     }
 
     public override void PhysicsUpdate()
