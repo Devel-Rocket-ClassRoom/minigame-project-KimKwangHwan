@@ -95,7 +95,10 @@ public class Witch : EnemyController
     {
         ctx.playerTransform = PlayerManager.Instance.Current?.transform;
         if (ctx.playerTransform == null) return;
-        stateMachine.ChangeState(idleState);
+        if (stateMachine.CurrentState is WitchEngageState)
+        {
+            stateMachine.ChangeState(idleState);
+        }
     }
 
     public void OnDrawGizmos()

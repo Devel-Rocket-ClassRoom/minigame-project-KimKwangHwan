@@ -83,15 +83,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 2cb0e954cd078324e96555828ef3a145, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!114 &-9097883918358264021
 MonoBehaviour:
@@ -107,10 +107,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Item
   statUpText: {fileID: 939486775315558061}
   upText: Stamina
-  itemSprite: {fileID: 0}
   floatDistance: 1
   floatDuration: 1
-  stat: 10
+  stat: 5
   statType: 2
 --- !u!1001 &3650925449664292244
 PrefabInstance:
@@ -190,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3801229951894870571, guid: 047e353e1f77a66438d2ac3ee741a356, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.475
       objectReference: {fileID: 0}
     - target: {fileID: 3801229951894870571, guid: 047e353e1f77a66438d2ac3ee741a356, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -32,6 +32,8 @@ public class MageSkeleton : EnemyController
     {
         base.GetHurt(damage);
         perception.SetTarget();
+        if (stateMachine.CurrentState is MageSkeletonHurtState)
+            return;
         if (Combat.Context.SuperArmor)
         {
             if (damage >= 20f)

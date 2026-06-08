@@ -1,28 +1,19 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class PauseMenuUI : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup canvasGroup;
-    [SerializeField] private string titleSceneName = "TitleScene";
+    [SerializeField] private GameObject panel;
+
+    private CanvasGroup _canvasGroup;
 
     private void Awake()
     {
-        canvasGroup.alpha = 0f;
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.interactable = false;
+        _canvasGroup = GetComponent<CanvasGroup>() ?? gameObject.AddComponent<CanvasGroup>();
+        SetPaused(false);
     }
 
-    private void OnEnable()
-    {
-        PauseManager.OnPauseChanged += OnPauseChanged;
-    }
-
-    private void OnDisable()
-    {
-        PauseManager.OnPauseChanged -= OnPauseChanged;
-    }
+    private void OnEnable()  { PauseManager.OnPauseChanged += OnPauseChanged; }
+    private void OnDisable() { PauseManager.OnPauseChanged -= OnPauseChanged; }
 
     private void Update()
     {
@@ -30,21 +21,18 @@ public class PauseMenuUI : MonoBehaviour
             PauseManager.Instance.Toggle();
     }
 
-    private void OnPauseChanged(bool isPaused)
+    private void OnPauseChanged(bool isPaused) => SetPaused(isPaused);
+
+    private void SetPaused(bool isPaused)
     {
-        canvasGroup.alpha = isPaused ? 1f : 0f;
-        canvasGroup.blocksRaycasts = isPaused;
-        canvasGroup.interactable = isPaused;
+        panel.SetActive(isPaused);
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.blocksRaycasts = isPaused;
+            _canvasGroup.interactable = isPaused;
+        }
     }
 
-    public void OnResumeClick()
-    {
-        PauseManager.Instance.Resume();
-    }
-
-    public void OnQuitToTitleClick()
-    {
-        PauseManager.Instance.Resume();
-        SceneManager.LoadScene(titleSceneName);
-    }
+    public void OnResumeClick()      { PauseManager.Instance.Resume(); }
+    public void OnQuitToTitleClick() { GameInitializer.Instance.QuitToTitle(); }
 }

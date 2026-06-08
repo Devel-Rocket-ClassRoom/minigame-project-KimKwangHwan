@@ -28,6 +28,8 @@ public class ElectricGolem : EnemyController
     {
         base.GetHurt(damage);
         perception.SetTarget();
+        if (stateMachine.CurrentState is ElectricGolemHurtState)
+            return;
         if (Combat.Context.SuperArmor)
         {
             if (damage >= 40f)

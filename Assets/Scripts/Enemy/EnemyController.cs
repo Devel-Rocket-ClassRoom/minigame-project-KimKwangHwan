@@ -96,6 +96,7 @@ public class EnemyController : MonoBehaviour
             _blinkCoroutine = null;
             _renderers.color = _originalColor;
         }
+        SetFlash(0f);
         StartCoroutine(FadeAndDestroyRoutine(delay, duration));
     }
 

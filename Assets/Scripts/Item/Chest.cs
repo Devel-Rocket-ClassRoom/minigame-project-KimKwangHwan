@@ -74,6 +74,7 @@ public class Chest : MonoBehaviour
         _isOpened = true;
         if (key != null) key.SetActive(false);
         _animator.SetTrigger("Open");
+        SFXManager.Instance?.PlaySFX(openClip);
         if (!string.IsNullOrEmpty(chestId))
             s_persistentActivated.Add(chestId);
         if (item != null)

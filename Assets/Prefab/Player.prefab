@@ -261,9 +261,9 @@ MonoBehaviour:
   afterImageColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
   hurtDuration: 0.3
   hurtEscapeTime: 0.1
-  jumpClip: {fileID: 8300000, guid: bddc1df20ab9f1444bebfa94aeca5306, type: 3}
-  doubleJumpClip: {fileID: 8300000, guid: 04f46e7095d6b0542baf39244c5e52a4, type: 3}
-  dashClip: {fileID: 8300000, guid: da0a7393c8e00b44991a57f5abf73fe7, type: 3}
+  jumpClip: {fileID: 8300000, guid: 400915b29d6df8f43b39fcdef4d18ecc, type: 3}
+  doubleJumpClip: {fileID: 8300000, guid: 56cdaaf5c0b04974ca620d62722cdd71, type: 3}
+  dashClip: {fileID: 8300000, guid: 0942c7d03769a0e4b8569f0bc9d8965b, type: 3}
 --- !u!114 &4082938012988887397
 MonoBehaviour:
   m_ObjectHideFlags: 0
