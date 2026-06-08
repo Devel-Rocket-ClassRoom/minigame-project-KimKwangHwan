@@ -12,6 +12,9 @@ public class SFXManager : Singleton<SFXManager>
     [SerializeField, Range(0f, 1f)] private float _sfxVolume = 1f;
     [SerializeField] private int _maxSameSound = 3;
 
+    private const string PrefsBgm = "BgmVolume";
+    private const string PrefsSfx = "SfxVolume";
+
     private AudioSource _bgmA;
     private AudioSource _bgmB;
     private AudioSource _activeBgm;
@@ -31,13 +34,18 @@ public class SFXManager : Singleton<SFXManager>
             _bgmVolume = Mathf.Clamp01(value);
             if (_activeBgm != null && _activeBgm.isPlaying)
                 _activeBgm.volume = _bgmVolume;
+            PlayerPrefs.SetFloat(PrefsBgm, _bgmVolume);
         }
     }
 
     public float SfxVolume
     {
         get => _sfxVolume;
-        set => _sfxVolume = Mathf.Clamp01(value);
+        set
+        {
+            _sfxVolume = Mathf.Clamp01(value);
+            PlayerPrefs.SetFloat(PrefsSfx, _sfxVolume);
+        }
     }
 
     // ── 초기화 ───────────────────────────────────────────────────────
@@ -49,6 +57,9 @@ public class SFXManager : Singleton<SFXManager>
         _bgmA = CreateBgmSource();
         _bgmB = CreateBgmSource();
         _activeBgm = _bgmA;
+
+        _bgmVolume = PlayerPrefs.GetFloat(PrefsBgm, _bgmVolume);
+        _sfxVolume = PlayerPrefs.GetFloat(PrefsSfx, _sfxVolume);
 
         _sfxPool  = new AudioSource[_sfxPoolSize];
         _sfxClips = new AudioClip[_sfxPoolSize];

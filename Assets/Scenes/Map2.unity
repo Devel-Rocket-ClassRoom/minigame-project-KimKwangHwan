@@ -478,6 +478,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 07d2a9cef5900824aa45b609a39fb0cf, type: 3}
+    - target: {fileID: 4792885399248902190, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_SortingLayer
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4792885399248902190, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 30250991
+      objectReference: {fileID: 0}
     - target: {fileID: 6094840311992291268, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
       propertyPath: m_text
       value: Shift
@@ -1059,6 +1067,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7276a353569a55b4ea8adb99ef279c9d, type: 3}
+    - target: {fileID: 4792885399248902190, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4792885399248902190, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1305037787
+      objectReference: {fileID: 0}
     - target: {fileID: 6094840311992291268, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
       propertyPath: m_text
       value: Space
@@ -1230,6 +1246,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 92b54655f447a054f8fdef8684ce4fcf, type: 3}
+    - target: {fileID: 4792885399248902190, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4792885399248902190, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1305037787
+      objectReference: {fileID: 0}
     - target: {fileID: 6094840311992291268, guid: 885f95cdcc0c5b04fb9da35369a2ecc5, type: 3}
       propertyPath: m_text
       value: S

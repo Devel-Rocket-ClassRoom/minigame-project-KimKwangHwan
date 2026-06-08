@@ -29,6 +29,8 @@ public class Assassin : EnemyController
     {
         base.GetHurt(damage);
         perception.SetTarget();
+        if (stateMachine.CurrentState is AssassinHurtState)
+            return;
         if (Combat.Context.SuperArmor)
         {
             if (damage >= 20f)

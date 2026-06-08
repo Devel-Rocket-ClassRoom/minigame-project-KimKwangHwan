@@ -7,7 +7,6 @@ public class Item : MonoBehaviour
 {
     [SerializeField] protected TextMeshPro statUpText;
     [SerializeField] protected string upText;
-    [SerializeField] protected Sprite itemSprite;
     [SerializeField] protected float floatDistance = 1f;
     [SerializeField] protected float floatDuration = 1f;
     [SerializeField] protected float stat;
@@ -39,18 +38,20 @@ public class Item : MonoBehaviour
 
     private IEnumerator FloatAndFade()
     {
-        Transform textTransform = statUpText.transform;
-        Vector3 startPos  = textTransform.position;
+        //Transform textTransform = statUpText.transform;
+        Vector3 startPos  = transform.position;
         Vector3 targetPos = startPos + Vector3.up * floatDistance;
         Color startColor  = statUpText.color;
+        Color spriteStartColor = GetComponent<SpriteRenderer>().color;
         float elapsed = 0f;
 
         while (elapsed < floatDuration)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / floatDuration);
-            textTransform.position = Vector3.Lerp(startPos, targetPos, t);
+            transform.position = Vector3.Lerp(startPos, targetPos, t);
             statUpText.color = new Color(startColor.r, startColor.g, startColor.b, 1f - t);
+            GetComponent<SpriteRenderer>().color = new Color(spriteStartColor.r, spriteStartColor.g, spriteStartColor.b, 1f - t);
             yield return null;
         }
 

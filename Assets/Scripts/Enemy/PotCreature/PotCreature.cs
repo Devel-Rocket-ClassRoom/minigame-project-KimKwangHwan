@@ -29,6 +29,8 @@ public class PotCreature : EnemyController
     {
         base.GetHurt(damage);
         perception.SetTarget();
+        if (stateMachine.CurrentState is PotCreatureHurtState)
+            return;
         if (Combat.Context.SuperArmor)
         {
             if (damage >= 25f)

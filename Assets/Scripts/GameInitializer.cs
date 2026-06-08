@@ -60,6 +60,24 @@ public class GameInitializer : Singleton<GameInitializer>
         StartCoroutine(InitWithFadeIn(data));
     }
 
+    public void QuitToTitle()
+    {
+        StartCoroutine(QuitToTitleRoutine());
+    }
+
+    private IEnumerator QuitToTitleRoutine()
+    {
+        yield return FadeController.Instance.FadeOut(fadeOutDuration);
+        if (PlayerManager.Instance?.Current != null)
+        {
+            Destroy(PlayerManager.Instance.Current.gameObject);
+            PlayerManager.Instance.Clear(PlayerManager.Instance.Current);
+        }
+        yield return MapManager.Instance.UnloadAll();
+        PauseManager.Instance.Resume();
+        SceneManager.LoadScene(titleSceneName);
+    }
+
     public void Restart()
     {
         StartCoroutine(RestartRoutine());
