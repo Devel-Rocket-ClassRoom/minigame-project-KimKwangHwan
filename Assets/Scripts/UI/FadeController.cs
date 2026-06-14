@@ -1,4 +1,4 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,7 +41,7 @@ public class FadeController : Singleton<FadeController>
     }
 
     // 검은 화면 → 투명 (씬 드러내기)
-    public IEnumerator FadeIn(float duration = -1f)
+    public async UniTask FadeIn(float duration = -1f)
     {
         if (duration < 0f) duration = defaultDuration;
         _canvasGroup.blocksRaycasts = true;
@@ -50,14 +50,14 @@ public class FadeController : Singleton<FadeController>
         {
             elapsed += Time.unscaledDeltaTime;
             _canvasGroup.alpha = 1f - Mathf.Clamp01(elapsed / duration);
-            yield return null;
+            await UniTask.Yield();
         }
         _canvasGroup.alpha = 0f;
         _canvasGroup.blocksRaycasts = false;
     }
 
     // 투명 → 검은 화면 (씬 가리기)
-    public IEnumerator FadeOut(float duration = -1f)
+    public async UniTask FadeOut(float duration = -1f)
     {
         if (duration < 0f) duration = defaultDuration;
         _canvasGroup.blocksRaycasts = false;
@@ -66,7 +66,7 @@ public class FadeController : Singleton<FadeController>
         {
             elapsed += Time.unscaledDeltaTime;
             _canvasGroup.alpha = Mathf.Clamp01(elapsed / duration);
-            yield return null;
+            await UniTask.Yield();
         }
         _canvasGroup.alpha = 1f;
         _canvasGroup.blocksRaycasts = true;

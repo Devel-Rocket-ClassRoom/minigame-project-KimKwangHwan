@@ -1,4 +1,4 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class TitleSceneController : MonoBehaviour
@@ -14,7 +14,7 @@ public class TitleSceneController : MonoBehaviour
     private void Start()
     {
         continueButton.SetActive(SaveManager.Instance.HasAnySave());
-        StartCoroutine(FadeController.Instance.FadeIn(fadeInDuration));
+        FadeController.Instance.FadeIn(fadeInDuration).Forget();
     }
 
     public void OnNewGameClick()
@@ -43,12 +43,12 @@ public class TitleSceneController : MonoBehaviour
         if (_isTransitioning) return;
         _isTransitioning = true;
         SaveManager.Instance.SetActiveSlot(slot);
-        StartCoroutine(StartGameRoutine());
+        StartGameRoutine().Forget();
     }
 
-    private IEnumerator StartGameRoutine()
+    private async UniTask StartGameRoutine()
     {
-        yield return FadeController.Instance.FadeOut(fadeOutDuration);
+        await FadeController.Instance.FadeOut(fadeOutDuration);
         GameInitializer.Instance.LoadGameScene(gameSceneName);
     }
 }

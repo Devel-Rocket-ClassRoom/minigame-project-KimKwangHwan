@@ -1,4 +1,5 @@
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class SFXManager : Singleton<SFXManager>
@@ -18,11 +19,11 @@ public class SFXManager : Singleton<SFXManager>
     private AudioSource _bgmA;
     private AudioSource _bgmB;
     private AudioSource _activeBgm;
-    private Coroutine   _fadeRoutine;
+    private CancellationTokenSource _fadeCts;
 
     private AudioSource[] _sfxPool;
-    private AudioClip[]   _sfxClips;   // 각 풀 슬롯의 현재 클립
-    private int           _sfxIndex;   // 라운드로빈 포인터
+    private AudioClip[]   _sfxClips;
+    private int           _sfxIndex;
 
     // ── 볼륨 프로퍼티 ────────────────────────────────────────────────
 
@@ -71,6 +72,13 @@ public class SFXManager : Singleton<SFXManager>
         }
     }
 
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        _fadeCts?.Cancel();
+        _fadeCts?.Dispose();
+    }
+
     private AudioSource CreateBgmSource()
     {
         var src = gameObject.AddComponent<AudioSource>();
@@ -96,15 +104,19 @@ public class SFXManager : Singleton<SFXManager>
         if (_activeBgm.clip == clip && _activeBgm.isPlaying)
             return;
 
-        if (_fadeRoutine != null)
-            StopCoroutine(_fadeRoutine);
+        _fadeCts?.Cancel();
+        _fadeCts?.Dispose();
+        _fadeCts = null;
 
-        _fadeRoutine = crossfade
-            ? StartCoroutine(CrossFade(clip))
-            : null;
-
-        if (!crossfade)
+        if (crossfade)
+        {
+            _fadeCts = new CancellationTokenSource();
+            CrossFade(clip, _fadeCts.Token).Forget();
+        }
+        else
+        {
             SwitchImmediate(clip);
+        }
     }
 
     /// <summary>
@@ -112,14 +124,16 @@ public class SFXManager : Singleton<SFXManager>
     /// </summary>
     public void StopBGM(bool fade = true)
     {
-        if (_fadeRoutine != null)
-            StopCoroutine(_fadeRoutine);
+        _fadeCts?.Cancel();
+        _fadeCts?.Dispose();
+        _fadeCts = null;
 
-        _fadeRoutine = fade
-            ? StartCoroutine(FadeOut(_activeBgm))
-            : null;
-
-        if (!fade)
+        if (fade)
+        {
+            _fadeCts = new CancellationTokenSource();
+            FadeOut(_activeBgm, _fadeCts.Token).Forget();
+        }
+        else
         {
             _activeBgm.Stop();
             _activeBgm.volume = 0f;
@@ -136,7 +150,7 @@ public class SFXManager : Singleton<SFXManager>
         _activeBgm.Play();
     }
 
-    private IEnumerator CrossFade(AudioClip nextClip)
+    private async UniTask CrossFade(AudioClip nextClip, CancellationToken ct)
     {
         AudioSource next = (_activeBgm == _bgmA) ? _bgmB : _bgmA;
         AudioSource prev = _activeBgm;
@@ -154,17 +168,16 @@ public class SFXManager : Singleton<SFXManager>
             float t = elapsed / _crossfadeDuration;
             prev.volume = Mathf.Lerp(startVol, 0f, t);
             next.volume = Mathf.Lerp(0f, _bgmVolume, t);
-            yield return null;
+            await UniTask.Yield(ct);
         }
 
         prev.Stop();
         prev.volume = 0f;
         next.volume = _bgmVolume;
         _activeBgm = next;
-        _fadeRoutine = null;
     }
 
-    private IEnumerator FadeOut(AudioSource source)
+    private async UniTask FadeOut(AudioSource source, CancellationToken ct)
     {
         float startVol = source.volume;
         float elapsed = 0f;
@@ -173,12 +186,11 @@ public class SFXManager : Singleton<SFXManager>
         {
             elapsed += Time.unscaledDeltaTime;
             source.volume = Mathf.Lerp(startVol, 0f, elapsed / _crossfadeDuration);
-            yield return null;
+            await UniTask.Yield(ct);
         }
 
         source.Stop();
         source.volume = 0f;
-        _fadeRoutine = null;
     }
 
     // ── SFX API ──────────────────────────────────────────────────────
@@ -200,7 +212,6 @@ public class SFXManager : Singleton<SFXManager>
         _sfxPool[idx].Play();
     }
 
-    // 현재 재생 중인 동일 클립 수를 카운트
     private int CountPlaying(AudioClip clip)
     {
         int count = 0;
@@ -210,7 +221,6 @@ public class SFXManager : Singleton<SFXManager>
         return count;
     }
 
-    // !isPlaying 슬롯 우선 탐색, 없으면 라운드로빈 강제 탈취
     private int PickSource()
     {
         for (int i = 0; i < _sfxPool.Length; i++)

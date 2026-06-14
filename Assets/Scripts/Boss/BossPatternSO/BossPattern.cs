@@ -1,5 +1,7 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using System.Collections;
+
 [CreateAssetMenu(fileName = "BossPattern", menuName = "Boss/BossPattern")]
 public abstract class BossPattern : ScriptableObject
 {
@@ -27,7 +29,7 @@ public abstract class BossPattern : ScriptableObject
 
     public bool IsReady(float now) => now - lastUsedTime >= cooldown;
 
-    public abstract IEnumerator Execute(BossContext ctx);
+    public abstract UniTask Execute(BossContext ctx, CancellationToken ct = default);
 }
 public enum PatternType
 {

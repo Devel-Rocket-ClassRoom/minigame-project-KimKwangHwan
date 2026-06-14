@@ -1,21 +1,26 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using System.Collections;
 
 public class WitchAttackState : EnemyState<Witch>
 {
-    private Coroutine routine;
+    private CancellationTokenSource _attackCts;
+
     public WitchAttackState(Witch enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
     }
 
     public override void Enter(EnemyState prevState)
     {
-        routine = enemy.StartCoroutine(AttackRoutine());
+        _attackCts = new CancellationTokenSource();
+        AttackRoutine(_attackCts.Token).Forget();
     }
 
     public override void Exit()
     {
-        if (routine != null) enemy.StopCoroutine(routine);
+        _attackCts?.Cancel();
+        _attackCts?.Dispose();
+        _attackCts = null;
     }
 
     public override void PhysicsUpdate()
@@ -25,14 +30,15 @@ public class WitchAttackState : EnemyState<Witch>
     public override void Update()
     {
     }
-    private IEnumerator AttackRoutine()
+
+    private async UniTask AttackRoutine(CancellationToken ct)
     {
         var pattern = enemy.PendingPattern;
 
         if (pattern != null)
         {
             pattern.lastUsedTime = Time.time;
-            yield return pattern.Execute(enemy.Ctx);
+            await pattern.Execute(enemy.Ctx, ct);
         }
 
         // 다 끝났으니 슬롯 비우고 Idle로

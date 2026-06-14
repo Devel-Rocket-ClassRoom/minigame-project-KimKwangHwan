@@ -1,4 +1,4 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using SaveDataV = SaveDataV1;
@@ -16,13 +16,12 @@ public class GameInitializer : Singleton<GameInitializer>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
     {
-        // TitleScene에서는 게임 시스템을 초기화하지 않음
         if (SceneManager.GetActiveScene().name == "TitleScene") return;
 
         var instance = Instance;
         if (!instance.autoLoadOnStart) return;
         SaveDataV data = SaveManager.Instance.LoadLastUsed();
-        instance.StartCoroutine(instance.InitWithFadeIn(data));
+        instance.InitWithFadeIn(data).Forget();
     }
 
     protected override void Awake()
@@ -41,79 +40,73 @@ public class GameInitializer : Singleton<GameInitializer>
     public void LoadGameScene(string sceneName)
     {
         _pendingGameStart = true;
-        StartCoroutine(LoadSceneRoutine(sceneName));
-    }
-
-    private IEnumerator LoadSceneRoutine(string sceneName)
-    {
-        yield return SceneManager.LoadSceneAsync(sceneName);
+        SceneManager.LoadSceneAsync(sceneName).ToUniTask().Forget();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // 어디티브 맵 로드는 무시, TitleScene에서 넘어온 Main 씬 로드만 처리
         if (mode == LoadSceneMode.Additive) return;
         if (!_pendingGameStart) return;
 
         _pendingGameStart = false;
         SaveDataV data = SaveManager.Instance.Load(SaveManager.Instance.ActiveSlot);
-        StartCoroutine(InitWithFadeIn(data));
+        InitWithFadeIn(data).Forget();
     }
 
     public void QuitToTitle()
     {
-        StartCoroutine(QuitToTitleRoutine());
+        QuitToTitleRoutine().Forget();
     }
 
-    private IEnumerator QuitToTitleRoutine()
+    private async UniTask QuitToTitleRoutine()
     {
-        yield return FadeController.Instance.FadeOut(fadeOutDuration);
+        await FadeController.Instance.FadeOut(fadeOutDuration);
         if (PlayerManager.Instance?.Current != null)
         {
             Destroy(PlayerManager.Instance.Current.gameObject);
             PlayerManager.Instance.Clear(PlayerManager.Instance.Current);
         }
-        yield return MapManager.Instance.UnloadAll();
+        await MapManager.Instance.UnloadAll();
         PauseManager.Instance.Resume();
         SceneManager.LoadScene(titleSceneName);
     }
 
     public void Restart()
     {
-        StartCoroutine(RestartRoutine());
+        RestartRoutine().Forget();
     }
 
-    private IEnumerator RestartRoutine()
+    private async UniTask RestartRoutine()
     {
-        yield return FadeController.Instance.FadeOut(fadeOutDuration);
+        await FadeController.Instance.FadeOut(fadeOutDuration);
 
         Destroy(PlayerManager.Instance?.Current.gameObject);
         PlayerManager.Instance.Clear(PlayerManager.Instance?.Current);
         Switch.ClearPersistent();
         Chest.ClearPersistent();
-        yield return MapManager.Instance.UnloadAll();
+        await MapManager.Instance.UnloadAll();
         SaveDataV data = SaveManager.Instance.Load(SaveManager.Instance.ActiveSlot);
-        yield return SpawnPlayerRoutine(data);
+        await SpawnPlayerRoutine(data);
 
-        yield return FadeController.Instance.FadeIn(fadeInDuration);
+        await FadeController.Instance.FadeIn(fadeInDuration);
     }
 
-    private IEnumerator InitWithFadeIn(SaveDataV data)
+    private async UniTask InitWithFadeIn(SaveDataV data)
     {
-        yield return SpawnPlayerRoutine(data);
-        yield return FadeController.Instance.FadeIn(fadeInDuration);
+        await SpawnPlayerRoutine(data);
+        await FadeController.Instance.FadeIn(fadeInDuration);
     }
 
-    private IEnumerator SpawnPlayerRoutine(SaveDataV data)
+    private async UniTask SpawnPlayerRoutine(SaveDataV data)
     {
-        yield return MapManager.Instance.Initialize(data?.mapId);
+        await MapManager.Instance.Initialize(data?.mapId);
         if (data?.activatedSwitchIds != null)
             Switch.RestoreActivated(data.activatedSwitchIds);
         if (data?.activatedChestIds != null)
             Chest.RestoreActivated(data.activatedChestIds);
         Vector2 pos = data != null ? data.GetPosition() : defaultSpawnPos;
         PlayerManager.Instance.SpawnAt(pos);
-        yield return null;
+        await UniTask.Yield();
         var player = PlayerManager.Instance.Current;
         if (player != null)
         {

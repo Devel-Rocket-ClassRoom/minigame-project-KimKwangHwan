@@ -1,4 +1,6 @@
-using System.Collections;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ComboAttackPattern", menuName = "BossPatterns/ComboAttackPattern")]
@@ -17,7 +19,8 @@ public class ComboAttackPattern : BossPattern
 
     public AudioClip[] attackClip;
     public AudioClip[] hitClip;
-    public override IEnumerator Execute(BossContext ctx)
+
+    public override async UniTask Execute(BossContext ctx, CancellationToken ct = default)
     {
         int hitCount = ctx.currentPhase == 1 ? phase1HitCount : phase2HitCount;
         Rigidbody2D rb = ctx.bossTransform.GetComponent<Rigidbody2D>();
@@ -27,16 +30,16 @@ public class ComboAttackPattern : BossPattern
             string clip = hitAnimStates[index];
             ctx.animator.Play(clip);
             SFXManager.Instance.PlaySFX(attackClip[index]);
-            yield return ctx.WaitForAnimEvent("HitboxOn");
+            await ctx.WaitForAnimEvent("HitboxOn", ct: ct);
             Vector2 dir = ctx.AllFlip();
             ctx.hitbox.Enable(damage, hitboxOffsets[index], hitboxSizes[index], 0f, 1f, hitClip[index]);
             rb.linearVelocityX = dir.x * 5f;
-            yield return ctx.WaitForAnimEvent("HitboxOff");
+            await ctx.WaitForAnimEvent("HitboxOff", ct: ct);
             ctx.hitbox.Disable();
             rb.linearVelocityX = 0f;
             if (i < hitCount - 1)
-                yield return new WaitForSeconds(interHitDelay);
+                await UniTask.Delay(TimeSpan.FromSeconds(interHitDelay), cancellationToken: ct);
         }
-        yield return new WaitForSeconds(recoveryTime);
+        await UniTask.Delay(TimeSpan.FromSeconds(recoveryTime), cancellationToken: ct);
     }
 }

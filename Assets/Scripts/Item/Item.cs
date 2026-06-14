@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using TMPro;
 
@@ -31,14 +31,13 @@ public class Item : MonoBehaviour
     {
         OnCollected?.Invoke(player);
         if (statUpText != null)
-            StartCoroutine(FloatAndFade());
+            FloatAndFade().Forget();
         else
             Destroy(gameObject);
     }
 
-    private IEnumerator FloatAndFade()
+    private async UniTask FloatAndFade()
     {
-        //Transform textTransform = statUpText.transform;
         Vector3 startPos  = transform.position;
         Vector3 targetPos = startPos + Vector3.up * floatDistance;
         Color startColor  = statUpText.color;
@@ -52,7 +51,7 @@ public class Item : MonoBehaviour
             transform.position = Vector3.Lerp(startPos, targetPos, t);
             statUpText.color = new Color(startColor.r, startColor.g, startColor.b, 1f - t);
             GetComponent<SpriteRenderer>().color = new Color(spriteStartColor.r, spriteStartColor.g, spriteStartColor.b, 1f - t);
-            yield return null;
+            await UniTask.Yield();
         }
 
         Destroy(gameObject);
