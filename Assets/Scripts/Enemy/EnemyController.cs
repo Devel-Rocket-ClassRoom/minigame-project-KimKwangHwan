@@ -1,4 +1,6 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -18,7 +20,7 @@ public class EnemyController : MonoBehaviour
     protected EnemyStateMachine stateMachine;
     private SpriteRenderer _renderers;
     private Color _originalColor;
-    private Coroutine _blinkCoroutine;
+    private CancellationTokenSource blinkCts;
     private MaterialPropertyBlock _mpb;
     private static readonly int FlashID = Shader.PropertyToID("_FlashAmount");
     protected virtual void Awake()
@@ -63,46 +65,51 @@ public class EnemyController : MonoBehaviour
 
     public void StartBlink(float interval = 0.1f, int count = 2)
     {
-        //if (_blinkCoroutine != null) StopCoroutine(_blinkCoroutine);
+        //if (_blinkCoroutine == null)
+        //    _originalColor = _renderers.color;
+        //else
+        //{
+        //    StopCoroutine(_blinkCoroutine);
+        //    _renderers.color = _originalColor;
+        //}
         //_blinkCoroutine = StartCoroutine(BlinkRoutine(interval, count));
-        if (_blinkCoroutine == null)
-            _originalColor = _renderers.color;
-        else
-        {
-            StopCoroutine(_blinkCoroutine);
-            _renderers.color = _originalColor;
-        }
-        _blinkCoroutine = StartCoroutine(BlinkRoutine(interval, count));
+        blinkCts?.Cancel();
+        blinkCts?.Dispose();
+
+        blinkCts = new CancellationTokenSource();
+
+        BlinkRoutine(interval, count, blinkCts.Token).Forget();
     }
 
-    private IEnumerator BlinkRoutine(float interval, int count)
+    private async UniTask BlinkRoutine(float interval, int count, CancellationToken ct)
     {
-        var wait = new WaitForSeconds(interval);
+        int wait = (int)(interval * 1000);
         for (int b = 0; b < count; b++)
         {
             SetFlash(1f);
-            yield return wait;
+            await UniTask.Delay(wait, cancellationToken: ct);
             SetFlash(0f);
-            yield return wait;
+            await UniTask.Delay(wait, cancellationToken: ct);
         }
-        _blinkCoroutine = null;
     }
 
     public void StartFadeAndDestroy(float delay = 0.3f, float duration = 0.8f)
     {
-        if (_blinkCoroutine != null)
-        {
-            StopCoroutine(_blinkCoroutine);
-            _blinkCoroutine = null;
-            _renderers.color = _originalColor;
-        }
+        //if (_blinkCoroutine != null)
+        //{
+        //    StopCoroutine(_blinkCoroutine);
+        //    _blinkCoroutine = null;
+        //    _renderers.color = _originalColor;
+        //}
+        blinkCts?.Cancel();
+        blinkCts?.Dispose();
         SetFlash(0f);
-        StartCoroutine(FadeAndDestroyRoutine(delay, duration));
+        FadeAndDestroyRoutine(delay, duration).Forget();
     }
 
-    private IEnumerator FadeAndDestroyRoutine(float delay, float duration)
+    private async UniTask FadeAndDestroyRoutine(float delay, float duration)
     {
-        yield return new WaitForSeconds(delay);
+        await UniTask.Delay((int)(delay * 1000));
         float elapsed = 0f;
         while (elapsed < duration)
         {
@@ -111,7 +118,7 @@ public class EnemyController : MonoBehaviour
             Color c = _originalColor;
             c.a = alpha;
             _renderers.color = c;
-            yield return null;
+            await UniTask.Yield();
         }
         Destroy(gameObject);
     }

@@ -1,9 +1,10 @@
-using System.Collections;
+using System.Threading;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class MageSkeletonAttackState : EnemyState<MageSkeleton>
 {
-    private Coroutine routine;
+    private CancellationTokenSource attackCts;
     private bool finished;
     public MageSkeletonAttackState(MageSkeleton enemy, EnemyStateMachine stateMachine)
         : base(enemy, stateMachine) { }
@@ -20,15 +21,16 @@ public class MageSkeletonAttackState : EnemyState<MageSkeleton>
         
         enemy.Combat.MarkPatternUsed(pattern);
         enemy.Motor.MoveStop();
-        routine = enemy.StartCoroutine(RunPattern(pattern));
+        attackCts = new CancellationTokenSource();
+        RunPattern(pattern).Forget();
     }
 
-    private IEnumerator RunPattern(EnemyAttackPattern pattern)
+    private async UniTask RunPattern(EnemyAttackPattern pattern)
     {
         float dir = Mathf.Sign(enemy.Target.position.x - enemy.transform.position.x);
         
         enemy.AllFlip(dir);
-        yield return pattern.Execute(enemy.Combat.Context);
+        await pattern.Execute(enemy.Combat.Context, attackCts.Token);
         finished = true;
     }
 
@@ -43,10 +45,8 @@ public class MageSkeletonAttackState : EnemyState<MageSkeleton>
     public override void Exit()
     {
         enemy.Combat.Context.SuperArmor = false;
-        if (routine != null)
-        {
-            enemy.StopCoroutine(routine);
-            routine = null;
-        }
+        attackCts?.Cancel();
+        attackCts?.Dispose();
+        attackCts = null;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 
 public class PlayerMotor : MonoBehaviour
@@ -48,7 +49,7 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float slopeCheckDistance = 0.3f;
     [SerializeField] private float maxSlopeAngle = 60f;
     [SerializeField] private float minSlopeAngle = 1f;
-    private Coroutine CoDropThrough;
+    private CancellationTokenSource dropCts;
     private bool isJumping;
     private bool isOnSlope;
     private float slopeAngle;
@@ -199,12 +200,14 @@ public class PlayerMotor : MonoBehaviour
     public void DropThroughOneWay()
     {
         if (!isOnOneWayPlatform) return;
-        if (CoDropThrough != null) StopCoroutine(CoDropThrough);
-        rb.linearVelocityY = -1f;   // 시작 nudge
-        CoDropThrough = StartCoroutine(DropThroughRoutine());
+        dropCts?.Cancel();
+        dropCts?.Dispose();
+        dropCts = new CancellationTokenSource();
+        rb.linearVelocityY = -1f;
+        DropThroughRoutine(dropCts.Token).Forget();
     }
 
-    private IEnumerator DropThroughRoutine()
+    private async UniTask DropThroughRoutine(CancellationToken ct)
     {
         // 발 밑에 있는 OneWay 플랫폼 콜라이더들을 모두 수집
         var hits = Physics2D.OverlapBoxAll(
@@ -218,18 +221,22 @@ public class PlayerMotor : MonoBehaviour
             foreach (var pc in playerCols)
                 Physics2D.IgnoreCollision(pc, p, true);
 
-        yield return new WaitForSeconds(dropThroughDuration);
-
-        foreach (var p in hits)
+        try
         {
-            if (p == null) continue;
-            foreach (var pc in playerCols)
+            await UniTask.Delay((int)(dropThroughDuration * 1000), cancellationToken: ct);
+        }
+        finally
+        {
+            foreach (var p in hits)
             {
-                if (pc == null) continue;
-                Physics2D.IgnoreCollision(pc, p, false);
+                if (p == null) continue;
+                foreach (var pc in playerCols)
+                {
+                    if (pc == null) continue;
+                    Physics2D.IgnoreCollision(pc, p, false);
+                }
             }
         }
-        CoDropThrough = null;
     }
 
     private void OnDrawGizmos()

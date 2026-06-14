@@ -1,8 +1,9 @@
 using UnityEngine;
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 public class ElectricGolemAttackState : EnemyState<ElectricGolem>
 {
-    private Coroutine routine;
+    private CancellationTokenSource attackCts;
     private bool finished;
     public ElectricGolemAttackState(ElectricGolem enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
@@ -20,24 +21,23 @@ public class ElectricGolemAttackState : EnemyState<ElectricGolem>
 
         enemy.Combat.MarkPatternUsed(pattern);
         enemy.Motor.MoveStop();
-        routine = enemy.StartCoroutine(RunPattern(pattern));
+        attackCts = new CancellationTokenSource();
+        RunPattern(pattern).Forget();
     }
-    private IEnumerator RunPattern(EnemyAttackPattern pattern)
+    private async UniTask RunPattern(EnemyAttackPattern pattern)
     {
         float dir = Mathf.Sign(enemy.Target.position.x - enemy.transform.position.x);
 
         enemy.AllFlip(dir);
-        yield return pattern.Execute(enemy.Combat.Context);
+        await pattern.Execute(enemy.Combat.Context, attackCts.Token);
         finished = true;
     }
     public override void Exit()
     {
         enemy.Combat.Context.SuperArmor = false;
-        if (routine != null)
-        {
-            enemy.StopCoroutine(routine);
-            routine = null;
-        }
+        attackCts?.Cancel();
+        attackCts?.Dispose();
+        attackCts = null;
     }
 
     public override void PhysicsUpdate()

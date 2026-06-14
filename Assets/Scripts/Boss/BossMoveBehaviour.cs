@@ -1,4 +1,5 @@
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public abstract class BossMoveBehavior
@@ -8,5 +9,5 @@ public abstract class BossMoveBehavior
     {
         groundLayer = layerMask;
     }
-    public abstract IEnumerator Execute(BossContext ctx, PatternType patternType, float minDistance, float maxDistance);
+    public abstract UniTask Execute(BossContext ctx, PatternType patternType, float minDistance, float maxDistance, CancellationToken ct);
 }

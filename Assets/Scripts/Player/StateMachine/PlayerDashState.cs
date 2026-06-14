@@ -1,13 +1,14 @@
 using UnityEngine;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 public class PlayerDashState : PlayerState
 {
     private float elapsed;
     private float originalGravity;
     private float dashDir;
-    private Coroutine afterImageRoutine;
     private float needStamina = 10f;
     private bool isCancel = false;
+    private CancellationTokenSource afterImageCts;
     public PlayerDashState(PlayerController player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
     }
@@ -29,7 +30,12 @@ public class PlayerDashState : PlayerState
         player.Motor.RB.gravityScale = 0f;
         player.Motor.RB.linearVelocity = new Vector2(player.dashSpeed * dashDir, 0f);
         //if (!player.Motor.IsGrounded()) player.airDashLeft--;
-        afterImageRoutine = player.StartCoroutine(SpawnAfterimages());
+
+        afterImageCts?.Cancel();
+        afterImageCts?.Dispose();
+        afterImageCts = new CancellationTokenSource();
+        SpawnAfterimages(afterImageCts.Token).Forget();
+
         player.Animator.SetBool("Dash", true);
         SFXManager.Instance.PlaySFX(player.dashClip);
     }
@@ -43,11 +49,11 @@ public class PlayerDashState : PlayerState
         }
         player.Motor.RB.gravityScale = originalGravity;
         player.Motor.SuppressHorizontalControl = false;
-        if (afterImageRoutine != null)
-        {
-            player.StopCoroutine(afterImageRoutine);
-            afterImageRoutine = null;
-        }
+
+        afterImageCts?.Cancel();
+        afterImageCts?.Dispose();
+        afterImageCts = null;
+
         player.Motor.SetHorizontalVelocity(player.Motor.RB.linearVelocityX * 0.4f);
         player.lastDashTime = Time.time;
         player.Animator.SetBool("Dash", false);
@@ -75,13 +81,14 @@ public class PlayerDashState : PlayerState
         }
     }
 
-    private IEnumerator SpawnAfterimages()
+    private async UniTask SpawnAfterimages(CancellationToken ct)
     {
-        var wait = new WaitForSeconds(player.afterImageInterval);
+        int wait = (int)(player.afterImageInterval * 1000);
+
         while (true)
         {
             SpawnOne();
-            yield return wait;
+            await UniTask.Delay(wait, cancellationToken: ct);
         }
     }
 

@@ -1,5 +1,6 @@
 using System;
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputReader)), RequireComponent(typeof(PlayerMotor)), RequireComponent(typeof(PlayerStats))]
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     public float hurtDuration = 0.8f;
     public float hurtEscapeTime = 0.4f;
-    private Coroutine _blinkCoroutine;
+    private CancellationTokenSource blinkCts;
     private Color _originalColor;
     private MaterialPropertyBlock _mpb;
     private static readonly int FlashID = Shader.PropertyToID("_FlashAmount");
@@ -135,27 +136,39 @@ public class PlayerController : MonoBehaviour
 
     public void StartBlink(float interval = 0.1f, int count = 2)
     {
-        if (_blinkCoroutine == null)
-            _originalColor = spriteRenderer.color;
-        else
-        {
-            StopCoroutine(_blinkCoroutine);
-            spriteRenderer.color = _originalColor;
-        }
-        _blinkCoroutine = StartCoroutine(BlinkRoutine(interval, count));
+        blinkCts?.Cancel();
+        blinkCts?.Dispose();
+
+        blinkCts = new CancellationTokenSource();
+
+        BlinkRoutine(interval, count, blinkCts.Token).Forget();
+        //if (_blinkCoroutine == null)
+        //    _originalColor = spriteRenderer.color;
+        //else
+        //{
+        //    StopCoroutine(_blinkCoroutine);
+        //    spriteRenderer.color = _originalColor;
+        //}
+        //_blinkCoroutine = StartCoroutine(BlinkRoutine(interval, count));
     }
 
-    private IEnumerator BlinkRoutine(float interval, int count)
+    private async UniTask BlinkRoutine(float interval, int count, CancellationToken ct)
     {
-        var wait = new WaitForSeconds(interval);
-        for (int b = 0; b < count; b++)
+        int wait = (int)(interval * 1000);
+        try
         {
-            SetFlash(1f);
-            yield return wait;
-            SetFlash(0f);
-            yield return wait;
+            for (int b = 0; b < count; b++)
+            {
+                SetFlash(1f);
+                await UniTask.Delay(wait, cancellationToken: ct);
+                SetFlash(0f);
+                await UniTask.Delay(wait, cancellationToken: ct);
+            }
         }
-        _blinkCoroutine = null;
+        finally
+        {
+            SetFlash(0f);
+        }
     }
     private void Dead()
     {
