@@ -1,5 +1,6 @@
 using System;
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CometDivePattern", menuName = "BossPatterns/CometDivePattern")]
@@ -25,7 +26,8 @@ public class CometDivePattern : BossPattern
     public AudioClip impactClip;
     public AudioClip diveHitClip;
     public AudioClip impactHitClip;
-    public override IEnumerator Execute(BossContext ctx)
+
+    public override async UniTask Execute(BossContext ctx, CancellationToken ct = default)
     {
         var rb = ctx.bossTransform.GetComponent<Rigidbody2D>();
         for (int i = 0; i < hitCount; i++)
@@ -34,40 +36,40 @@ public class CometDivePattern : BossPattern
             ctx.animator.Play(sequenceAnimStates[0]);
             rb.gravityScale = 0f;
             SFXManager.Instance.PlaySFX(upClip);
-            yield return ctx.WaitForAnimEvent("TelegraphEnd");
+            await ctx.WaitForAnimEvent("TelegraphEnd", ct: ct);
             ctx.animator.Play(sequenceAnimStates[1]);
             rb.gravityScale = 1f;
             rb.linearVelocity = Vector2.down * diveSpeed;
-            yield return ctx.WaitForAnimEvent("HitboxOn");
+            await ctx.WaitForAnimEvent("HitboxOn", ct: ct);
             SFXManager.Instance.PlaySFX(diveClip);
             ctx.hitbox.Enable(damage, hitboxOffsets[0], hitboxSizes[0], 0f, 1f, diveHitClip);
-            yield return new WaitUntil(() => ctx.bossTransform.GetComponent<Witch>().IsGrounded);
-            yield return ctx.WaitForAnimEvent("HitboxOff");
+            await UniTask.WaitUntil(() => ctx.bossTransform.GetComponent<Witch>().IsGrounded, cancellationToken: ct);
+            await ctx.WaitForAnimEvent("HitboxOff", ct: ct);
             ctx.hitbox.Disable();
 
             ctx.animator.Play(sequenceAnimStates[2]);
             rb.linearVelocity = Vector2.zero;
             Vector2 divePos = new Vector2(ctx.bossTransform.position.x, ctx.bossTransform.position.y);
-            ctx.bossTransform.GetComponent<Witch>().StartCoroutine(CoInferno(divePos));
+            CoInferno(divePos, ct).Forget();
             SFXManager.Instance.PlaySFX(impactClip);
-            yield return ctx.WaitForAnimEvent("HitboxOn");
+            await ctx.WaitForAnimEvent("HitboxOn", ct: ct);
             ctx.hitbox.Enable(damage, hitboxOffsets[1], hitboxSizes[1], 0f, 1f, impactHitClip);
-            yield return ctx.WaitForAnimEvent("HitboxOff");
+            await ctx.WaitForAnimEvent("HitboxOff", ct: ct);
             ctx.hitbox.Disable();
-            yield return ctx.WaitForAnimEvent("RecoveryEnd");
-            yield return new WaitForSeconds(interHitDelay);
+            await ctx.WaitForAnimEvent("RecoveryEnd", ct: ct);
+            await UniTask.Delay(TimeSpan.FromSeconds(interHitDelay), cancellationToken: ct);
         }
         rb.gravityScale = 0f;
-        yield return new WaitForSeconds(recoveryTime);
+        await UniTask.Delay(TimeSpan.FromSeconds(recoveryTime), cancellationToken: ct);
     }
-    public IEnumerator CoInferno(Vector2 pos)
+
+    private async UniTask CoInferno(Vector2 pos, CancellationToken ct)
     {
         for (int j = 0; j < infernoCount; j++)
         {
             PoolManager.Instance.Spawn(stationaryPrefab.gameObject, new Vector2(pos.x + (j + 1) * infernoInterval, pos.y), Quaternion.identity);
             PoolManager.Instance.Spawn(stationaryPrefab.gameObject, new Vector2(pos.x + -(j + 1) * infernoInterval, pos.y), Quaternion.identity);
-
-            yield return new WaitForSeconds(infernoTime);
+            await UniTask.Delay(TimeSpan.FromSeconds(infernoTime), cancellationToken: ct);
         }
     }
 }

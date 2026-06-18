@@ -1,5 +1,7 @@
 using UnityEngine;
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+
 public class BossContext
 {
     public Transform bossTransform;
@@ -34,13 +36,13 @@ public class BossContext
         return dir;
     }
 
-    public IEnumerator WaitForAnimEvent(string eventName, float timeout = 5f)
+    public async UniTask WaitForAnimEvent(string eventName, float timeout = 5f, CancellationToken ct = default)
     {
         bool fired = false;
         float startTime = Time.time;
         System.Action handler = () => fired = true;
         animEvents.Subscribe(eventName, handler);
-        yield return new WaitUntil(() => fired || Time.time - startTime > timeout);
+        await UniTask.WaitUntil(() => fired || Time.time - startTime > timeout, cancellationToken: ct);
         animEvents.Unsubscribe(eventName, handler);
     }
 }

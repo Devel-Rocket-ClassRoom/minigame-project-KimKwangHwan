@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Cysharp.Threading.Tasks;
+using System.Threading;
+
 public class TeleportMove : BossMoveBehavior
 {
     private AudioClip _sfxClip;
@@ -11,11 +12,12 @@ public class TeleportMove : BossMoveBehavior
         _sfxClip = clip;
     }
 
-    public override IEnumerator Execute(BossContext ctx, PatternType patternType, float minDistance, float maxDistance)
+    public override async UniTask Execute(BossContext ctx, PatternType patternType, float minDistance, float maxDistance, CancellationToken ct)
     {
         ctx.animator.SetTrigger("Spin");
         SFXManager.Instance.PlaySFX(_sfxClip);
-        yield return ctx.WaitForAnimEvent("TelegraphEnd");
+        await ctx.WaitForAnimEvent("TelegraphEnd", ct: ct);
+
         SFXManager.Instance.PlaySFX(_sfxClip);
         //Debug.Log($"[Teleport] groundLayer = {string.Join(", ", Enumerable.Range(0, 32).Where(i => (groundLayer.value & (1 << i)) != 0).Select(i => LayerMask.LayerToName(i)))}");
         Vector2 target;
@@ -65,6 +67,6 @@ public class TeleportMove : BossMoveBehavior
         
         ctx.bossTransform.position = target;
         ctx.AllFlip();
-        yield return ctx.WaitForAnimEvent("RecoveryEnd");
+        await ctx.WaitForAnimEvent("RecoveryEnd", ct: ct);
     }
 }

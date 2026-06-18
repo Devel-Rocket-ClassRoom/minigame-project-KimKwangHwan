@@ -1,21 +1,26 @@
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class WitchMoveState : EnemyState<Witch>
 {
-    private Coroutine routine;
+    private CancellationTokenSource moveCts;
     public WitchMoveState(Witch enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
     }
 
     public override void Enter(EnemyState prevState)
     {
-        routine = enemy.StartCoroutine(MoveRoutine());
+        moveCts = new CancellationTokenSource();
+
+        MoveRoutine(moveCts.Token).Forget();
     }
 
     public override void Exit()
     {
-        if (routine != null) enemy.StopCoroutine(routine);
+        moveCts?.Cancel();
+        moveCts?.Dispose();
+        moveCts = null;
     }
 
     public override void PhysicsUpdate()
@@ -25,12 +30,12 @@ public class WitchMoveState : EnemyState<Witch>
     public override void Update()
     {
     }
-    private IEnumerator MoveRoutine()
+    private async UniTask MoveRoutine(CancellationToken ct)
     {
         var pattern = enemy.PendingPattern;
 
         if (pattern != null && pattern.patternType != PatternType.None)
-            yield return enemy.teleportMove.Execute(enemy.Ctx, pattern.patternType, pattern.minDistance, pattern.maxDistance);
+            await enemy.teleportMove.Execute(enemy.Ctx, pattern.patternType, pattern.minDistance, pattern.maxDistance, ct);
 
         stateMachine.ChangeState(enemy.attackState);
     }

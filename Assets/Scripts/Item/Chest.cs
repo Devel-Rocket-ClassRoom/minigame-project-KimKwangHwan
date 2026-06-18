@@ -1,5 +1,6 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Chest : MonoBehaviour
@@ -80,13 +81,13 @@ public class Chest : MonoBehaviour
         if (item != null)
         {
             var spawnedItem = Instantiate(item, spawnPoint.position, Quaternion.identity);
-            StartCoroutine(CollectAfterDelay(spawnedItem, player));
+            CollectAfterDelay(spawnedItem, player).Forget();
         }
     }
 
-    private IEnumerator CollectAfterDelay(Item spawnedItem, PlayerController player)
+    private async UniTask CollectAfterDelay(Item spawnedItem, PlayerController player)
     {
-        yield return new WaitForSeconds(collectDelay);
+        await UniTask.Delay(TimeSpan.FromSeconds(collectDelay));
         spawnedItem.Collect(player);
     }
 

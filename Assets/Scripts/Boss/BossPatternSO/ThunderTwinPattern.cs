@@ -1,4 +1,6 @@
-using System.Collections;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ThunderTwinPattern", menuName = "BossPatterns/ThunderTwinPattern")]
@@ -14,29 +16,26 @@ public class ThunderTwinPattern : BossPattern
 
     public AudioClip chargingClip;
     public AudioClip launchClip;
-    public override IEnumerator Execute(BossContext ctx)
+
+    public override async UniTask Execute(BossContext ctx, CancellationToken ct = default)
     {
         ctx.AllFlip();
         ctx.animator.Play(animStates[0]);
-        yield return ctx.WaitForAnimEvent("TelegraphEnd");
+        await ctx.WaitForAnimEvent("TelegraphEnd", ct: ct);
         ctx.animator.Play(animStates[1]);
         SFXManager.Instance.PlaySFX(chargingClip);
-        yield return new WaitForSeconds(1f);
+        await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: ct);
         ctx.animator.Play(animStates[2]);
-        yield return ctx.WaitForAnimEvent("ProjectileFire");
+        await ctx.WaitForAnimEvent("ProjectileFire", ct: ct);
         ctx.AllFlip();
         Vector2 origin = (Vector2)ctx.muzzle.position + muzzleOffset;
         bool playerIsRight = ctx.PlayerIsRight;
         Vector2 dir = ctx.DirToPlayer;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         var proj = PoolManager.Instance.Spawn(projectilePrefab.gameObject, origin, Quaternion.Euler(0, 0, angle));
-        //if (proj.TryGetComponent<SpriteRenderer>(out var sr))
-        //{
-        //    sr.flipX = !playerIsRight;
-        //}
         SFXManager.Instance.PlaySFX(launchClip);
         proj.GetComponent<HomingProjectile>().LaunchHoming(dir.normalized, projectileSpeed, projectileDamage, dir.x, ctx.playerTransform);
-        yield return ctx.WaitForAnimEvent("RecoveryEnd");
-        yield return new WaitForSeconds(recoveryTime);
+        await ctx.WaitForAnimEvent("RecoveryEnd", ct: ct);
+        await UniTask.Delay(TimeSpan.FromSeconds(recoveryTime), cancellationToken: ct);
     }
 }

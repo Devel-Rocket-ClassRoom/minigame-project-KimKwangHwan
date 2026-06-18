@@ -1,6 +1,6 @@
 using UnityEngine;
-using System.Collections;
-
+using Cysharp.Threading.Tasks;
+using System.Threading;
 [CreateAssetMenu(menuName = "Enemy/Attack/ArcProjectile")]
 public class ArcProjectileAttack : EnemyAttackPattern
 {
@@ -23,12 +23,12 @@ public class ArcProjectileAttack : EnemyAttackPattern
     public string animTrigger = "Shoot";
     public string animOutTrigger = "ShootStop";
     public AudioClip launchClip;
-    public override IEnumerator Execute(EnemyContext ctx)
+    public override async UniTask Execute(EnemyContext ctx, CancellationToken ct)
     {
         ctx.SuperArmor = true;
         ctx.anim.ResetTrigger(animTrigger);
         ctx.anim.SetTrigger(animTrigger);
-        yield return ctx.WaitForAnimEvent("ProjectileFire");
+        await ctx.WaitForAnimEvent("ProjectileFire", ct);
         SFXManager.Instance.PlaySFX(launchClip);
         Vector2 muzzlePos = ctx.muzzle.position;
         float rawDx = ctx.target.position.x - muzzlePos.x;
@@ -45,7 +45,7 @@ public class ArcProjectileAttack : EnemyAttackPattern
             go.GetComponent<ArcProjectile>().LaunchArc(muzzlePos, landPos, speed, damage, useLowArc);
 
             if (intervalBetweenShots > 0f && i < projectileCount - 1)
-                yield return new WaitForSeconds(intervalBetweenShots);
+                await UniTask.Delay((int)(intervalBetweenShots * 1000), cancellationToken: ct);
         }
 
         if (animOutTrigger != string.Empty)
@@ -54,7 +54,7 @@ public class ArcProjectileAttack : EnemyAttackPattern
             ctx.anim.SetTrigger(animOutTrigger);
         }
         ctx.SuperArmor = false;
-        yield return ctx.WaitForAnimEvent("RecoveryEnd");
-        yield return new WaitForSeconds(recoveryTime);
+        await ctx.WaitForAnimEvent("RecoveryEnd", ct);
+        await UniTask.Delay((int)(recoveryTime * 1000), cancellationToken: ct);
     }
 }

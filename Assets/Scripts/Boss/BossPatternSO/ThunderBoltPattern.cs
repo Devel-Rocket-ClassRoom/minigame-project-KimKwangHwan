@@ -1,4 +1,6 @@
-using System.Collections;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ThunderBoltPattern", menuName = "BossPatterns/ThunderBoltPattern")]
@@ -7,31 +9,32 @@ public class ThunderBoltPattern : BossPattern
     [SerializeField] private Beam BeamPrefab;
     [SerializeField] private Vector2 muzzleOffset;
     [SerializeField] private string[] animStates;
-    public override IEnumerator Execute(BossContext ctx)
+
+    public override async UniTask Execute(BossContext ctx, CancellationToken ct = default)
     {
         ctx.animator.Play(animStates[0]);
-        yield return ctx.WaitForAnimEvent("TelegraphEnd");
+        await ctx.WaitForAnimEvent("TelegraphEnd", ct: ct);
 
         ctx.animator.Play(animStates[1]);
-        yield return new WaitForSeconds(2f);
+        await UniTask.Delay(TimeSpan.FromSeconds(2f), cancellationToken: ct);
 
         ctx.animator.Play(animStates[2]);
-        yield return ctx.WaitForAnimEvent("ProjectileFire");
+        await ctx.WaitForAnimEvent("ProjectileFire", ct: ct);
 
         ctx.animator.Play(animStates[3]);
         Vector2 origin = (Vector2)ctx.muzzle.position + muzzleOffset;
         var beam = Instantiate(BeamPrefab, origin, Quaternion.identity, ctx.bossTransform);
-        yield return beam.WaitForAnimEvent("ProjectileFire");
+        await beam.WaitForAnimEvent("ProjectileFire", ct);
         beam.BeamEnable();
         ctx.bossTransform.GetComponent<Rigidbody2D>().linearVelocityX = 1f;
-        yield return new WaitForSeconds(5f);
+        await UniTask.Delay(TimeSpan.FromSeconds(5f), cancellationToken: ct);
 
         ctx.animator.Play(animStates[4]);
         beam.BeamDisable();
-        yield return beam.WaitForAnimEvent("ProjectileFireEnd");
+        await beam.WaitForAnimEvent("ProjectileFireEnd", ct);
 
         ctx.bossTransform.GetComponent<Rigidbody2D>().linearVelocityX = 0f;
-        yield return ctx.WaitForAnimEvent("RecoveryEnd");
+        await ctx.WaitForAnimEvent("RecoveryEnd", ct: ct);
         Destroy(beam.gameObject);
     }
 }

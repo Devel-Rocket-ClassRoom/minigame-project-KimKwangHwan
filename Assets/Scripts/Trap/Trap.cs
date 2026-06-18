@@ -1,4 +1,5 @@
-using System.Collections;
+using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Trap : MonoBehaviour
@@ -24,12 +25,12 @@ public class Trap : MonoBehaviour
         player.Motor.RB.AddForce(force, ForceMode2D.Impulse);
 
         player.Motor.SuppressHorizontalControl = true;
-        StartCoroutine(ReleaseKnockback(player));
+        ReleaseKnockback(player).Forget();
     }
 
-    private IEnumerator ReleaseKnockback(PlayerController player)
+    private async UniTask ReleaseKnockback(PlayerController player)
     {
-        yield return new WaitForSeconds(player.hurtDuration);
+        await UniTask.Delay(TimeSpan.FromSeconds(player.hurtDuration));
         if (player != null)
             player.Motor.SuppressHorizontalControl = false;
     }

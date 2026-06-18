@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class Beam : MonoBehaviour
 {
@@ -11,7 +11,6 @@ public class Beam : MonoBehaviour
     private Animator animator;
     private Collider2D hitbox;
 
-    //public BeamAnimEvent AnimEvents => animEvents;
     private void Awake()
     {
         animEvents = GetComponent<BeamAnimEvent>();
@@ -42,12 +41,13 @@ public class Beam : MonoBehaviour
             }
         }
     }
-    public IEnumerator WaitForAnimEvent(string eventName)
+
+    public async UniTask WaitForAnimEvent(string eventName, CancellationToken ct = default)
     {
         bool fired = false;
         System.Action handler = () => fired = true;
         animEvents.Subscribe(eventName, handler);
-        yield return new WaitUntil(() => fired);
+        await UniTask.WaitUntil(() => fired, cancellationToken: ct);
         animEvents.Unsubscribe(eventName, handler);
     }
 }

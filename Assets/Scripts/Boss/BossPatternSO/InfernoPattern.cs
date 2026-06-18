@@ -1,4 +1,6 @@
-using System.Collections;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "InfernoPattern", menuName = "BossPatterns/InfernoPattern")]
@@ -9,22 +11,27 @@ public class InfernoPattern : BossPattern
     [SerializeField] private float infernoTime = 0.5f;
     [SerializeField] private string animState;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private Coroutine coInferno = null;
+
+    private CancellationTokenSource _infernoCts;
 
     public AudioClip castClip;
 
-    public override IEnumerator Execute(BossContext ctx)
+    public override async UniTask Execute(BossContext ctx, CancellationToken ct = default)
     {
         ctx.AllFlip();
         ctx.animator.Play(animState);
-        yield return ctx.WaitForAnimEvent("TelegraphEnd");
+        await ctx.WaitForAnimEvent("TelegraphEnd", ct: ct);
         SFXManager.Instance.PlaySFX(castClip);
-        Vector2 divePos = new Vector2(ctx.bossTransform.position.x, ctx.bossTransform.position.y);
-        if (coInferno != null) ctx.bossTransform.GetComponent<Witch>().StopCoroutine(coInferno);
-        coInferno = ctx.bossTransform.GetComponent<Witch>().StartCoroutine(CoInferno(ctx));
-        yield return new WaitForSeconds(recoveryTime);
+
+        _infernoCts?.Cancel();
+        _infernoCts?.Dispose();
+        _infernoCts = new CancellationTokenSource();
+        CoInferno(ctx, _infernoCts.Token).Forget();
+
+        await UniTask.Delay(TimeSpan.FromSeconds(recoveryTime), cancellationToken: ct);
     }
-    public IEnumerator CoInferno(BossContext ctx)
+
+    private async UniTask CoInferno(BossContext ctx, CancellationToken ct)
     {
         for (int j = 0; j < infernoCount; j++)
         {
@@ -35,8 +42,7 @@ public class InfernoPattern : BossPattern
                 groundLayer
             );
             PoolManager.Instance.Spawn(stationaryPrefab.gameObject, hit.point, Quaternion.identity);
-
-            yield return new WaitForSeconds(infernoTime);
+            await UniTask.Delay(TimeSpan.FromSeconds(infernoTime), cancellationToken: ct);
         }
     }
 }

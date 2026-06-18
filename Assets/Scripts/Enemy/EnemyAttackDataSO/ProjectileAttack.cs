@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 [CreateAssetMenu(menuName = "Enemy/Attack/Projectile")]
 public class ProjectileAttack : EnemyAttackPattern
@@ -25,12 +26,12 @@ public class ProjectileAttack : EnemyAttackPattern
     public string animOutTrigger = "ShootStop";
 
     public AudioClip launchClip;
-    public override IEnumerator Execute(EnemyContext ctx)
+    public override async UniTask Execute(EnemyContext ctx, CancellationToken ct)
     {
         ctx.SuperArmor = true;
         ctx.anim.ResetTrigger(animTrigger);
         ctx.anim.SetTrigger(animTrigger);
-        yield return ctx.WaitForAnimEvent("ProjectileFire");
+        await ctx.WaitForAnimEvent("ProjectileFire", ct);
         SFXManager.Instance.PlaySFX(launchClip);
         float facing = ctx.Facing;
         Vector2 center = aimAtTarget
@@ -54,7 +55,7 @@ public class ProjectileAttack : EnemyAttackPattern
 
             // 마지막 발 아니면 대기
             if (intervalBetweenShots > 0f && i < projectileCount - 1)
-                yield return new WaitForSeconds(intervalBetweenShots);
+                await UniTask.Delay((int)(intervalBetweenShots * 1000), cancellationToken: ct);
         }
         if (animOutTrigger != string.Empty)
         {
@@ -62,7 +63,7 @@ public class ProjectileAttack : EnemyAttackPattern
             ctx.anim.SetTrigger(animOutTrigger);
         }
         ctx.SuperArmor = false;
-        yield return ctx.WaitForAnimEvent("RecoveryEnd");
-        yield return new WaitForSeconds(recoveryTime);
+        await ctx.WaitForAnimEvent("RecoveryEnd", ct);
+        await UniTask.Delay((int)(recoveryTime * 1000), cancellationToken: ct);
     }
 }

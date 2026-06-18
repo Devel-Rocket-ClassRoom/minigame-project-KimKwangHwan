@@ -1,4 +1,5 @@
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Door : MonoBehaviour
@@ -8,6 +9,8 @@ public class Door : MonoBehaviour
 
     [SerializeField] private bool _isOpen;
     public AudioClip sfxClip;
+
+    private CancellationTokenSource _doorCts;
 
     private void Awake()
     {
@@ -19,12 +22,21 @@ public class Door : MonoBehaviour
         SetOpenDistance();
     }
 
+    private void OnDestroy()
+    {
+        _doorCts?.Cancel();
+        _doorCts?.Dispose();
+    }
+
     public void Open()
     {
         if (_isOpen) return;
         _isOpen = true;
         SFXManager.Instance?.PlaySFX(sfxClip);
-        StartCoroutine(OpenRoutine());
+        _doorCts?.Cancel();
+        _doorCts?.Dispose();
+        _doorCts = new CancellationTokenSource();
+        OpenRoutine(_doorCts.Token).Forget();
     }
 
     public void Close()
@@ -32,7 +44,10 @@ public class Door : MonoBehaviour
         if (!_isOpen) return;
         _isOpen = false;
         SFXManager.Instance?.PlaySFX(sfxClip);
-        StartCoroutine(CloseRoutine());
+        _doorCts?.Cancel();
+        _doorCts?.Dispose();
+        _doorCts = new CancellationTokenSource();
+        CloseRoutine(_doorCts.Token).Forget();
     }
 
     public void OpenImmediately()
@@ -40,11 +55,13 @@ public class Door : MonoBehaviour
         if (_isOpen) return;
         SetOpenDistance();
         _isOpen = true;
-        StopAllCoroutines();
+        _doorCts?.Cancel();
+        _doorCts?.Dispose();
+        _doorCts = null;
         transform.position += Vector3.up * openDistance;
     }
 
-    private IEnumerator OpenRoutine()
+    private async UniTask OpenRoutine(CancellationToken ct)
     {
         Vector3 startPos = transform.position;
         Vector3 targetPos = startPos + Vector3.up * openDistance;
@@ -56,13 +73,13 @@ public class Door : MonoBehaviour
             float t = elapsed / openDuration;
             t = t * t * (3f - 2f * t);
             transform.position = Vector3.Lerp(startPos, targetPos, t);
-            yield return null;
+            await UniTask.Yield(ct);
         }
 
         transform.position = targetPos;
     }
 
-    private IEnumerator CloseRoutine()
+    private async UniTask CloseRoutine(CancellationToken ct)
     {
         Vector3 startPos = transform.position;
         Vector3 targetPos = startPos - Vector3.up * openDistance;
@@ -74,7 +91,7 @@ public class Door : MonoBehaviour
             float t = elapsed / openDuration;
             t = t * t * (3f - 2f * t);
             transform.position = Vector3.Lerp(startPos, targetPos, t);
-            yield return null;
+            await UniTask.Yield(ct);
         }
 
         transform.position = targetPos;

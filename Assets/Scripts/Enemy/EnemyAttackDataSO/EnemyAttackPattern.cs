@@ -1,5 +1,6 @@
 using UnityEngine;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 [CreateAssetMenu(fileName = "EnemyAttackPattern", menuName = "Enemy/EnemyAttackPattern")]
 public abstract class EnemyAttackPattern : ScriptableObject
 {
@@ -15,5 +16,5 @@ public abstract class EnemyAttackPattern : ScriptableObject
         return dist <= range;
     }
 
-    public abstract IEnumerator Execute(EnemyContext ctx);
+    public abstract UniTask Execute(EnemyContext ctx, CancellationToken ct);
 }

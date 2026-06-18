@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
-using Unity.VisualScripting;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DashPattern", menuName = "BossPatterns/DashPattern")]
@@ -16,24 +16,25 @@ public class DashPattern : BossPattern
 
     public AudioClip dashClip;
     public AudioClip hitClip;
-    public override IEnumerator Execute(BossContext ctx)
+
+    public override async UniTask Execute(BossContext ctx, CancellationToken ct = default)
     {
         Vector2 dir = ctx.AllFlip();
         var rb = ctx.bossTransform.GetComponent<Rigidbody2D>();
         ctx.animator.Play(animStates[0]);
 
-        yield return ctx.WaitForAnimEvent("HitboxOn");
+        await ctx.WaitForAnimEvent("HitboxOn", ct: ct);
         SFXManager.Instance.PlaySFX(dashClip);
         ctx.hitbox.Enable(damage, hitboxOffset, hitboxSize, 0f, 1f, hitClip, rehitInterval);
         ctx.animator.Play(animStates[1]);
         rb.linearVelocity = dir * dashSpeed;
-        yield return new WaitForSeconds(dashDuration);
+        await UniTask.Delay(TimeSpan.FromSeconds(dashDuration), cancellationToken: ct);
 
         ctx.animator.Play(animStates[2]);
-        yield return ctx.WaitForAnimEvent("HitboxOff");
+        await ctx.WaitForAnimEvent("HitboxOff", ct: ct);
         ctx.hitbox.Disable();
 
-        yield return ctx.WaitForAnimEvent("RecoveryEnd");
-        yield return new WaitForSeconds(recoveryTime);
+        await ctx.WaitForAnimEvent("RecoveryEnd", ct: ct);
+        await UniTask.Delay(TimeSpan.FromSeconds(recoveryTime), cancellationToken: ct);
     }
 }

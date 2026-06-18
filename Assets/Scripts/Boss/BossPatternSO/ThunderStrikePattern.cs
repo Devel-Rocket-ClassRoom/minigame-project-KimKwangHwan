@@ -1,4 +1,6 @@
-using System.Collections;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ThunderStrikePattern", menuName = "BossPatterns/ThunderStrikePattern")]
@@ -11,21 +13,22 @@ public class ThunderStrikePattern : BossPattern
     [SerializeField] private LayerMask groundLayer;
     public AudioClip chargingClip;
     public AudioClip castingClip;
-    public override IEnumerator Execute(BossContext ctx)
+
+    public override async UniTask Execute(BossContext ctx, CancellationToken ct = default)
     {
         bool playerIsRight = ctx.PlayerIsRight;
         ctx.AllFlip();
         ctx.animator.Play(animStates[0]);
-        yield return ctx.WaitForAnimEvent("TelegraphEnd");
+        await ctx.WaitForAnimEvent("TelegraphEnd", ct: ct);
 
         ctx.animator.Play(animStates[1]);
         SFXManager.Instance.PlaySFX(chargingClip);
-        yield return new WaitForSeconds(2f);
+        await UniTask.Delay(TimeSpan.FromSeconds(2f), cancellationToken: ct);
 
         ctx.animator.Play(animStates[2]);
-        yield return ctx.WaitForAnimEvent("TelegraphEnd");
+        await ctx.WaitForAnimEvent("TelegraphEnd", ct: ct);
         ctx.animator.Play(animStates[3]);
-        Vector2 dir = ctx.AllFlip();
+        ctx.AllFlip();
         SFXManager.Instance.PlaySFX(castingClip);
         for (int i = 0; i < thunderCount; i++)
         {
@@ -40,10 +43,10 @@ public class ThunderStrikePattern : BossPattern
             {
                 sr.flipX = !playerIsRight;
             }
-            yield return new WaitForSeconds(thunderTime);
+            await UniTask.Delay(TimeSpan.FromSeconds(thunderTime), cancellationToken: ct);
         }
         ctx.animator.Play(animStates[4]);
-        yield return ctx.WaitForAnimEvent("RecoveryEnd");
-        yield return new WaitForSeconds(recoveryTime);
+        await ctx.WaitForAnimEvent("RecoveryEnd", ct: ct);
+        await UniTask.Delay(TimeSpan.FromSeconds(recoveryTime), cancellationToken: ct);
     }
 }

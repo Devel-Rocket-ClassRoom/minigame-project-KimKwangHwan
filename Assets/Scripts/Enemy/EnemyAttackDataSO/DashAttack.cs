@@ -1,5 +1,7 @@
 using UnityEngine;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System.Threading;
+
 [CreateAssetMenu(menuName = "Enemy/Attack/Dash")]
 public class DashAttack : EnemyAttackPattern
 {
@@ -36,7 +38,7 @@ public class DashAttack : EnemyAttackPattern
         return dist <= range;
     }
 
-    public override IEnumerator Execute(EnemyContext ctx)
+    public override async UniTask Execute(EnemyContext ctx, CancellationToken ct)
     {
         ctx.SuperArmor = true;
         // 1) 예비 동작
@@ -44,10 +46,10 @@ public class DashAttack : EnemyAttackPattern
         float facing = ctx.Facing;
         Vector2 dir = new(facing, 0f);
         SFXManager.Instance.PlaySFX(prepareClip);
-        yield return ctx.WaitForAnimEvent("TelegraphEnd");
+        await ctx.WaitForAnimEvent("TelegraphEnd", ct);
 
         // 2) 돌진 시작 + 히트박스 ON
-        yield return ctx.WaitForAnimEvent("HitboxOn");
+        await ctx.WaitForAnimEvent("HitboxOn", ct);
         ctx.anim.SetTrigger(animStartTrigger);
         Vector2 offset = new(hitboxOffset.x * facing, hitboxOffset.y);
         ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing, hitClip, rehitInterval);
@@ -66,17 +68,17 @@ public class DashAttack : EnemyAttackPattern
             ctx.rb.linearVelocity = new Vector2(currentDirX * dashSpeed, ctx.rb.linearVelocity.y);
             t += Time.deltaTime;
             SFXManager.Instance.PlaySFX(dashClip);
-            yield return null;
+            await UniTask.Yield(cancellationToken: ct);
         }
         motor.ResumeControl();
 
         // 3) 정지 + 히트박스 OFF
         ctx.hitbox.Disable();
         ctx.anim.SetTrigger(animEndTrigger);
-        yield return ctx.WaitForAnimEvent("HitboxOff");
+        await ctx.WaitForAnimEvent("HitboxOff", ct);
         ctx.rb.linearVelocity = new Vector2(0, ctx.rb.linearVelocity.y);
         ctx.SuperArmor = false;
-        yield return ctx.WaitForAnimEvent("RecoveryEnd");
-        yield return new WaitForSeconds(recoveryTime);
+        await ctx.WaitForAnimEvent("RecoveryEnd", ct);
+        await UniTask.Delay((int)(recoveryTime * 1000), cancellationToken: ct);
     }
 }

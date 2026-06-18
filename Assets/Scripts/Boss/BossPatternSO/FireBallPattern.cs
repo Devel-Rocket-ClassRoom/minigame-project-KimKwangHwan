@@ -1,6 +1,7 @@
-using System.Collections;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 [CreateAssetMenu(fileName = "FireAttackPattern", menuName = "BossPatterns/FireBallPattern")]
 public class FireBallPattern : BossPattern
@@ -15,23 +16,17 @@ public class FireBallPattern : BossPattern
 
     public AudioClip castClip;
 
-    public override IEnumerator Execute(BossContext ctx)
+    public override async UniTask Execute(BossContext ctx, CancellationToken ct = default)
     {
-        bool playerIsRight = ctx.PlayerIsRight;
         ctx.animator.Play(fireAnimState);
-        yield return ctx.WaitForAnimEvent("ProjectileFire");
+        await ctx.WaitForAnimEvent("ProjectileFire", ct: ct);
         SFXManager.Instance.PlaySFX(castClip);
         ctx.AllFlip();
-        // Vector2 dir = new Vector2(playerIsRight ? 1f : -1f, 0f);
         Vector2 origin = (Vector2)ctx.muzzle.position + muzzleOffset;
         Vector2 dir = ctx.DirToPlayer;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         var proj = PoolManager.Instance.Spawn(projectilePrefab.gameObject, origin, Quaternion.Euler(0, 0, angle));
-        //if (proj.TryGetComponent<SpriteRenderer>(out var sr))
-        //{
-        //    sr.flipX = !playerIsRight;
-        //}
         proj.GetComponent<Projectile>().Launch(dir.normalized, projectileSpeed, projectileDamage, dir.x);
-        yield return new WaitForSeconds(recoveryTime);
+        await UniTask.Delay(TimeSpan.FromSeconds(recoveryTime), cancellationToken: ct);
     }
 }

@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,24 +15,24 @@ public class MapManager : Singleton<MapManager>
     private readonly Dictionary<MapData, Scene> _loadedScenes = new();
     private bool _isTransitioning;
 
-    public IEnumerator Initialize(string mapId)
+    public async UniTask Initialize(string mapId)
     {
         MapData map = allMaps.Find(m => m.mapId == mapId);
         if (map == null) map = defaultMap;
         if (map == null)
         {
             Debug.LogWarning("[MapManager] 로드할 맵이 없습니다.");
-            yield break;
+            return;
         }
 
         CurrentMap = map;
-        yield return LoadMap(map);
-        
+        await LoadMap(map);
+
         SFXManager.Instance?.PlayBGM(map.bgmClip, true);
         foreach (var conn in map.connections)
         {
             if (conn.targetMap != null)
-                yield return LoadMap(conn.targetMap);
+                await LoadMap(conn.targetMap);
         }
 
         if (CameraController.Instance != null)
@@ -42,15 +42,14 @@ public class MapManager : Singleton<MapManager>
     public void StartTransition(MapData target, string entryZoneId)
     {
         if (_isTransitioning || target == null) return;
-        StartCoroutine(TransitionTo(target, entryZoneId));
+        TransitionTo(target, entryZoneId).Forget();
     }
 
-    private IEnumerator TransitionTo(MapData target, string entryZoneId)
+    private async UniTask TransitionTo(MapData target, string entryZoneId)
     {
         _isTransitioning = true;
 
-        yield return LoadMap(target);
-
+        await LoadMap(target);
 
         if (MapTransitionZone.TryGet(entryZoneId, out var zone))
         {
@@ -71,7 +70,7 @@ public class MapManager : Singleton<MapManager>
         foreach (var conn in target.connections)
         {
             if (conn.targetMap != null)
-                yield return LoadMap(conn.targetMap);
+                await LoadMap(conn.targetMap);
         }
 
         var needed = new HashSet<MapData>(target.connections
@@ -79,23 +78,23 @@ public class MapManager : Singleton<MapManager>
             .Select(c => c.targetMap)) { target };
 
         foreach (var map in _loadedScenes.Keys.Except(needed).ToList())
-            yield return UnloadMap(map);
+            await UnloadMap(map);
 
         _isTransitioning = false;
     }
 
-    private IEnumerator LoadMap(MapData map)
+    private async UniTask LoadMap(MapData map)
     {
-        if (_loadedScenes.ContainsKey(map)) yield break;
+        if (_loadedScenes.ContainsKey(map)) return;
 
         var op = SceneManager.LoadSceneAsync(map.sceneName, LoadSceneMode.Additive);
-        yield return op;
+        await op.ToUniTask();
 
         Scene scene = SceneManager.GetSceneByName(map.sceneName);
         if (!scene.IsValid())
         {
             Debug.LogError($"[MapManager] '{map.sceneName}' 씬을 찾을 수 없습니다. Build Settings에 추가됐는지 확인하세요.");
-            yield break;
+            return;
         }
 
         foreach (var root in scene.GetRootGameObjects())
@@ -104,18 +103,18 @@ public class MapManager : Singleton<MapManager>
         _loadedScenes[map] = scene;
     }
 
-    public IEnumerator UnloadAll()
+    public async UniTask UnloadAll()
     {
         _isTransitioning = false;
         foreach (var map in _loadedScenes.Keys.ToList())
-            yield return UnloadMap(map);
+            await UnloadMap(map);
         CurrentMap = null;
     }
 
-    private IEnumerator UnloadMap(MapData map)
+    private async UniTask UnloadMap(MapData map)
     {
-        if (!_loadedScenes.TryGetValue(map, out var scene)) yield break;
-        yield return SceneManager.UnloadSceneAsync(scene);
+        if (!_loadedScenes.TryGetValue(map, out var scene)) return;
+        await SceneManager.UnloadSceneAsync(scene).ToUniTask();
         _loadedScenes.Remove(map);
     }
 }

@@ -1,9 +1,10 @@
 using UnityEngine;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class AssassinAttackState : EnemyState<Assassin>
 {
-    private Coroutine routine;
+    private CancellationTokenSource attackCts;
     private bool finished;
     public AssassinAttackState(Assassin enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
     {
@@ -21,23 +22,25 @@ public class AssassinAttackState : EnemyState<Assassin>
 
         enemy.Combat.MarkPatternUsed(pattern);
         enemy.Motor.MoveStop();
-        routine = enemy.StartCoroutine(RunPattern(pattern));
+        attackCts?.Cancel();
+        attackCts?.Dispose();
+        attackCts = new CancellationTokenSource();
+
+        RunPattern(pattern).Forget();
     }
-    private IEnumerator RunPattern(EnemyAttackPattern pattern)
+    private async UniTask RunPattern(EnemyAttackPattern pattern)
     {
         float dir = Mathf.Sign(enemy.Target.position.x - enemy.transform.position.x);
         enemy.AllFlip(dir);
-        yield return pattern.Execute(enemy.Combat.Context);
+        await pattern.Execute(enemy.Combat.Context, attackCts.Token);
         finished = true;
     }
     public override void Exit()
     {
         enemy.Combat.Context.SuperArmor = false;
-        if (routine != null)
-        {
-            enemy.StopCoroutine(routine);
-            routine = null;
-        }
+        attackCts?.Cancel();
+        attackCts?.Dispose(); 
+        attackCts = null;
     }
 
     public override void PhysicsUpdate()

@@ -1,5 +1,6 @@
 using UnityEngine;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 [CreateAssetMenu(menuName = "Enemy/Attack/Melee")]
 public class MeleeAttack : EnemyAttackPattern
@@ -27,7 +28,7 @@ public class MeleeAttack : EnemyAttackPattern
     public AudioClip jumpClip;
     public AudioClip hitClip;
 
-    public override IEnumerator Execute(EnemyContext ctx)
+    public override async UniTask Execute(EnemyContext ctx, CancellationToken ct)
     {
         ctx.SuperArmor = true;
         ctx.anim.SetTrigger(animTrigger);
@@ -39,13 +40,13 @@ public class MeleeAttack : EnemyAttackPattern
             SFXManager.Instance.PlaySFX(jumpClip);
         }
         //var hitboxOff = ctx.ArmEvent("HitboxOff");
-        yield return ctx.WaitForAnimEvent("HitboxOn");
+        await ctx.WaitForAnimEvent("HitboxOn", ct);
         SFXManager.Instance.PlaySFX(sfxClip);
         float facing = ctx.Facing;
         Vector2 offset = new(hitboxOffset.x, hitboxOffset.y);
 
         ctx.hitbox.Enable(damage, offset, hitboxSize, knockback, facing, hitClip);
-        yield return ctx.WaitForAnimEvent("HitboxOff");
+        await ctx.WaitForAnimEvent("HitboxOff", ct);
         ctx.hitbox.Disable();
 
         if (useJump)
@@ -54,8 +55,8 @@ public class MeleeAttack : EnemyAttackPattern
         }
         motor.MoveStop();
         ctx.SuperArmor = false;
-        yield return ctx.WaitForAnimEvent("RecoveryEnd");
-        yield return new WaitForSeconds(recoveryTime);
+        await ctx.WaitForAnimEvent("RecoveryEnd", ct);
+        await UniTask.Delay((int)(recoveryTime * 1000), cancellationToken: ct);
     }
     void DoJump(EnemyContext ctx)
     {

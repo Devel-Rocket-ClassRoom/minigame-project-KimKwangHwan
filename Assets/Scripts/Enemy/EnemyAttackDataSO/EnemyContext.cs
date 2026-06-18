@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
-
+using System.Threading;
 public class EnemyContext
 {
     public Transform self;
@@ -14,12 +14,12 @@ public class EnemyContext
     public bool SuperArmor;
     public float Facing => self.localScale.x;
 
-    public IEnumerator WaitForAnimEvent(string eventName)
+    public async UniTask WaitForAnimEvent(string eventName, CancellationToken ct)
     {
         bool fired = false;
         System.Action handler = () => fired = true;
         animEvents.Subscribe(eventName, handler);
-        yield return new WaitUntil(() => fired);
+        await UniTask.WaitUntil(() => fired, cancellationToken: ct);
         animEvents.Unsubscribe(eventName, handler);
     }
     public AnimEventAwaiter ArmEvent(string eventName)
@@ -36,9 +36,9 @@ public class AnimEventAwaiter
     public bool Fired { get; set; }
     public System.Action OnComplete { get; set; }
 
-    public IEnumerator Wait()
+    public async UniTask Wait()
     {
-        yield return new WaitUntil(() => Fired);
+        await UniTask.WaitUntil(() => Fired);
         OnComplete?.Invoke();
     }
 }
