@@ -31,8 +31,6 @@ public class PlayerDashState : PlayerState
         player.Motor.RB.linearVelocity = new Vector2(player.dashSpeed * dashDir, 0f);
         //if (!player.Motor.IsGrounded()) player.airDashLeft--;
 
-        afterImageCts?.Cancel();
-        afterImageCts?.Dispose();
         afterImageCts = new CancellationTokenSource();
         SpawnAfterimages(afterImageCts.Token).Forget();
 
@@ -87,6 +85,7 @@ public class PlayerDashState : PlayerState
 
         while (true)
         {
+            ct.ThrowIfCancellationRequested();
             SpawnOne();
             await UniTask.Delay(wait, cancellationToken: ct);
         }
