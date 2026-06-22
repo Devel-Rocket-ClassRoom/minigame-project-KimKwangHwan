@@ -21,7 +21,7 @@ public class BossEncounterManager : MonoBehaviour
         var player = PlayerManager.Instance?.Current;
         if (player != null) player.InputLocked = true;
         
-        SFXManager.Instance?.PlayBGM(bossBGM, true);
+        // SFXManager.Instance?.PlayBGM(bossBGM, true);
         bossHUD.Bind(witch.Health);
 
         await FadeCanvasGroup(bossNamePanel, 0f, 1f, 0.4f);
