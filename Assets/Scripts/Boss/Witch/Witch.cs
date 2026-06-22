@@ -94,11 +94,11 @@ public class Witch : EnemyController
     private void OnPlayerEnterRoom()
     {
         ctx.playerTransform = PlayerManager.Instance.Current?.transform;
-        if (ctx.playerTransform == null) return;
-        if (stateMachine.CurrentState is WitchEngageState)
-        {
-            stateMachine.ChangeState(idleState);
-        }
+        //if (ctx.playerTransform == null) return;
+        //if (stateMachine.CurrentState is WitchEngageState)
+        //{
+        //    stateMachine.ChangeState(idleState);
+        //}
     }
 
     public void OnDrawGizmos()
@@ -112,5 +112,11 @@ public class Witch : EnemyController
     private void Dead()
     {
         stateMachine.ChangeState(deathState);
+    }
+
+    public void StartFight()
+    {
+        if (stateMachine.CurrentState is WitchEngageState)
+            stateMachine.ChangeState(idleState);
     }
 }
