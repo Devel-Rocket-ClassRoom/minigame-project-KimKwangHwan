@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1034304912615",
+    "firebase_url": "https://minigame-project-491e4-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "minigame-project-491e4",
+    "storage_bucket": "minigame-project-491e4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034304912615:android:733258062f6fb53e4f3642",
+        "android_client_info": {
+          "package_name": "com.DevelRocket.TileVania"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqbrqnsN2bn0k7f2t3WLv8PZkl2mjzI5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

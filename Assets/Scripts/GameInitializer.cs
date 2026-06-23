@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using SaveDataV = SaveDataV1;
@@ -20,8 +21,13 @@ public class GameInitializer : Singleton<GameInitializer>
 
         var instance = Instance;
         if (!instance.autoLoadOnStart) return;
-        SaveDataV data = SaveManager.Instance.LoadLastUsed();
-        instance.InitWithFadeIn(data).Forget();
+        BootstrapAsync().Forget();
+    }
+
+    private static async UniTaskVoid BootstrapAsync()
+    {
+        SaveDataV data = await SaveManager.Instance.LoadLastUsedAsync();
+        Instance.InitWithFadeIn(data).Forget();
     }
 
     protected override void Awake()
@@ -49,7 +55,12 @@ public class GameInitializer : Singleton<GameInitializer>
         if (!_pendingGameStart) return;
 
         _pendingGameStart = false;
-        SaveDataV data = SaveManager.Instance.Load(SaveManager.Instance.ActiveSlot);
+        OnSceneLoadAsync().Forget();
+    }
+
+    private async UniTaskVoid OnSceneLoadAsync()
+    {
+        SaveDataV data = await SaveManager.Instance.LoadAsync(SaveManager.Instance.ActiveSlot);
         InitWithFadeIn(data).Forget();
     }
 

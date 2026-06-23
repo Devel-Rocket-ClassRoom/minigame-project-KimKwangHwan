@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,8 +29,6 @@ public class SaveSlotUI : MonoBehaviour
         }
 
         gameObject.SetActive(false);
-
-
     }
 
     public void Open(Mode mode, System.Action<int> onSlotSelected)
@@ -37,10 +36,10 @@ public class SaveSlotUI : MonoBehaviour
         _mode = mode;
         _onSlotSelected = onSlotSelected;
         gameObject.SetActive(true);
-        Refresh();
+        Refresh().Forget();
     }
 
-    private void Refresh()
+    private async UniTaskVoid Refresh()
     {
         if (titleText != null)
             titleText.text = _mode == Mode.NewGame ? "New Game" : "Continue";
@@ -49,13 +48,13 @@ public class SaveSlotUI : MonoBehaviour
         {
             if (i >= SaveManager.SlotCount) break;
 
-            bool hasSave = SaveManager.Instance.HasSave(i);
-
+            //bool hasSave = SaveManager.Instance.HasSave(i);
+            bool hasSave = await FirebaseManager.Instance.HasSaveAsync(i);
             if (slotTexts != null && i < slotTexts.Length && slotTexts[i] != null)
             {
                 if (hasSave)
                 {
-                    SaveDataV data = SaveManager.Instance.Load(i);
+                    SaveDataV data = await SaveManager.Instance.LoadAsync(i);
                     string mapLabel = data?.mapId ?? "Unknown";
                     string dateLabel = data?.savedAt.ToString("yyyy-MM-dd HH:mm") ?? "";
                     slotTexts[i].text = $"Slot {i + 1}\n{dateLabel}";
@@ -74,7 +73,8 @@ public class SaveSlotUI : MonoBehaviour
     private void OnSlotClicked(int slot)
     {
         if (_mode == Mode.NewGame)
-            SaveManager.Instance.DeleteSave(slot);
+            FirebaseManager.Instance.DeleteSaveAsync(slot).Forget();
+            //SaveManager.Instance.DeleteSave(slot);
 
         _onSlotSelected?.Invoke(slot);
         gameObject.SetActive(false);

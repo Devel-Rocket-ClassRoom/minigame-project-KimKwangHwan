@@ -8,13 +8,25 @@ public class TitleSceneController : MonoBehaviour
     [SerializeField] private float fadeOutDuration = 0.5f;
     [SerializeField] private SaveSlotUI saveSlotUI;
     [SerializeField] private GameObject continueButton;
-
+    [SerializeField] private GameObject titleContents;
+    [SerializeField] private LoginUI loginUI;
     private bool _isTransitioning;
 
-    private void Start()
+    private async UniTaskVoid Start()
     {
-        continueButton.SetActive(SaveManager.Instance.HasAnySave());
+        titleContents.SetActive(false);
+
+        await UniTask.WaitUntil(() => AuthManager.Instance.IsInitialized);
+        AuthManager.Instance.LoginStatusChanged += OnLoginStatusChanged;
+
+        await RefreshUIAsync(AuthManager.Instance.IsLoggedIn);
         FadeController.Instance.FadeIn(fadeInDuration).Forget();
+    }
+
+    private void OnDestroy()
+    {
+        if (AuthManager.Instance != null)
+            AuthManager.Instance.LoginStatusChanged -= OnLoginStatusChanged;
     }
 
     public void OnNewGameClick()
@@ -27,6 +39,12 @@ public class TitleSceneController : MonoBehaviour
     {
         if (_isTransitioning) return;
         saveSlotUI.Open(SaveSlotUI.Mode.Continue, OnSlotSelected);
+    }
+
+    public void OnLogoutClick()
+    {
+        if (_isTransitioning) return;
+        AuthManager.Instance.SignOut();
     }
 
     public void OnExitClick()
@@ -50,5 +68,19 @@ public class TitleSceneController : MonoBehaviour
     {
         await FadeController.Instance.FadeOut(fadeOutDuration);
         GameInitializer.Instance.LoadGameScene(gameSceneName);
+    }
+    private void OnLoginStatusChanged(bool isLoggedIn)
+    {
+        RefreshUIAsync(isLoggedIn).Forget();
+    }
+    private async UniTask RefreshUIAsync(bool isLoggedIn)
+    {
+        titleContents.SetActive(isLoggedIn);
+        loginUI.gameObject.SetActive(!isLoggedIn);
+        if (isLoggedIn)
+        {
+            bool hasSave = await FirebaseManager.Instance.HasAnySaveAsync();
+            continueButton.SetActive(hasSave);
+        }
     }
 }

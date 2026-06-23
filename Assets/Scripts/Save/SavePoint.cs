@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -71,7 +72,8 @@ public class SavePoint : MonoBehaviour
             maxAmmo      = player.Stats.MaxAmmo.FinalValue,
             maxHealItems = player.Stats.MaxHealItems.FinalValue,
         };
-        SaveManager.Instance.Save(slot, data);
+        //SaveManager.Instance.Save(slot, data);
+        SaveManager.Instance.SaveAsync(slot, data).Forget();
     }
     private void OnEnable() => Registry[savePointId] = this;
     private void OnDisable()

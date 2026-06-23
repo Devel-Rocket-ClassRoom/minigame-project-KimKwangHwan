@@ -1,4 +1,9 @@
 using System.IO;
+using Cysharp.Threading.Tasks;
+using Firebase.Database;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using Newtonsoft.Json;
 using UnityEngine;
 using SaveDataV = SaveDataV1;
@@ -8,6 +13,8 @@ public class SaveManager : Singleton<SaveManager>
     public const int SlotCount = 3;
     private const string LastUsedSlotId = "LastUsedSlot";
     private const string ActiveSlotKey = "ActiveSlot";
+
+    private DatabaseReference dataRef;
 
     public int ActiveSlot { get; private set; }
 
@@ -111,5 +118,55 @@ public class SaveManager : Singleton<SaveManager>
         if (!PlayerPrefs.HasKey(LastUsedSlotId)) return null;
         int slot = PlayerPrefs.GetInt(LastUsedSlotId);
         return Load(slot);
+    }
+
+
+    public async UniTask SaveAsync(int slot, SaveDataV data)
+    {
+        if (!AuthManager.Instance.IsLoggedIn || !IsValidSlot(slot))
+        {
+            return;
+        }
+        string userId = AuthManager.Instance.UserId;
+        try
+        {
+            Debug.Log($"[SAVE] 슬롯 {slot} 데이터 저장 시도");
+            string json = JsonConvert.SerializeObject(data, Settings);
+            await FirebaseManager.Instance.UploadSaveAsync(slot, json);
+
+            PlayerPrefs.SetInt(LastUsedSlotId, slot);
+            PlayerPrefs.Save();
+            Debug.Log($"[SAVE] 슬롯 {slot} 저장 완료");
+        }
+        catch (Exception ex)
+        {
+            Debug.Log($"[SAVE] 슬롯 {slot} 데이터 저장 실패");
+            return;
+        }
+    }
+
+    public async UniTask<SaveDataV> LoadAsync(int slot)
+    {
+        if (!AuthManager.Instance.IsLoggedIn || !IsValidSlot(slot)) return null;
+
+        try
+        {
+            string json = await FirebaseManager.Instance.DownloadSaveAsync(slot);
+            if (json == null) return null;
+
+            return JsonConvert.DeserializeObject<SaveDataV>(json, Settings);
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogWarning($"[SaveManager] 슬롯 {slot} 로드 실패: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async UniTask<SaveDataV> LoadLastUsedAsync()
+    {
+        if (!PlayerPrefs.HasKey(LastUsedSlotId)) return null;
+        int slot = PlayerPrefs.GetInt(LastUsedSlotId);
+        return await LoadAsync(slot);
     }
 }
