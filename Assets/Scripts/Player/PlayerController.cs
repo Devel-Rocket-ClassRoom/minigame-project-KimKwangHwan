@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip jumpClip;
     public AudioClip doubleJumpClip;
     public AudioClip dashClip;
+
+    public bool InputLocked { get; set; }
     private void Awake()
     {
         stateMachine = new PlayerStateMachine();
@@ -94,6 +96,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (PauseManager.Instance != null && PauseManager.Instance.IsPaused) return;
+        if (InputLocked) return;
         stateMachine.CurrentState.HandleInput();
         stateMachine.CurrentState.Update();
         if (Input.UseItemPressed)

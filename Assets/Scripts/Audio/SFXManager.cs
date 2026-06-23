@@ -238,4 +238,15 @@ public class SFXManager : Singleton<SFXManager>
         _sfxIndex = (steal + 1) % _sfxPool.Length;
         return steal;
     }
+
+    public void PrewarmBGM(AudioClip clip)
+    {
+        if (clip == null) return;
+        AudioSource inactive = (_activeBgm == _bgmA) ? _bgmB : _bgmA;
+        if (inactive.isPlaying) return;
+        inactive.clip = clip;
+        inactive.volume = 0f;
+        inactive.Play();
+        inactive.Pause();
+    }
 }

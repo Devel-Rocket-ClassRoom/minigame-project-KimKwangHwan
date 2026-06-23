@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c892b811c1f6fc54d8b180c8895336af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHp: 800
+  maxHp: 2000
   hurtClip: {fileID: 8300000, guid: b7de5b8f9ce56d84a959382dec84aefc, type: 3}
   deathClip: {fileID: 8300000, guid: e0dc1a893b87fb048b628f874ea57a8c, type: 3}
 --- !u!1 &7493553198004900599

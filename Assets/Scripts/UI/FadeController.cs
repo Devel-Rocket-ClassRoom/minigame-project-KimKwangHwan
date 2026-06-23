@@ -7,6 +7,7 @@ public class FadeController : Singleton<FadeController>
     [SerializeField] private float defaultDuration = 0.5f;
 
     private CanvasGroup _canvasGroup;
+    private CanvasGroup _whiteGroup;
 
     protected override void Awake()
     {
@@ -40,6 +41,24 @@ public class FadeController : Singleton<FadeController>
         rect.anchoredPosition = Vector2.zero;
     }
 
+    private void BuildWhiteOverlay()
+    {
+        var whiteObj = new GameObject("WhiteOverlay");
+        whiteObj.transform.SetParent(transform, false);
+        var image = whiteObj.AddComponent<Image>();
+        image.color = Color.white;
+        image.raycastTarget = false;
+        var rect = whiteObj.GetComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.sizeDelta = Vector2.zero;
+        rect.anchoredPosition = Vector2.zero;
+        _whiteGroup = whiteObj.AddComponent<CanvasGroup>();
+        _whiteGroup.alpha = 0f;
+        _whiteGroup.blocksRaycasts = false;
+        _whiteGroup.interactable = false;
+    }
+
     // 검은 화면 → 투명 (씬 드러내기)
     public async UniTask FadeIn(float duration = -1f)
     {
@@ -70,5 +89,26 @@ public class FadeController : Singleton<FadeController>
         }
         _canvasGroup.alpha = 1f;
         _canvasGroup.blocksRaycasts = true;
+    }
+
+    public async UniTask FlashWhite(float duration = 0.3f)
+    {
+        float half = duration * 0.5f;
+        float elapsed = 0f;
+        while (elapsed < half)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            _whiteGroup.alpha = Mathf.Clamp01(elapsed / half);
+            await UniTask.Yield();
+        }
+        _whiteGroup.alpha = 1f;
+        elapsed = 0f;
+        while (elapsed < half)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            _whiteGroup.alpha = 1f - Mathf.Clamp01(elapsed / half);
+            await UniTask.Yield();
+        }
+        _whiteGroup.alpha = 0f;
     }
 }

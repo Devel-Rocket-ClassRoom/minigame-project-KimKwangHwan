@@ -48,4 +48,4 @@ MonoBehaviour:
   _bgmVolume: 0.15
   _sfxPoolSize: 16
   _sfxVolume: 0.7
-  _maxSameSound: 3
+  _maxSameSound: 5

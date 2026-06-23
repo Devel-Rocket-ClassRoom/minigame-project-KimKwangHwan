@@ -113,7 +113,7 @@ public class EnemyController : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
             Color c = _originalColor;
             c.a = alpha;
