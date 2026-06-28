@@ -16,11 +16,18 @@ public class CameraController : MonoBehaviour
     private float _currentLookOffset;
     private float _lookOffsetVelocity;
     private float _lookDownHeldTime;
+    private bool _cutsceneActive;
+    private Transform _cutsceneTarget;
+    private float _targetOrthoSize;
+    private float _defaultOrthoSize;
+    private float _orthoVelocity;
 
     private void Awake()
     {
         Instance = this;
         _cam = GetComponent<Camera>();
+        _defaultOrthoSize = _cam.orthographicSize;
+        _targetOrthoSize = _defaultOrthoSize;
     }
 
     public void SetBounds(Rect bounds)
@@ -40,6 +47,14 @@ public class CameraController : MonoBehaviour
     {
         if (!PlayerManager.Instance.HasPlayer) return;
 
+        _cam.orthographicSize = Mathf.SmoothDamp(_cam.orthographicSize, _targetOrthoSize, ref _orthoVelocity, smoothTime);
+        if (_cutsceneActive && _cutsceneTarget != null)
+        {
+            Vector3 destTarget = ClampedPosition(_cutsceneTarget.position, Vector2.zero);
+            transform.position = Vector3.SmoothDamp(transform.position, destTarget, ref _velocity, smoothTime);
+            return;
+        }
+
         var pc = PlayerManager.Instance.Current.GetComponent<PlayerController>();
         bool holdingDown = pc != null && pc.Input.MoveY < -0.5f;
 
@@ -55,12 +70,12 @@ public class CameraController : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, dest, ref _velocity, smoothTime);
     }
 
-    private Vector3 ClampedPosition(Vector2 target)
+    private Vector3 ClampedPosition(Vector2 target, Vector2? offsetOverride = null)
     {
         float halfH = _cam.orthographicSize;
         float halfW = halfH * _cam.aspect;
 
-        target += followOffset;
+        target += offsetOverride ?? followOffset;
         target.y += _currentLookOffset;
 
         float x = Mathf.Clamp(target.x, _bounds.xMin + halfW, _bounds.xMax - halfW);
@@ -73,5 +88,20 @@ public class CameraController : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireCube(_bounds.center, _bounds.size);
+    }
+
+    public void BeginCutscene(Transform focus, float zoomSize)
+    {
+        _cutsceneActive = true;
+        _cutsceneTarget = focus;
+        _targetOrthoSize = zoomSize;
+    }
+
+    public void EndCutscene()
+    {
+        _cutsceneActive = false;
+        _cutsceneTarget = null;
+        _targetOrthoSize = _defaultOrthoSize;
+        _velocity = Vector3.zero;
     }
 }

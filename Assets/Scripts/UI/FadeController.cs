@@ -13,6 +13,7 @@ public class FadeController : Singleton<FadeController>
     {
         base.Awake();
         BuildOverlay();
+        BuildWhiteOverlay();
     }
 
     private void BuildOverlay()

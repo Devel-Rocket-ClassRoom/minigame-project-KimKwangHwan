@@ -5,6 +5,7 @@ public class BossRoom : MonoBehaviour
     [SerializeField] private Vector2 center;
     [SerializeField] private Vector2 size;
     [SerializeField] private Door[] entranceDoors;
+    [SerializeField] private BoxCollider2D encounter;
     public Vector2 Min => (Vector2)transform.position + center - size * 0.5f;
     public Vector2 Max => (Vector2)transform.position + center + size * 0.5f;
 
@@ -37,6 +38,7 @@ public class BossRoom : MonoBehaviour
         {
             OnPlayerEnter?.Invoke();
             CloseDoors();
+            encounter.enabled = false;
         }
     }
 

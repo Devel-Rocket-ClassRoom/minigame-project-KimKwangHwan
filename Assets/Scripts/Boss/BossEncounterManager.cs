@@ -7,7 +7,9 @@ public class BossEncounterManager : MonoBehaviour
     [SerializeField] private Witch witch;
     [SerializeField] private BossHUD bossHUD;
     [SerializeField] private CanvasGroup bossNamePanel;
-    [SerializeField] private AudioClip bossBGM;
+
+    [SerializeField] private float cutsceneZoomSize = 3f;
+    [SerializeField] private BossClearUI bossClearUI;
 
     private void Start()
     {
@@ -20,18 +22,25 @@ public class BossEncounterManager : MonoBehaviour
     {
         var player = PlayerManager.Instance?.Current;
         if (player != null) player.InputLocked = true;
-        
-        // SFXManager.Instance?.PlayBGM(bossBGM, true);
-        bossHUD.Bind(witch.Health);
 
-        await FadeCanvasGroup(bossNamePanel, 0f, 1f, 0.4f);
-        await UniTask.Delay(1000, ignoreTimeScale: true);
-        await FadeCanvasGroup(bossNamePanel, 1f, 0f, 0.4f);
+        bossHUD.Bind(witch.Health);
+        CameraController.Instance.BeginCutscene(witch.transform, cutsceneZoomSize);
+
+        await NameFadeSequenceAsync();
+
+        CameraController.Instance.EndCutscene();
 
         await bossHUD.Show();
 
         if (player != null) player.InputLocked = false;
         witch.StartFight();
+    }
+
+    private async UniTask NameFadeSequenceAsync()
+    {
+        await FadeCanvasGroup(bossNamePanel, 0f, 1f, 0.4f);
+        await UniTask.Delay(3000, ignoreTimeScale: true);
+        await FadeCanvasGroup(bossNamePanel, 1f, 0f, 0.4f);
     }
 
     private async UniTask PlayDefeatAsync()
@@ -50,6 +59,10 @@ public class BossEncounterManager : MonoBehaviour
         var currentMap = MapManager.Instance?.CurrentMap;
         if (currentMap != null)
             SFXManager.Instance?.PlayBGM(currentMap.bgmClip, true);
+
+        var player = PlayerManager.Instance?.Current;
+        if (player != null) player.InputLocked = true;
+        bossClearUI?.Show();
     }
 
     private async UniTask FadeCanvasGroup(CanvasGroup cg, float from, float to, float duration)
